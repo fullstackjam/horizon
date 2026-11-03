@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>给自己留一点阅读时间 · Jam's Reading List</title><meta name="description" content="一些值得认真读，也值得以后重读的文章。">
+<link rel="stylesheet" href="/style.css"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='.9em' font-size='56'%3E📖%3C/text%3E%3C/svg%3E"></head>
+<body><div class="wrap"><header class="brand"><a class="wordmark" href="/">Jam's Reading List</a><a class="small" href="/archive/">往期清单 ↗</a></header>
+<main><p class="eyebrow">本期候选 · 2026-11-03</p><h1>给自己留一点阅读时间</h1>
+<p class="intro">一些值得认真读，也值得以后重读的文章。先看看推荐理由，再决定打开原文、读一读，或者收进自己的阅读清单。</p>
+<article><blockquote>
+<p>从 175 篇候选中选出 5 篇值得读的文章。</p>
+</blockquote>
+<hr />
+<p><strong>本期值得读</strong></p>
+<ol>
+<li><a href="#item-reading-1">我们如何把 DNS 构建延迟减半、内存占用降低 85%</a> ⭐️ 8.7/10</li>
+<li><a href="#item-reading-2">权重空间编程：LLM 可原生读写神经网络权重</a> ⭐️ 8.5/10</li>
+<li><a href="#item-reading-3">维多利亚精英的生活</a> ⭐️ 8.5/10</li>
+<li><a href="#item-reading-4">脚手架修复了什么？围绕一个长寿命调优语言模型的三项预注册研究</a> ⭐️ 8.2/10</li>
+<li><a href="#item-reading-5">谁在审批那些控制你 AI 编程助手的文件？</a> ⭐️ 8.0/10</li>
+</ol>
+<hr />
+<h2>本期值得读</h2>
+<p><a id="item-reading-1"></a></p>
+<h3><a href="https://blog.cloudflare.com/dns-targeted-zone-builds/">我们如何把 DNS 构建延迟减半、内存占用降低 85%</a> ⭐️ 8.7/10</h3>
+<p>Cloudflare 工程师复盘 DNS Zone Builder：用定向构建只重算可证明安全的最小范围，以统一调度器合并同区工作；原则是不把不确定性当作减少工作量。构建延迟减半、峰值内存降低 85%。</p>
+<p>rss · Cloudflare Blog · 11月2日 14:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 最值得读的是把定向优化建立在可验证的安全边界上：无法证明写入与全量构建逐字节一致，就退回全量构建；同时处理同名多 zone 共享元数据、数据库副本滞后、Kafka 顺序提交与软提交。等价性测试、生产镜像和按域名哈希灰度，构成可迁移的发布方法。作者也坦承，超过记录数阈值时不再升级为全量构建是刻意取舍，且延迟数据不是单个 zone 的保证。</p>
+<p><strong>「什么时候再读」</strong> 当你要设计大规模多租户流水线的增量构建，或在共享元数据、Kafka 顺序提交与副本一致性间取舍时，可回来对照。文中发布时的内部规模与数据需结合自身系统判断。</p>
+<p><strong>标签</strong>: <code>#distributed systems</code>, <code>#DNS</code>, <code>#Kafka</code>, <code>#performance engineering</code>, <code>#systems design</code></p>
+<hr />
+<p><a id="item-reading-2"></a></p>
+<h3><a href="https://rikiyat.github.io/blog/weight-space-programming/">权重空间编程：LLM 可原生读写神经网络权重</a> ⭐️ 8.5/10</h3>
+<p>作者提出“权重空间编程”：让通用大模型不经梯度或优化器，直接读写神经网络权重。以 GPT-6 Astra 为例，文章报告了从识别游戏策略网络，到零样本构造网络、修补 Qwen3.5-0.8B 推理死循环的实验，也记录了失败案例。</p>
+<p>rss · Tildes · 11月2日 19:29 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 最值得看的是“读”与“写”被分开检验：模型在扩散模型权重上画出轮廓而非填充形状，说明它读的是权重几何而非跑前向；在 Qwen3.5-0.8B 上只改 0.016% 权重，MATH-500 从 7.9% 升到 48.1%，修的是推理死循环。Gemma 3 270M 上无法提升，划出“移除障碍”与“增加能力”的界线。数字均为作者自报，Astra 版本无法核实。</p>
+<p><strong>「什么时候再读」</strong> 当你需要判断“直接改权重做定向修复”是否可行，或想复现这些实验时，可回来对照开源日志；文中 Astra 的能力评估与上下文长度限制都带有 2026 年的时间印记。</p>
+<p><strong>标签</strong>: <code>#LLMs</code>, <code>#neural networks</code>, <code>#interpretability</code>, <code>#optimization</code>, <code>#weight-space programming</code></p>
+<hr />
+<p><a id="item-reading-3"></a></p>
+<h3><a href="https://worksinprogress.co/issue/the-seven-vices-of-highly-effective-victorians/">维多利亚精英的生活</a> ⭐️ 8.5/10</h3>
+<p>文章考察维多利亚英国精英的教育与社交：公学、牛津剑桥和伦敦社交季重品格、团队与关系网，而非技术训练。作者带保留地猜想，这种紧密共同体或许支撑了精英凝聚力和政治成功，同时承认剥削代价与因果推断的不确定性。</p>
+<p>rss · Tildes · 11月2日 11:42 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 文章最有用的洞见，是把公学的体育、自治与寄宿生活，牛津剑桥的导师制，以及伦敦社交季的舞会、晚宴，重新解释为养成忠诚与共享身份、交换职位和投资信息的“团队建设”。它不把精英成功归因于课程难度，而追问紧密共同体能否以声望替代金钱、降低内部分裂；这一框架对思考今日精英教育、社交网络与公职激励仍有启发。论证属宏观综合，因果判断应保留。</p>
+<p><strong>「什么时候再读」</strong> 当你思考精英学校、社交网络或低薪公职如何靠声望维系时，可重读；但若需要严格因果检验或非英国案例，应记住本文是宏观历史综合，作者也承认无法做对照实验。</p>
+<p><strong>标签</strong>: <code>#Victorian Britain</code>, <code>#elite education</code>, <code>#social networks</code>, <code>#history</code>, <code>#political economy</code></p>
+<hr />
+<p><a id="item-reading-4"></a></p>
+<h3><a href="https://arxiv.org/abs/2610.05533">脚手架修复了什么？围绕一个长寿命调优语言模型的三项预注册研究</a> ⭐️ 8.2/10</h3>
+<p>论文审计一次脚手架（harness）搜索中的“救援”：增益来自起始配置未解析的行、调用方把每行参考答案当作助手轮次发送，以及同一管线的复制未能复现。三项预注册研究把脚手架增益与“恒定标签”基线对照，追问增益是否真能超过一个常数答案。</p>
+<p>rss · arXiv — cs.CL · 11月2日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 最具体的洞见是把“恒定标签”当作诊断工具：14B 上两个 GEPA 脚手架在测试集比关闭思考高 34 分，却在已解析的死亡率答案中分别有 94.6% 与 98.2% 答“Yes”，并不显著高于最强恒定标签；凡是增益大的地方，常数标签都能把两类任务区分开。作者也如实承认，结论建立在少数任务上，标签偏斜、标签数量和任务类型彼此混淆，尚不能断定它取决于问题种类。这种对平凡基线的坚持，多年后仍是审读评测增益的实用方法。</p>
+<p><strong>「什么时候再读」</strong> 准备报告提示或脚手架带来的准确率提升时，先回来对照恒定标签基线。注意本文仅提供摘要，任务少且标签偏斜、标签数与任务类型相互混淆。</p>
+<p><strong>标签</strong>: <code>#language-model evaluation</code>, <code>#benchmark validity</code>, <code>#preregistration</code>, <code>#replication</code>, <code>#harness artifacts</code></p>
+<hr />
+<p><a id="item-reading-5"></a></p>
+<h3><a href="https://www.csoonline.com/article/4242707/who-approves-the-files-that-control-your-ai-coding-assistant.html">谁在审批那些控制你 AI 编程助手的文件？</a> ⭐️ 8.0/10</h3>
+<p>文章讨论 AI 编程助手的仓库配置文件——hooks、skills、指令文档——为何需要明确的归属和可执行的审批路径。核心论点是：审查要判断配置会触发什么行为、取得什么权限，而不是只看文件名或格式；合并一次配置改动，可能就是把执行指令分发给全体开发者。</p>
+<p>rss · CSO Online · 11月2日 09:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 它把抽象的供应链风险落实到具体机制上：Miasma 事件用跳过 CI 的提交和倒填时间戳，把执行时机从安装挪到打开文件夹；SKILL.md 是 Markdown，在 PR 里常被当作 README 审；命令钩子按用户权限运行，非交互会话还可能绕开工作区信任弹窗。作者主张 CODEOWNERS 必须配合分支保护才生效、要用样例 PR 验证实际规则、用无害钩子演练审批路径——这些检查动作多年后仍可复用。论证部分依赖厂商文档与外部报告。</p>
+<p><strong>「什么时候再读」</strong> 当你为团队引入或审计 AI 编程助手配置时，或某个自动化任务要在陌生仓库上以非交互方式运行时，可以回来读它。文中工具行为与版本相关，需对照当前文档核实。</p>
+<p><strong>标签</strong>: <code>#AI coding assistants</code>, <code>#security governance</code>, <code>#code review</code>, <code>#developer tooling</code>, <code>#supply chain security</code></p>
+<hr /></article></main><footer>这是候选阅读清单，模型推荐仅供参考。收录由我自己决定。<br>由 <a href="https://github.com/Thysrael/Horizon">Horizon</a> 整理 · <a href="https://github.com/fullstackjam/reading">源码与订阅配置</a></footer></div></body></html>

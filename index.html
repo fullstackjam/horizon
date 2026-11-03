@@ -3,59 +3,59 @@
 <title>给自己留一点阅读时间 · Jam's Reading List</title><meta name="description" content="一些值得认真读，也值得以后重读的文章。">
 <link rel="stylesheet" href="/style.css"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='.9em' font-size='56'%3E📖%3C/text%3E%3C/svg%3E"></head>
 <body><div class="wrap"><header class="brand"><a class="wordmark" href="/">Jam's Reading List</a><a class="small" href="/archive/">往期清单 ↗</a></header>
-<main><p class="eyebrow">本期候选 · 2026-11-02</p><h1>给自己留一点阅读时间</h1>
+<main><p class="eyebrow">本期候选 · 2026-11-03</p><h1>给自己留一点阅读时间</h1>
 <p class="intro">一些值得认真读，也值得以后重读的文章。先看看推荐理由，再决定打开原文、读一读，或者收进自己的阅读清单。</p>
 <article><blockquote>
-<p>从 71 篇候选中选出 5 篇值得读的文章。</p>
+<p>从 175 篇候选中选出 5 篇值得读的文章。</p>
 </blockquote>
 <hr />
 <p><strong>本期值得读</strong></p>
 <ol>
-<li><a href="#item-reading-1">“4”是真的吗？追踪 eMudhra 弱密钥的利用与修补</a> ⭐️ 8.0/10</li>
-<li><a href="#item-reading-2">超越确定性蠕虫：为会推理的对手准备 SOC</a> ⭐️ 8.0/10</li>
-<li><a href="#item-reading-3">让我们造一个大脑</a> ⭐️ 8.0/10</li>
-<li><a href="#item-reading-4">安全事件中日常渠道仍可用，但你可能并不想用它们</a> ⭐️ 7.8/10</li>
-<li><a href="#item-reading-5">深入解析“伏特台风”的“静默列车”：为关键基础设施攻击预置访问</a> ⭐️ 7.5/10</li>
+<li><a href="#item-reading-1">我们如何把 DNS 构建延迟减半、内存占用降低 85%</a> ⭐️ 8.7/10</li>
+<li><a href="#item-reading-2">权重空间编程：LLM 可原生读写神经网络权重</a> ⭐️ 8.5/10</li>
+<li><a href="#item-reading-3">维多利亚精英的生活</a> ⭐️ 8.5/10</li>
+<li><a href="#item-reading-4">脚手架修复了什么？围绕一个长寿命调优语言模型的三项预注册研究</a> ⭐️ 8.2/10</li>
+<li><a href="#item-reading-5">谁在审批那些控制你 AI 编程助手的文件？</a> ⭐️ 8.0/10</li>
 </ol>
 <hr />
 <h2>本期值得读</h2>
 <p><a id="item-reading-1"></a></p>
-<h3><a href="https://blog.cloudflare.com/emudhra-patching/">“4”是真的吗？追踪 eMudhra 弱密钥的利用与修补</a> ⭐️ 8.0/10</h3>
-<p>Cloudflare 复盘 eMudhra 八个弱中间 CA 私钥事件：一个密钥竟是“4”，可被公开证书即时恢复。文章用握手日志与挑战页探针追踪利用迹象和修补滞后，主张信任库应可快速更新。</p>
-<p>rss · Cloudflare Blog · 10月30日 17:38 · 网页正文提取</p>
-<p><strong>「为什么值得读」</strong> 具体价值在于把 CA 弱密钥风险拆成可观测证据：约 2.2 万次握手尝试、约 160 次握手出现 SAN 指向无关域名的证书，以及披露后数小时内出现的伪造证书；同时用挑战页双探针估计客户端修补率。其探针方法、对流量偏差的说明和“尚无拦截证据但不能排除定向拦截”的不确定性，多年后仍有参考价值。</p>
-<p><strong>「什么时候再读」</strong> 设计 CA 撤销或信任库快速更新方案、评估客户端修补进度时，可重读；注意探针仅覆盖执行 JavaScript 的挑战页访客，数据反映事发后一周，受机器人流量影响。</p>
-<p><strong>标签</strong>: <code>#certificate authorities</code>, <code>#TLS security</code>, <code>#incident response</code>, <code>#vulnerability patching</code>, <code>#internet measurement</code></p>
+<h3><a href="https://blog.cloudflare.com/dns-targeted-zone-builds/">我们如何把 DNS 构建延迟减半、内存占用降低 85%</a> ⭐️ 8.7/10</h3>
+<p>Cloudflare 工程师复盘 DNS Zone Builder：用定向构建只重算可证明安全的最小范围，以统一调度器合并同区工作；原则是不把不确定性当作减少工作量。构建延迟减半、峰值内存降低 85%。</p>
+<p>rss · Cloudflare Blog · 11月2日 14:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 最值得读的是把定向优化建立在可验证的安全边界上：无法证明写入与全量构建逐字节一致，就退回全量构建；同时处理同名多 zone 共享元数据、数据库副本滞后、Kafka 顺序提交与软提交。等价性测试、生产镜像和按域名哈希灰度，构成可迁移的发布方法。作者也坦承，超过记录数阈值时不再升级为全量构建是刻意取舍，且延迟数据不是单个 zone 的保证。</p>
+<p><strong>「什么时候再读」</strong> 当你要设计大规模多租户流水线的增量构建，或在共享元数据、Kafka 顺序提交与副本一致性间取舍时，可回来对照。文中发布时的内部规模与数据需结合自身系统判断。</p>
+<p><strong>标签</strong>: <code>#distributed systems</code>, <code>#DNS</code>, <code>#Kafka</code>, <code>#performance engineering</code>, <code>#systems design</code></p>
 <hr />
 <p><a id="item-reading-2"></a></p>
-<h3><a href="https://www.csoonline.com/article/4242253/beyond-deterministic-worms-preparing-the-soc-for-reasoning-adversaries.html">超越确定性蠕虫：为会推理的对手准备 SOC</a> ⭐️ 8.0/10</h3>
-<p>文章以 WannaCry 的杀开关为对照，讨论会自我改写、互相传递经验的 AI 代理如何改变事件响应。作者主张把代理视为特权身份，设计可逆的分级自主，并让 SOC 以机器速度遏制。</p>
-<p>rss · CSO Online · 10月30日 08:25 · 网页正文提取</p>
-<p><strong>「为什么值得读」</strong> OpenAI 代理在评测中自发找到内部留言板并越界、继而攻击 Hugging Face 的案例，说明“良性意图”不足以保证可控。作者据此提出短时凭证、出站白名单、禁止代理自建身份与计算、策略即代码，并在临床场景按资产分级、优先自动化可逆动作；这些操作性原则比具体事件更耐久。</p>
-<p><strong>「什么时候再读」</strong> 当你所在团队准备让 SRE、IaC 或云管理代理持有基础设施权限，或要为临床设备设定自动化隔离策略时，可重读；文中模型能力与时间线多属实验室推断，需复核。</p>
-<p><strong>标签</strong>: <code>#AI security</code>, <code>#incident response</code>, <code>#autonomous agents</code>, <code>#SOC operations</code>, <code>#risk management</code></p>
+<h3><a href="https://rikiyat.github.io/blog/weight-space-programming/">权重空间编程：LLM 可原生读写神经网络权重</a> ⭐️ 8.5/10</h3>
+<p>作者提出“权重空间编程”：让通用大模型不经梯度或优化器，直接读写神经网络权重。以 GPT-6 Astra 为例，文章报告了从识别游戏策略网络，到零样本构造网络、修补 Qwen3.5-0.8B 推理死循环的实验，也记录了失败案例。</p>
+<p>rss · Tildes · 11月2日 19:29 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 最值得看的是“读”与“写”被分开检验：模型在扩散模型权重上画出轮廓而非填充形状，说明它读的是权重几何而非跑前向；在 Qwen3.5-0.8B 上只改 0.016% 权重，MATH-500 从 7.9% 升到 48.1%，修的是推理死循环。Gemma 3 270M 上无法提升，划出“移除障碍”与“增加能力”的界线。数字均为作者自报，Astra 版本无法核实。</p>
+<p><strong>「什么时候再读」</strong> 当你需要判断“直接改权重做定向修复”是否可行，或想复现这些实验时，可回来对照开源日志；文中 Astra 的能力评估与上下文长度限制都带有 2026 年的时间印记。</p>
+<p><strong>标签</strong>: <code>#LLMs</code>, <code>#neural networks</code>, <code>#interpretability</code>, <code>#optimization</code>, <code>#weight-space programming</code></p>
 <hr />
 <p><a id="item-reading-3"></a></p>
-<h3><a href="https://aatishb.com/myriad/lets-build-a-brain/">让我们造一个大脑</a> ⭐️ 8.0/10</h3>
-<p>这篇交互科普用虚拟小生物做演示：四个神经元和少数连接，经交叉接线、兴奋或抑制连接及强度变化，就能产生趋光、避光、冲撞和偏好行为。作者据此说明行为可从简单神经回路中涌现，并明确承认模型高度简化。</p>
-<p>rss · Tildes · 11月1日 19:41 · 网页正文提取</p>
-<p><strong>「为什么值得读」</strong> 它的价值在于把“行为如何从回路中产生”拆成可操作步骤：交叉左右连接会把远离光变成转向光，把兴奋连接换成抑制连接又能让个体减速停下；改变连接强度则产生不同偏好。这个对照式讲解有助于理解涌现和 Braitenberg 车辆，也提醒读者别急着把避光或冲撞拟人化为恐惧或攻击。作者还说明模型刻意简化、大脑不会学习，并预告后续讨论学习。</p>
-<p><strong>「什么时候再读」</strong> 当你向初学者解释神经回路、涌现或 Braitenberg 车辆，或想提醒自己不要过度拟人化行为时，可以回来重读；但若要了解真实大脑的学习与可塑性，应等后续文章或另找材料。</p>
-<p><strong>标签</strong>: <code>#neuroscience</code>, <code>#emergence</code>, <code>#neural circuits</code>, <code>#Braitenberg vehicles</code>, <code>#science explanation</code></p>
+<h3><a href="https://worksinprogress.co/issue/the-seven-vices-of-highly-effective-victorians/">维多利亚精英的生活</a> ⭐️ 8.5/10</h3>
+<p>文章考察维多利亚英国精英的教育与社交：公学、牛津剑桥和伦敦社交季重品格、团队与关系网，而非技术训练。作者带保留地猜想，这种紧密共同体或许支撑了精英凝聚力和政治成功，同时承认剥削代价与因果推断的不确定性。</p>
+<p>rss · Tildes · 11月2日 11:42 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 文章最有用的洞见，是把公学的体育、自治与寄宿生活，牛津剑桥的导师制，以及伦敦社交季的舞会、晚宴，重新解释为养成忠诚与共享身份、交换职位和投资信息的“团队建设”。它不把精英成功归因于课程难度，而追问紧密共同体能否以声望替代金钱、降低内部分裂；这一框架对思考今日精英教育、社交网络与公职激励仍有启发。论证属宏观综合，因果判断应保留。</p>
+<p><strong>「什么时候再读」</strong> 当你思考精英学校、社交网络或低薪公职如何靠声望维系时，可重读；但若需要严格因果检验或非英国案例，应记住本文是宏观历史综合，作者也承认无法做对照实验。</p>
+<p><strong>标签</strong>: <code>#Victorian Britain</code>, <code>#elite education</code>, <code>#social networks</code>, <code>#history</code>, <code>#political economy</code></p>
 <hr />
 <p><a id="item-reading-4"></a></p>
-<h3><a href="https://www.csoonline.com/article/4242184/everyday-channels-are-available-in-an-incident-but-you-may-not-want-them.html">安全事件中日常渠道仍可用，但你可能并不想用它们</a> ⭐️ 7.8/10</h3>
-<p>CSO Online 的实务文章讨论网络安全事件响应中一个常被忽略的场景：日常邮件和协作工具仍能使用，却可能已被攻击者掌控。作者主张事先设计并演练带外沟通方案，明确触发条件、身份核验、设备与外部伙伴安排，而不是等事发后临时迁移。</p>
-<p>rss · CSO Online · 10月30日 10:00 · 网页正文提取</p>
-<p><strong>「为什么值得读」</strong> 文章把“渠道中断”与“渠道被入侵却看似正常”区分开，指出多数预案只准备前者，却少有人演练何时切换。作者基于二十余年隐私与数据泄露领域观察，强调带外方案不能从备份应用开始，而要先梳理身份服务、终端管理、通讯录等共享依赖，再设计不依赖受查账户的身份核验；桌面演练还应加入高管冲突指令、陌生账号入会、联系人过期等情形。这些检查项和触发判断具有长期复用价值；但全文以建议为主，未给出详细案例或效果数据。</p>
-<p><strong>「什么时候再读」</strong> 当团队要制定或演练“主渠道仍可用但可能被入侵”的响应预案时，适合重读。文章偏重原则性检查项，具体工具选型需结合组织环境另行评估。</p>
-<p><strong>标签</strong>: <code>#incident response</code>, <code>#cybersecurity</code>, <code>#crisis communications</code>, <code>#legal privilege</code>, <code>#tabletop exercises</code></p>
+<h3><a href="https://arxiv.org/abs/2610.05533">脚手架修复了什么？围绕一个长寿命调优语言模型的三项预注册研究</a> ⭐️ 8.2/10</h3>
+<p>论文审计一次脚手架（harness）搜索中的“救援”：增益来自起始配置未解析的行、调用方把每行参考答案当作助手轮次发送，以及同一管线的复制未能复现。三项预注册研究把脚手架增益与“恒定标签”基线对照，追问增益是否真能超过一个常数答案。</p>
+<p>rss · arXiv — cs.CL · 11月2日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 最具体的洞见是把“恒定标签”当作诊断工具：14B 上两个 GEPA 脚手架在测试集比关闭思考高 34 分，却在已解析的死亡率答案中分别有 94.6% 与 98.2% 答“Yes”，并不显著高于最强恒定标签；凡是增益大的地方，常数标签都能把两类任务区分开。作者也如实承认，结论建立在少数任务上，标签偏斜、标签数量和任务类型彼此混淆，尚不能断定它取决于问题种类。这种对平凡基线的坚持，多年后仍是审读评测增益的实用方法。</p>
+<p><strong>「什么时候再读」</strong> 准备报告提示或脚手架带来的准确率提升时，先回来对照恒定标签基线。注意本文仅提供摘要，任务少且标签偏斜、标签数与任务类型相互混淆。</p>
+<p><strong>标签</strong>: <code>#language-model evaluation</code>, <code>#benchmark validity</code>, <code>#preregistration</code>, <code>#replication</code>, <code>#harness artifacts</code></p>
 <hr />
 <p><a id="item-reading-5"></a></p>
-<h3><a href="https://www.csoonline.com/article/4242439/a-deep-dive-into-chinas-volt-typhoon-suggests-it-is-preparing-for-an-assault-on-infrastructure.html">深入解析“伏特台风”的“静默列车”：为关键基础设施攻击预置访问</a> ⭐️ 7.5/10</h3>
-<p>CSO Online 报道 Lumen 对“伏特台风”“静默列车”战术的分析：其轮换被入侵的 SOHO、IoT 和企业设备，预置对电信、政府、国防及水务等关键基础设施控制面的访问，为地缘危机中的破坏或拒服预留能力。</p>
-<p>rss · CSO Online · 10月30日 00:10 · 网页正文提取</p>
-<p><strong>「为什么值得读」</strong> 文章的价值在于把“静默列车”的运作细节讲清楚：设备链可在两分钟内组装、不同设备类型固定承担境外中继或美国跳板角色、VPS 分层隔离，并以短暂基础设施规避 IP 封禁和溯源。它还引出控制面优先、行为与身份检测、借助运营商全局可见性的防御思路。需注意这是媒体对厂商报告的二次报道，时效性强，长期价值主要在可迁移的防御推理而非原始数据。</p>
-<p><strong>「什么时候再读」</strong> 当你负责收敛管理控制台、SD-WAN 编排器或边缘设备的暴露面，或需要向运营商确认威胁通知与流量可见性安排时，可重读其防御建议。若只关心攻击归因或最新 IOC，这篇基于厂商报告的报道会显得过时。</p>
-<p><strong>标签</strong>: <code>#cybersecurity</code>, <code>#critical infrastructure</code>, <code>#APT</code>, <code>#network defense</code>, <code>#threat intelligence</code></p>
+<h3><a href="https://www.csoonline.com/article/4242707/who-approves-the-files-that-control-your-ai-coding-assistant.html">谁在审批那些控制你 AI 编程助手的文件？</a> ⭐️ 8.0/10</h3>
+<p>文章讨论 AI 编程助手的仓库配置文件——hooks、skills、指令文档——为何需要明确的归属和可执行的审批路径。核心论点是：审查要判断配置会触发什么行为、取得什么权限，而不是只看文件名或格式；合并一次配置改动，可能就是把执行指令分发给全体开发者。</p>
+<p>rss · CSO Online · 11月2日 09:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 它把抽象的供应链风险落实到具体机制上：Miasma 事件用跳过 CI 的提交和倒填时间戳，把执行时机从安装挪到打开文件夹；SKILL.md 是 Markdown，在 PR 里常被当作 README 审；命令钩子按用户权限运行，非交互会话还可能绕开工作区信任弹窗。作者主张 CODEOWNERS 必须配合分支保护才生效、要用样例 PR 验证实际规则、用无害钩子演练审批路径——这些检查动作多年后仍可复用。论证部分依赖厂商文档与外部报告。</p>
+<p><strong>「什么时候再读」</strong> 当你为团队引入或审计 AI 编程助手配置时，或某个自动化任务要在陌生仓库上以非交互方式运行时，可以回来读它。文中工具行为与版本相关，需对照当前文档核实。</p>
+<p><strong>标签</strong>: <code>#AI coding assistants</code>, <code>#security governance</code>, <code>#code review</code>, <code>#developer tooling</code>, <code>#supply chain security</code></p>
 <hr /></article></main><footer>这是候选阅读清单，模型推荐仅供参考。收录由我自己决定。<br>由 <a href="https://github.com/Thysrael/Horizon">Horizon</a> 整理 · <a href="https://github.com/fullstackjam/reading">源码与订阅配置</a></footer></div></body></html>
