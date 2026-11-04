@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>给自己留一点阅读时间 · Jam's Reading List</title><meta name="description" content="一些值得认真读，也值得以后重读的文章。">
+<link rel="stylesheet" href="/style.css"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='.9em' font-size='56'%3E📖%3C/text%3E%3C/svg%3E"></head>
+<body><div class="wrap"><header class="brand"><a class="wordmark" href="/">Jam's Reading List</a><a class="small" href="/archive/">往期清单 ↗</a></header>
+<main><p class="eyebrow">本期候选 · 2026-11-04</p><h1>给自己留一点阅读时间</h1>
+<p class="intro">一些值得认真读，也值得以后重读的文章。先看看推荐理由，再决定打开原文、读一读，或者收进自己的阅读清单。</p>
+<article><blockquote>
+<p>从 412 篇候选中选出 5 篇值得读的文章。</p>
+</blockquote>
+<hr />
+<p><strong>本期值得读</strong></p>
+<ol>
+<li><a href="#item-reading-1">摄影指导史蒂夫·耶德林谈如何让数字影像看起来像胶片</a> ⭐️ 8.5/10</li>
+<li><a href="#item-reading-2">fxgl/steamac：在 Apple Silicon 的轻量虚拟机中运行 Valve 官方 ARM64 SteamOS</a> ⭐️ 8.1/10</li>
+<li><a href="#item-reading-3">早期电动汽车设计时考虑到了女性</a> ⭐️ 8.1/10</li>
+<li><a href="#item-reading-4">同一句子，不同构念：身份替换的理由揭示 LLM 仇恨言论分类器中的测量非不变性</a> ⭐️ 8.0/10</li>
+<li><a href="#item-reading-5">虚假引用是奖励黑客吗？后训练与引用线索的预注册研究</a> ⭐️ 8.0/10</li>
+</ol>
+<hr />
+<h2>本期值得读</h2>
+<p><a id="item-reading-1"></a></p>
+<h3><a href="https://www.polygon.com/2020/2/6/21125680/film-vs-digital-debate-movies-cinematography/">摄影指导史蒂夫·耶德林谈如何让数字影像看起来像胶片</a> ⭐️ 8.5/10</h3>
+<p>文章介绍摄影指导史蒂夫·耶德林的研究：他把“胶片感”拆解为光晕、片门晃动、颗粒和色彩再现四项，再用数字显示处理逐一重建，主张决定画面观感的不是摄影机本身，而是拍摄之后的转换环节。</p>
+<p>rss · Tildes · 11月3日 21:12 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 文中最有用的是把“胶片对数字”之争挪到“捕捉与转换分离”这一层：耶德林用 35mm 胶片与 Arri Alexa 的对照演示说明，高质量摄影机记录的数据相近，风格差异来自其后的化学或数学转换。文中还举了制作实例：《利刃出鞘》几乎全程数字拍摄，《最后的绝地武士》约一半镜头为数字，却与胶片素材无缝混剪。数年后仍可借它理解 LUT 与显示处理，把“电影感”从玄学变成可拆解的对象。</p>
+<p><strong>「什么时候再读」</strong> 当你想复刻某种影像风格，或评估一款胶片模拟 LUT 时，可回来对照这四项要素及其组合方式。需注意文中演示与机型信息停留在 2019 年前后，具体技术参数已显陈旧。</p>
+<p><strong>标签</strong>: <code>#cinematography</code>, <code>#film-vs-digital</code>, <code>#color-science</code>, <code>#image-processing</code>, <code>#Steve Yedlin</code></p>
+<hr />
+<p><a id="item-reading-2"></a></p>
+<h3><a href="https://github.com/fxgl/steamac">fxgl/steamac：在 Apple Silicon 的轻量虚拟机中运行 Valve 官方 ARM64 SteamOS</a> ⭐️ 8.1/10</h3>
+<p>这份项目文档记录一套在 Apple Silicon 的 macOS 15 及以上系统中，借助 libkrun 与 Hypervisor.framework 启动轻量虚拟机来运行 Valve 的 ARM64 SteamOS 的实现：客户机 Vulkan 经 Venus 和 virglrenderer 转译到 MoltenVK 或 KosmicKrisp，再落到 Metal；内容覆盖构建步骤、图形加速、实测性能、兼容性与明确限制。</p>
+<p>rss · Tildes · 11月3日 23:39 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 价值在于作者把技术链路拆到可核查的层面：16K blob 对齐、Venus 驱动身份变化触发着色器缓存重建、Steam 预缓存把 Metal 编译开销提前，以及 DXMT 路径把客户机代码交给宿主进程执行、因而不构成 VM 安全边界。这些设计取舍、失败复现和兼容性限制，比“能跑”结论更耐久；但它是项目参考文档，不是通用教程，帧率只对应特定硬件和版本。</p>
+<p><strong>「什么时候再读」</strong> 当你要在 Apple Silicon 上比较 SteamOS 虚拟化方案，或排查 Venus 到 Metal 的着色器编译卡顿与 DXMT 安全取舍时，可回来查这份架构和限制清单；它绑定特定项目和 macOS/SteamOS 版本，性能数字会过时。</p>
+<p><strong>标签</strong>: <code>#virtualization</code>, <code>#SteamOS</code>, <code>#Apple Silicon</code>, <code>#graphics translation</code>, <code>#technical documentation</code></p>
+<hr />
+<p><a id="item-reading-3"></a></p>
+<h3><a href="https://spectrum.ieee.org/early-electric-vehicles">早期电动汽车设计时考虑到了女性</a> ⭐️ 8.1/10</h3>
+<p>文章借范妮·古德诺 1908 年的贝利维多利亚敞篷双座电动车和她的水银整流充电器，讲述早期电动车因易启动、无废气而被营销给女性，并分析电池缺陷、充电标准与福特 T 型车如何助推内燃机胜出。</p>
+<p>rss · Tildes · 11月3日 16:12 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 文章以古德诺 1908 年的贝利维多利亚双座车、约 64—80 公里续航、12 小时水银整流充电和非标插头等细节，把性别营销、爱迪生电池漏液、充电标准与福特 T 型车的竞争串成具体的生活史。作者明确说找不到她为何选电动车的记录，性别论点也只是有启发的线索，并未充分展开；这种克制反而让物证本身更可信。多年后重读，仍可借这套设备理解早期采用者如何被基础设施和标准塑造。</p>
+<p><strong>「什么时候再读」</strong> 当你讨论早期电动车的采用、充电接口标准，或想考察性别化营销如何塑造技术选择时，可回来读；不过它是单一个案，性别分析未充分展开，别当系统论证。</p>
+<p><strong>标签</strong>: <code>#electric vehicles</code>, <code>#history of technology</code>, <code>#gender and technology</code>, <code>#consumer adoption</code>, <code>#charging infrastructure</code></p>
+<hr />
+<p><a id="item-reading-4"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.02491">同一句子，不同构念：身份替换的理由揭示 LLM 仇恨言论分类器中的测量非不变性</a> ⭐️ 8.0/10</h3>
+<p>论文用 421 个仅替换七类群体身份词的仇恨言论模板，检验四个 LLM 分类器是否对同一句话应用同一构念。摘要称平衡准确率虽高，两个模型对涉及女性的仇恨言论漏判更多；模型理由显示构念偏移，作者主张评估需加入身份控制的测量不变性检验。</p>
+<p>rss · arXiv — cs.CL · 11月3日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 从摘要可见，文章最值得读的是把总体准确率拆成身份控制下的构念一致性：相同模板中，两个分类器对女性语句的漏判率分别高出 8.3 和 4.4 个百分点；一个模型在 30 个漏判模板中有 22 个把同一句话解释成个人厌恶或针对个人，而非群体敌意。它还报告，加入基准定义并未弥合差距，提示高聚合分数可能掩盖不同群体上的不同判定标准。这一测量视角可迁移到其他社会范畴的 LLM 评估。</p>
+<p><strong>「什么时候再读」</strong> 当你需要设计或审计 LLM 分类器的公平性评估，尤其是想判断聚合准确率是否掩盖群体差异时，可重读。注意目前仅见摘要，无法核对完整样例、稳健性与作者自述局限。</p>
+<p><strong>标签</strong>: <code>#LLM evaluation</code>, <code>#measurement invariance</code>, <code>#hate speech</code>, <code>#fairness</code>, <code>#counterfactual testing</code></p>
+<hr />
+<p><a id="item-reading-5"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.01313">虚假引用是奖励黑客吗？后训练与引用线索的预注册研究</a> ⭐️ 8.0/10</h3>
+<p>这篇预注册研究追问：后训练语言模型在被要求给出出处时大量编造引用，是否属于奖励黑客。作者用 900 个冻结问题、多个检查点比较提示变化，并测试偏好模型；正文缺失或被截断，无法可靠评价。摘要可见结论谨慎。</p>
+<p>rss · arXiv — cs.CL · 11月3日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 最有用的是区分“模型对引用线索敏感”与“奖励导致编造引用”：长度匹配的控制把引用要求与单纯要求更长回答分开；偏好模型只看表面引用特征时偏好后训练输出，固定引用数量后仍奖励数量。作者还报告一项预注册预测未成立，并明确说需要训练时改动奖励才能检验因果。目前仅见摘要，无法核对方法与分析细节，但这套区分和失败报告对日后评估引用真实性仍有参考价值。</p>
+<p><strong>「什么时候再读」</strong> 当你评估模型引用真实性，或设计奖励模型与评测提示时，可回来看它。它只给出提示层面的关联证据，不能替代训练时操纵奖励的因果实验；若后续出现训练干预研究，可用作对照。</p>
+<p><strong>标签</strong>: <code>#reward hacking</code>, <code>#citation fabrication</code>, <code>#language model evaluation</code>, <code>#pre-registered study</code>, <code>#post-training</code></p>
+<hr /></article></main><footer>这是候选阅读清单，模型推荐仅供参考。收录由我自己决定。<br>由 <a href="https://github.com/Thysrael/Horizon">Horizon</a> 整理 · <a href="https://github.com/fullstackjam/reading">源码与订阅配置</a></footer></div></body></html>
