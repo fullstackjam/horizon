@@ -1,6 +1,9 @@
 name: Reading list
 
 on:
+  schedule:
+    # 00:50 UTC is 08:50 Asia/Shanghai. GitHub may delay the run.
+    - cron: '50 0 * * *'
   workflow_dispatch:
     inputs:
       refresh:
@@ -50,7 +53,7 @@ jobs:
           fi
       - name: Generate recommendations with Horizon
         id: generate
-        if: github.event_name == 'workflow_dispatch' && inputs.refresh
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh)
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: |
@@ -86,4 +89,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
           publish_branch: gh-pages
-          cname: reading.fullstackjam.com
+          cname: horizon.fullstackjam.com

@@ -20,7 +20,7 @@ def page(title: str, body: str, *, date: str = "") -> str:
 <body><div class="wrap"><header class="brand"><a class="wordmark" href="/">Jam's Reading List</a><a class="small" href="/archive/">往期清单 ↗</a></header>
 <main><p class="eyebrow">{eyebrow}</p><h1>{title}</h1>
 <p class="intro">一些值得认真读，也值得以后重读的文章。先看看推荐理由，再决定打开原文、读一读，或者收进自己的阅读清单。</p>
-{body}</main><footer>这是候选阅读清单，模型推荐仅供参考。收录由我自己决定。<br>由 <a href="https://github.com/Thysrael/Horizon">Horizon</a> 整理 · <a href="https://github.com/fullstackjam/reading">源码与订阅配置</a></footer></div></body></html>'''
+{body}</main><footer>这是候选阅读清单，模型推荐仅供参考。收录由我自己决定。<br>由 <a href="https://github.com/Thysrael/Horizon">Horizon</a> 整理 · <a href="https://github.com/fullstackjam/horizon">源码与订阅配置</a></footer></div></body></html>'''
 
 
 def build(summaries: Path, output: Path, state: Path) -> int:
@@ -28,7 +28,7 @@ def build(summaries: Path, output: Path, state: Path) -> int:
     (output / "archive").mkdir(exist_ok=True)
     (output / "summaries").mkdir(exist_ok=True)
     shutil.copyfile("site/style.css", output / "style.css")
-    (output / "CNAME").write_text("reading.fullstackjam.com\n")
+    (output / "CNAME").write_text("horizon.fullstackjam.com\n")
     (output / ".nojekyll").touch()
     entries = []
     for source in sorted(summaries.glob("horizon-*-zh.md"), reverse=True):
