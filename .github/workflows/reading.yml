@@ -7,16 +7,11 @@ on:
         description: Fetch and recommend new articles
         type: boolean
         default: true
-      resend_latest:
-        description: Resend the latest published list even if unchanged
-        type: boolean
-        default: false
   push:
     branches: [main]
     paths:
       - 'site/**'
       - 'scripts/build_reading_site.py'
-      - 'scripts/send_reading_email.py'
       - 'data/reading.json'
       - 'profiles/reading/**'
       - '.github/workflows/reading.yml'
@@ -92,24 +87,3 @@ jobs:
           publish_dir: ./public
           publish_branch: gh-pages
           cname: reading.fullstackjam.com
-      - name: Email the new reading list
-        if: steps.generate.outcome == 'success' || (github.event_name == 'workflow_dispatch' && inputs.resend_latest)
-        env:
-          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-          READING_EMAIL_TO: ${{ vars.READING_EMAIL_TO }}
-          READING_EMAIL_FROM: ${{ vars.READING_EMAIL_FROM }}
-          RESEND_LATEST: ${{ github.event_name == 'workflow_dispatch' && inputs.resend_latest }}
-        run: |
-          if [ -z "$RESEND_API_KEY" ] || [ -z "$READING_EMAIL_TO" ] || [ -z "$READING_EMAIL_FROM" ]; then
-            if [ "$RESEND_LATEST" = 'true' ]; then
-              echo 'Email resend requested but email configuration is missing'
-              exit 1
-            fi
-            echo 'Reading email is not configured; skipping delivery'
-            exit 0
-          fi
-          if [ "$RESEND_LATEST" = 'true' ]; then
-            uv run python -m scripts.send_reading_email --resend-id "$GITHUB_RUN_ID"
-          else
-            uv run python -m scripts.send_reading_email
-          fi
