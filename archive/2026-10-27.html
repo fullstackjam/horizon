@@ -40,4 +40,4 @@
 <p><strong>「为什么值得读」</strong> 真正有价值的是那条反直觉的因果链：一个空的 .task {} 就能让退场的树多建一次宿主，但根因不在 .task，而在 NSViewRepresentable 里套 NSHostingView。作者把猜测逐条做成可验证的实验——变体对照表、最小复现仓库、调用栈——再给出两层修复：在 dismantleNSView 里拆掉内层 hosting view，以及把 surface 所有权改成以 window 为准。“makeNSView 被调用不等于会上屏”这个判断长期有用。</p>
 <p><strong>「什么时候再读」</strong> 当你的 NSViewRepresentable 里嵌了 NSHostingView，或 makeNSView 出现意外副作用时，可回来对照这条排查路径。注意它基于 2026 年的 SwiftUI 行为；至于 .task 为何触发那次布局，作者也未解释。</p>
 <p><strong>标签</strong>: <code>#SwiftUI</code>, <code>#AppKit</code>, <code>#debugging</code>, <code>#view lifecycle</code>, <code>#software engineering</code></p>
-<hr /></article></main><footer>这是候选阅读清单，模型推荐仅供参考。收录由我自己决定。<br>由 <a href="https://github.com/Thysrael/Horizon">Horizon</a> 整理 · <a href="https://github.com/fullstackjam/reading">源码与订阅配置</a></footer></div></body></html>
+<hr /></article></main><footer>这是候选阅读清单，模型推荐仅供参考。收录由我自己决定。<br>由 <a href="https://github.com/Thysrael/Horizon">Horizon</a> 整理 · <a href="https://github.com/fullstackjam/horizon">源码与订阅配置</a></footer></div></body></html>
