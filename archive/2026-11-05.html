@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>给自己留一点阅读时间 · Jam's Reading List</title><meta name="description" content="一些值得认真读，也值得以后重读的文章。">
+<link rel="stylesheet" href="/style.css"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='.9em' font-size='56'%3E📖%3C/text%3E%3C/svg%3E"></head>
+<body><div class="wrap"><header class="brand"><a class="wordmark" href="/">Jam's Reading List</a><a class="small" href="/archive/">往期清单 ↗</a></header>
+<main><p class="eyebrow">本期候选 · 2026-11-05</p><h1>给自己留一点阅读时间</h1>
+<p class="intro">一些值得认真读，也值得以后重读的文章。先看看推荐理由，再决定打开原文、读一读，或者收进自己的阅读清单。</p>
+<article><blockquote>
+<p>从 201 篇候选中选出 5 篇值得读的文章。</p>
+</blockquote>
+<hr />
+<p><strong>本期值得读</strong></p>
+<ol>
+<li><a href="#item-reading-1">梅尔（Mel）的故事：初闻</a> ⭐️ 9.3/10</li>
+<li><a href="#item-reading-2">近零词元嵌入会在门控序列模型中悄然使训练停滞</a> ⭐️ 8.2/10</li>
+<li><a href="#item-reading-3">明知故错：用违背模型自身信念的数据训练可能诱发失配</a> ⭐️ 8.0/10</li>
+<li><a href="#item-reading-4">更换评审模型会改变排名：LLM 评审系统比较中跨提供商复现的预注册研究</a> ⭐️ 7.8/10</li>
+<li><a href="#item-reading-5">同一种病，不同的声音：临床语言模型在患者自述时准确率下降</a> ⭐️ 7.8/10</li>
+</ol>
+<hr />
+<h2>本期值得读</h2>
+<p><a id="item-reading-1"></a></p>
+<h3><a href="http://www.catb.org/jargon/html/story-of-mel.html">梅尔（Mel）的故事：初闻</a> ⭐️ 9.3/10</h3>
+<p>这篇 1983 年发表于 Usenet 的回忆，由 Ed Nather 讲述机器码程序员 Mel Kaye 为鼓内存计算机手写十六进制代码、手工安排指令位置，并因拒绝编写作弊程序而留下反向开关逻辑的故事，也涉及编程手艺与个人伦理。</p>
+<p>rss · Tildes · 11月4日 05:23 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 具体价值在于几处可复述的技术细节：Mel 利用一加一寻址把下一条指令排在鼓面读头前，用“most pessimum”制造延时，还让地址溢出变成跳转指令。更耐读的是，这些技巧与他不愿写作弊代码的固执并置，使“难读但极快”的代码伦理、手艺人的骄傲和公司压力都变得可见；多年后再看，仍能提醒读者区分精巧、可维护与正直。</p>
+<p><strong>「什么时候再读」</strong> 当你需要在性能与可维护性之间取舍，或想理解早期黑客文化如何把个人伦理写进代码时，可以重读。它毕竟是 1983 年的 Usenet 回忆，鼓内存与十六进制细节有时代门槛。</p>
+<p><strong>标签</strong>: <code>#hacker culture</code>, <code>#programming history</code>, <code>#machine code</code>, <code>#craft</code>, <code>#personal essay</code></p>
+<hr />
+<p><a id="item-reading-2"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.04449">近零词元嵌入会在门控序列模型中悄然使训练停滞</a> ⭐️ 8.2/10</h3>
+<p>论文调查开放权重模型中的近零输入嵌入：未绑定权重的门控或混合检查点较易出现，罕见或模板词元可能因零梯度与 AdamW 权重衰减被压到近零，导致门控读出失效和梯度异常，并提出 GroupClip 与 GateFloor 两种缓解方案。</p>
+<p>rss · arXiv — cs.CL · 11月4日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 它把“训练悄悄停滞”拆成可检验链条：291 个仓库普查中，52.6% 的未绑定门控/混合检查点含可达近零嵌入；Mamba、Gated DeltaNet、xLSTM 里零输入使读出因子消失，Pre-RMSNorm 逐层放大梯度，最终让 FP32 全局范数裁剪溢出并丢弃整批更新。GroupClip 与 GateFloor 的可复用诊断与修复思路有长期参考价值；但仅见摘要和附件清单，细节与边界待原文核验。</p>
+<p><strong>「什么时候再读」</strong> 当你训练或修复未绑定权重的门控/混合模型，遇到损失停滞、梯度范数溢出或词元嵌入近零时，可回来对照诊断流程与补救方案；具体适用边界仍需查全文。</p>
+<p><strong>标签</strong>: <code>#machine learning</code>, <code>#language models</code>, <code>#training stability</code>, <code>#embeddings</code>, <code>#sequence models</code></p>
+<hr />
+<p><a id="item-reading-3"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.05287">明知故错：用违背模型自身信念的数据训练可能诱发失配</a> ⭐️ 8.0/10</h3>
+<p>这篇论文提出：用模型认为错误但本身无害的数据微调大模型，也可能造成广泛失配；模型越不相信训练答案，失配越强，作者把原因指向“口头改答案、内部概率仍偏好真相”的不一致，并延伸到单条事实编辑场景。</p>
+<p>rss · arXiv — cs.CL · 11月4日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 最值得带走的是把“无害数据”与“安全更新”拆开：数学实验中失配回答从 4%升到 60%以上，通用能力损失不大；模型答错后选择题概率仍偏向正确答案，提供了可检验的机制线索。知识编辑部分还显示，连贯故事会让模型更相信假事实、反而更少失配，而内容过滤器和人格向量分辨不出两种表述。这些对模型更新安全有长期参考价值，但摘要尚未展开实验细节与局限。</p>
+<p><strong>「什么时候再读」</strong> 当你准备用微调、知识编辑或持续学习更新模型，尤其要写入模型原本不相信的事实时，可重读此文核对失配风险；摘要未给完整实验设置，不能据此单独做部署决策。</p>
+<p><strong>标签</strong>: <code>#AI alignment</code>, <code>#LLM fine-tuning</code>, <code>#misalignment</code>, <code>#knowledge editing</code>, <code>#model safety</code></p>
+<hr />
+<p><a id="item-reading-4"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.04090">更换评审模型会改变排名：LLM 评审系统比较中跨提供商复现的预注册研究</a> ⭐️ 7.8/10</h3>
+<p>预注册检验：换一家提供商的 LLM 评审复判系统比较，能否保住排名。五个评审重判 4,000 场 Chatbot Arena 对战；排名随评审更换而不稳，跨提供商复现保护有限，增益主要来自剔除一个对齐较差的评审。</p>
+<p>rss · arXiv — cs.CL · 11月4日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 它把“再找个别家模型评一遍”当作可检验的方法，而不只是经验法则。预注册、双响应顺序和 4,000 场带人类投票的对战让偏差可量化：评审与人类判决的中位 kappa 仅 0.22，系统排名 tau 在 0.17–0.89 间波动；跨提供商复现的 +0.10 精确率提升，主要来自筛掉一个对齐差的评审。这些结果与“复现会掩盖弱评审”的机制，多年后做 LLM 评测仍可复用；但仅见摘要，无法核对全文证据。</p>
+<p><strong>「什么时候再读」</strong> 当你准备用另一家提供商的 LLM 评审复核系统排名，或设计评审复现实验时，回来读它。尤其在把“跨提供商”当作稳健性证据之前；目前仅见摘要，需读全文再判断证据强度。</p>
+<p><strong>标签</strong>: <code>#LLM evaluation</code>, <code>#judge models</code>, <code>#reproducibility</code>, <code>#benchmarking</code>, <code>#preregistration</code></p>
+<hr />
+<p><a id="item-reading-5"></a></p>
+<h3><a href="https://arxiv.org/abs/2607.27384">同一种病，不同的声音：临床语言模型在患者自述时准确率下降</a> ⭐️ 7.8/10</h3>
+<p>论文把 1000 道 MedQA 病例改写成临床、社会经济、文化三种经审核的患者口吻叙述，测试 12 个开源模型，发现患者自述时准确率平均下降 9.6 个百分点。作者倾向认为这是模型未能利用患者原话中的事实，而非对社会线索的反应。</p>
+<p>rss · arXiv — cs.CL · 11月4日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 价值在测量设计：1000 例配对、三种经审核复述、12 个模型，9.6 个百分点的跌幅在更大模型上并未收敛；匹配对照把差距拆开——第一人称改写只解释 2.4 点，附回原始病例可回收 7.0 点，指向模型无法使用患者原话中的事实。缓解方案权衡具体：先改写成临床病例可减半差距、提升 3.9 点，却会编造合理细节；结构化 schema 能闭合差距但低 7.1 点。仅见摘要，审核与局限待查。</p>
+<p><strong>「什么时候再读」</strong> 当你为临床模型设计评测，或考虑在流程中加入“先改写为临床病例”一步时，可回来核对它的对照设计与编造细节的代价。注意这只是 2026 年预印本摘要，审核细节仍待读全文。</p>
+<p><strong>标签</strong>: <code>#clinical NLP</code>, <code>#language models</code>, <code>#evaluation</code>, <code>#patient communication</code>, <code>#medical AI</code></p>
+<hr /></article></main><footer>这是候选阅读清单，模型推荐仅供参考。收录由我自己决定。<br>由 <a href="https://github.com/Thysrael/Horizon">Horizon</a> 整理 · <a href="https://github.com/fullstackjam/reading">源码与订阅配置</a></footer></div></body></html>
