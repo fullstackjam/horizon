@@ -27,7 +27,7 @@ jobs:
               print(f"Check {attempt+1}/36: certificate={certificate.get('state', 'pending')}",flush=True)
               if certificate.get('state') == 'approved':
                   subprocess.run(['gh','api','--method','PUT',endpoint,'-F','https_enforced=true'],check=True)
-                  with urllib.request.urlopen('https://reading.fullstackjam.com/',timeout=30) as response:
+                  with urllib.request.urlopen('https://horizon.fullstackjam.com/',timeout=30) as response:
                       body = response.read().decode()
                       if response.status == 200 and "Jam's Reading List" in body:
                           print('HTTPS verified: 200 OK; reading list content present',flush=True)

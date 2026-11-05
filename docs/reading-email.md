@@ -5,6 +5,6 @@
 
 已发布的中文摘要保持原来的路径和文件名：
 
-`https://reading.fullstackjam.com/summaries/horizon-YYYY-MM-DD-zh.md`
+`https://horizon.fullstackjam.com/summaries/horizon-YYYY-MM-DD-zh.md`
 
 调度、评分和本地运行见 [READING.md](../READING.md)。
