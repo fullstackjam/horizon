@@ -54,6 +54,16 @@ uv run python -m http.server 8765 --directory public
 调整样式后 push `main` 只构建网页，不调用模型。
 `Finish Pages HTTPS` 是仅手动触发的一次性部署收尾作业，等待证书签发、启用 HTTPS 并检查首页；没有定时触发器，不调用模型。
 
+## 单独给链接打分
+
+给任意文章链接打分，而不写入每日摘要或网站：
+
+```bash
+uv run horizon score --urls https://example.com/article --config data/reading.json
+```
+
+MCP 工具 `hz_score_urls` 做同一件事。`profile` 默认是 `reading`，评分规则仍是 `profiles/reading/analysis.md`。`DEEPSEEK_API_KEY` 留在 Horizon 进程环境里，不作为参数传入。单篇抓取或分析失败只记在该 URL 上，不会把这些链接写进已发布的每日清单。
+
 ## 已知边界
 
 Horizon 提取失败时会退回 RSS 内容；本项目用评分规则排除明显残缺的摘要，但尚未增加程序级的正文完整性门禁。
