@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>给自己留一点阅读时间 · Jam's Reading List</title><meta name="description" content="一些值得认真读，也值得以后重读的文章。">
+<link rel="stylesheet" href="/style.css"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='.9em' font-size='56'%3E📖%3C/text%3E%3C/svg%3E"></head>
+<body><div class="wrap"><header class="brand"><a class="wordmark" href="/">Jam's Reading List</a><a class="small" href="/archive/">往期清单 ↗</a></header>
+<main><p class="eyebrow">本期候选 · 2026-11-12</p><h1>给自己留一点阅读时间</h1>
+<p class="intro">一些值得认真读，也值得以后重读的文章。先看看推荐理由，再决定打开原文、读一读，或者收进自己的阅读清单。</p>
+<article><blockquote>
+<p>从 28 篇候选中选出 3 篇值得读的文章。</p>
+</blockquote>
+<hr />
+<p><strong>本期值得读</strong></p>
+<ol>
+<li><a href="#item-reading-1">选择 QuePaxa：一种不寻常的共识算法</a> ⭐️ 8.5/10</li>
+<li><a href="#item-reading-2">为什么旧权限比岗位活得久？</a> ⭐️ 7.7/10</li>
+<li><a href="#item-reading-3">空白处有我</a> ⭐️ 7.6/10</li>
+</ol>
+<hr />
+<h2>本期值得读</h2>
+<p><a id="item-reading-1"></a></p>
+<h3><a href="https://blog.cloudflare.com/choosing-quepaxa/">选择 QuePaxa：一种不寻常的共识算法</a> ⭐️ 8.5/10</h3>
+<p>Cloudflare 的全球控制面服务 Meerkat 选用 QuePaxa。它论证：广域网中的领导者选举会造成破坏性干扰和亚稳态失败；QuePaxa 用可选领导者和提议者协作，在网络波动下继续推进。</p>
+<p>rss · Cloudflare Blog · 11月11日 14:24 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 文章用 2020 年交换机局部故障导致仪表盘慢 80 倍、持续六小时的生产事故，说明领导者型协议在网络退化时为何失效；再逐阶段解释 QuePaxa 如何用随机优先级、提议采纳、可选领导者和对冲超时避免停机。其对破坏性干扰、亚稳态失败和超时取舍的拆解，多年后仍适合作为设计广域共识系统的分析框架。</p>
+<p><strong>「什么时候再读」</strong> 当你为跨洲服务设计共识层，或在领导者超时检测与无领导者随机协议之间权衡时，可重读。注意 QuePaxa 生产验证仍少于 Raft/Paxos，文中的形式化验证尚在进行。</p>
+<p><strong>标签</strong>: <code>#distributed systems</code>, <code>#consensus algorithms</code>, <code>#QuePaxa</code>, <code>#fault tolerance</code>, <code>#wide-area networks</code></p>
+<hr />
+<p><a id="item-reading-2"></a></p>
+<h3><a href="https://www.csoonline.com/article/4246971/why-does-old-access-outlive-the-job.html">为什么旧权限比岗位活得久？</a> ⭐️ 7.7/10</h3>
+<p>新权限一天内就能批下来，旧权限却常年不退。作者把原因归于激励结构：授权有明确的责任人和期限，回收却两者皆无；误删权限会当天招来投诉，而权限留着没人追责。他据此提出三项流程改造：把每次转岗当作一次回收事件、为权限设定具名负责人和到期日、在评审界面展示最后使用时间并允许评审人直接处置。</p>
+<p>rss · CSO Online · 11月11日 09:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 最有用的是那句诊断：没人因团队权限变少而受奖励，误删却当天招来投诉，于是“保留”成了唯一安全选项。作者给出可照做的细节：给离任和接任经理十分钟回答“他不再需要什么”，按最久未用排序、默认到期而非默认续期。他也坦白证据薄弱——DBIR 数据与过期权限无关、离职密码调查只是网络民调、转岗研究稀缺，并点出季末结账和 break-glass 账号等例外。</p>
+<p><strong>「什么时候再读」</strong> 当你准备设计转岗或离职的权限回收流程，或要开一次访问评审会时，可先读这篇。需注意其做法仍属常规最小权限实践，成本论证依赖间接证据。</p>
+<p><strong>标签</strong>: <code>#identity and access management</code>, <code>#least privilege</code>, <code>#access reviews</code>, <code>#security process design</code>, <code>#organizational incentives</code></p>
+<hr />
+<p><a id="item-reading-3"></a></p>
+<h3><a href="https://anotherdayu.com/1384/">空白处有我</a> ⭐️ 7.6/10</h3>
+<p>作者由读书会朋友记录喜好谈起，回顾自己从顺从他人选择到留意情绪与偏好；再写向 AI 叙述时的不坦诚、请 AI 质疑数据分析及为 Dots 分享信息，最终认为认识自己是持续重述，而非固定答案。</p>
+<p>rss · Another Dayu · 11月11日 22:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 文章最有用的不是结论，而是把“了解自己”拆成可操作的动作：记下喜欢什么及原因，写博客确认感受，向 AI 讲清不利信息，并让 AI 扮演审稿人质疑分析。作者也承认 AI 会犯错、分享隐私有风险。多年后仍可借这套方法检查自己是否只选择了有利叙述，以及能否先倾听自己又不被自己的声音蒙蔽。</p>
+<p><strong>「什么时候再读」</strong> 当你准备让 AI 评价自己的判断，或又想用“总能解释得通”来维护原有结论时，可重读此文。它谈的是个人经验，Dots 等工具会变化，隐私风险也需自行权衡。</p>
+<p><strong>标签</strong>: <code>#自我认识</code>, <code>#个人随笔</code>, <code>#AI 反思</code>, <code>#写作</code>, <code>#坦诚</code></p>
+<hr /></article></main><footer>这是候选阅读清单，模型推荐仅供参考。收录由我自己决定。<br>由 <a href="https://github.com/Thysrael/Horizon">Horizon</a> 整理 · <a href="https://github.com/fullstackjam/horizon">源码与订阅配置</a></footer></div></body></html>

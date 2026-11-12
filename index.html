@@ -3,59 +3,41 @@
 <title>给自己留一点阅读时间 · Jam's Reading List</title><meta name="description" content="一些值得认真读，也值得以后重读的文章。">
 <link rel="stylesheet" href="/style.css"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='.9em' font-size='56'%3E📖%3C/text%3E%3C/svg%3E"></head>
 <body><div class="wrap"><header class="brand"><a class="wordmark" href="/">Jam's Reading List</a><a class="small" href="/archive/">往期清单 ↗</a></header>
-<main><p class="eyebrow">本期候选 · 2026-11-11</p><h1>给自己留一点阅读时间</h1>
+<main><p class="eyebrow">本期候选 · 2026-11-12</p><h1>给自己留一点阅读时间</h1>
 <p class="intro">一些值得认真读，也值得以后重读的文章。先看看推荐理由，再决定打开原文、读一读，或者收进自己的阅读清单。</p>
 <article><blockquote>
-<p>从 184 篇候选中选出 5 篇值得读的文章。</p>
+<p>从 28 篇候选中选出 3 篇值得读的文章。</p>
 </blockquote>
 <hr />
 <p><strong>本期值得读</strong></p>
 <ol>
-<li><a href="#item-reading-1">AI 不是在变笨，而是我们更挑剔：大语言模型人类评估中的标准上升</a> ⭐️ 8.2/10</li>
-<li><a href="#item-reading-2">从架构到输出：检验幻觉的结构性起源与数据的放大作用</a> ⭐️ 8.2/10</li>
-<li><a href="#item-reading-3">答案一致，理由却不同：LLM 推理失败分类法的测量边界</a> ⭐️ 8.0/10</li>
-<li><a href="#item-reading-4">注意力手术的健全性检查：面向表征动机设计的零模型与匹配干预</a> ⭐️ 8.0/10</li>
-<li><a href="#item-reading-5">阅读“为什么”：光与量子比特上具有精确词级证据的玻恩测量注意力</a> ⭐️ 7.9/10</li>
+<li><a href="#item-reading-1">选择 QuePaxa：一种不寻常的共识算法</a> ⭐️ 8.5/10</li>
+<li><a href="#item-reading-2">为什么旧权限比岗位活得久？</a> ⭐️ 7.7/10</li>
+<li><a href="#item-reading-3">空白处有我</a> ⭐️ 7.6/10</li>
 </ol>
 <hr />
 <h2>本期值得读</h2>
 <p><a id="item-reading-1"></a></p>
-<h3><a href="https://arxiv.org/abs/2611.14333">AI 不是在变笨，而是我们更挑剔：大语言模型人类评估中的标准上升</a> ⭐️ 8.2/10</h3>
-<p>作者用 Chatbot Arena 中 126 万余次固定模型版本的盲评投票，区分模型变化与评审者变化，主张“AI 变差”的感受更多来自人类绝对标准上升，而模型相对排名并未同步下跌。</p>
-<p>rss · arXiv — cs.CL · 11月11日 05:00 · 网页正文提取</p>
-<p><strong>「为什么值得读」</strong> 最有用的是把“模型变差”拆成模型变化与评审者变化：在固定版本模型的同一配对里，“都不好”比例平均每月升 1.71 个百分点，14 对常见配对全部上升，而相对胜负份额基本持平，且控制同一投票者、语言、提示词等后仍存在。它提醒排行榜的绝对评分与人类反馈训练会随类别进步而漂移；但这里只有摘要，无法核对全文建模与局限。</p>
-<p><strong>「什么时候再读」</strong> 当你解读 LLM 排行榜、用人类偏好数据训练模型，或听到“模型变差”时，可回来核对绝对评分是否受标准漂移影响；注意数据止于 2024 年 8 月，且只有摘要，全文局限待查。</p>
-<p><strong>标签</strong>: <code>#LLM evaluation</code>, <code>#Chatbot Arena</code>, <code>#evaluation drift</code>, <code>#human feedback</code>, <code>#benchmarking</code></p>
+<h3><a href="https://blog.cloudflare.com/choosing-quepaxa/">选择 QuePaxa：一种不寻常的共识算法</a> ⭐️ 8.5/10</h3>
+<p>Cloudflare 的全球控制面服务 Meerkat 选用 QuePaxa。它论证：广域网中的领导者选举会造成破坏性干扰和亚稳态失败；QuePaxa 用可选领导者和提议者协作，在网络波动下继续推进。</p>
+<p>rss · Cloudflare Blog · 11月11日 14:24 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 文章用 2020 年交换机局部故障导致仪表盘慢 80 倍、持续六小时的生产事故，说明领导者型协议在网络退化时为何失效；再逐阶段解释 QuePaxa 如何用随机优先级、提议采纳、可选领导者和对冲超时避免停机。其对破坏性干扰、亚稳态失败和超时取舍的拆解，多年后仍适合作为设计广域共识系统的分析框架。</p>
+<p><strong>「什么时候再读」</strong> 当你为跨洲服务设计共识层，或在领导者超时检测与无领导者随机协议之间权衡时，可重读。注意 QuePaxa 生产验证仍少于 Raft/Paxos，文中的形式化验证尚在进行。</p>
+<p><strong>标签</strong>: <code>#distributed systems</code>, <code>#consensus algorithms</code>, <code>#QuePaxa</code>, <code>#fault tolerance</code>, <code>#wide-area networks</code></p>
 <hr />
 <p><a id="item-reading-2"></a></p>
-<h3><a href="https://arxiv.org/abs/2606.07537">从架构到输出：检验幻觉的结构性起源与数据的放大作用</a> ⭐️ 8.2/10</h3>
-<p>这篇预印本以配对模型和前缀修复实验，检验幻觉是否由架构造成、数据是否只起放大作用。作者把原因细化为：混合组件决定输入缺陷是否变成输出错误，解码时的提前承诺决定错误如何扩散。</p>
-<p>rss · arXiv — cs.CL · 11月11日 05:00 · 网页正文提取</p>
-<p><strong>「为什么值得读」</strong> 摘要给出的证据很具体：在五对 Pythia/Mamba 及另外四个注意力模型上，架构交换并未改变自由回忆失败，却改变植入的虚假信息是否被复述；2.8B 模型为 650/666 对 566/666。前缀修复把下游错误从 92.5% 降到 48.1%，但换成另一个错误事实效果相当（p=0.38），且模型单独作答仅 2/111 正确；这支持把长尾首错归因于知识缺失，而非被压制的真值。对研究幻觉机制的人，这套“输入缺陷传播、解码承诺扩散、长尾缺知识”的拆分多年后仍可复用；但全文方法与统计细节仅凭摘要无法核验。</p>
-<p><strong>「什么时候再读」</strong> 当你需要判断某个幻觉来自架构缺陷、上下文误导还是长尾知识缺失时，可重读其区分框架；若要正式引用，应先核对全文的方法、样本与统计细节，因为这里只依据摘要。</p>
-<p><strong>标签</strong>: <code>#hallucination</code>, <code>#model architecture</code>, <code>#LLM evaluation</code>, <code>#state-space models</code>, <code>#empirical study</code></p>
+<h3><a href="https://www.csoonline.com/article/4246971/why-does-old-access-outlive-the-job.html">为什么旧权限比岗位活得久？</a> ⭐️ 7.7/10</h3>
+<p>新权限一天内就能批下来，旧权限却常年不退。作者把原因归于激励结构：授权有明确的责任人和期限，回收却两者皆无；误删权限会当天招来投诉，而权限留着没人追责。他据此提出三项流程改造：把每次转岗当作一次回收事件、为权限设定具名负责人和到期日、在评审界面展示最后使用时间并允许评审人直接处置。</p>
+<p>rss · CSO Online · 11月11日 09:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 最有用的是那句诊断：没人因团队权限变少而受奖励，误删却当天招来投诉，于是“保留”成了唯一安全选项。作者给出可照做的细节：给离任和接任经理十分钟回答“他不再需要什么”，按最久未用排序、默认到期而非默认续期。他也坦白证据薄弱——DBIR 数据与过期权限无关、离职密码调查只是网络民调、转岗研究稀缺，并点出季末结账和 break-glass 账号等例外。</p>
+<p><strong>「什么时候再读」</strong> 当你准备设计转岗或离职的权限回收流程，或要开一次访问评审会时，可先读这篇。需注意其做法仍属常规最小权限实践，成本论证依赖间接证据。</p>
+<p><strong>标签</strong>: <code>#identity and access management</code>, <code>#least privilege</code>, <code>#access reviews</code>, <code>#security process design</code>, <code>#organizational incentives</code></p>
 <hr />
 <p><a id="item-reading-3"></a></p>
-<h3><a href="https://arxiv.org/abs/2611.13140">答案一致，理由却不同：LLM 推理失败分类法的测量边界</a> ⭐️ 8.0/10</h3>
-<p>论文以“组合坍塌”为例，论证 LLM 推理失败分类法报告的类别占比可能主要取决于分类流程，而非稳定的模型能力。作者在 12 个模型、11 种语言上检验分类顺序、人工一致性与提示设计，并提出四项低成本校验。</p>
-<p>rss · arXiv — cs.CL · 11月11日 05:00 · 网页正文提取</p>
-<p><strong>「为什么值得读」</strong> 它用具体数字暴露测量脆弱性：50.1% 的失败记录同时带有多类证据，六种分类顺序下“组合坍塌”的占比可从 26.4% 波动到 76.4%；而答案正确性的标注一致性达 κ=0.932，该类别仅 κ=0.093。按人类说明重跑检查器后一致性又明显上升，说明提示设计会左右结论。这些检查多年后仍适用于任何失败模式统计。当前仅见摘要，完整实验与适用边界无法核对。</p>
-<p><strong>「什么时候再读」</strong> 当你准备比较不同模型的失败类型占比，或设计错误分类标注与人工校验时，再读这篇。尤其要记得：当前只有摘要，论文全文中的实验细节与适用边界仍需核对。</p>
-<p><strong>标签</strong>: <code>#evaluation methodology</code>, <code>#LLM reasoning</code>, <code>#measurement validity</code>, <code>#taxonomies</code>, <code>#reproducibility</code></p>
-<hr />
-<p><a id="item-reading-4"></a></p>
-<h3><a href="https://arxiv.org/abs/2611.13543">注意力手术的健全性检查：面向表征动机设计的零模型与匹配干预</a> ⭐️ 8.0/10</h3>
-<p>论文讨论 Transformer 注意力头“手术”的方法问题：内部表征统计量很大，不足以证明该方向冗余。作者提出噪声下限、几何零模型和方向匹配干预三项检查，并以多模型统计及预注册训练实验检验自注意力移除是否真的有效。</p>
-<p>rss · arXiv — cs.CL · 11月11日 05:00 · 网页正文提取</p>
-<p><strong>「为什么值得读」</strong> 它的价值在于把“统计量大就移除”拆成可检验步骤：早位置因果零模型解释 48%–63%的头-值余弦对齐；分组查询注意力中组内正、组间负，说明方向特异；预注册 3 臂×8 种子实验显示，自指向移除降低验证损失（-0.0029 nats，Holm 校正 p=0.0023），任意固定方向则与基线无显著差异。这套零模型与匹配干预思路可迁移到其他表征驱动的架构改动。此处仅见摘要，完整推导与外部有效性待查。</p>
-<p><strong>「什么时候再读」</strong> 当你准备根据注意力头或表征统计量做剪枝、消融或架构改动时，可回来核对零模型、方向匹配干预和可靠性是否齐全；本文只提供摘要层面的证据，复现前需读全文。</p>
-<p><strong>标签</strong>: <code>#mechanistic interpretability</code>, <code>#transformer architecture</code>, <code>#attention heads</code>, <code>#experimental methodology</code>, <code>#reproducibility</code></p>
-<hr />
-<p><a id="item-reading-5"></a></p>
-<h3><a href="https://arxiv.org/abs/2611.05355">阅读“为什么”：光与量子比特上具有精确词级证据的玻恩测量注意力</a> ⭐️ 7.9/10</h3>
-<p>论文构建玻恩规则 Transformer：注意力取|⟨q|k⟩|²，以测量作非线性；分母固定在输入值时，类别概率是词振幅多项式，积分梯度可精确求积。e-SNLI 准确率接近同规模 softmax 模型，并测试光学与量子比特编译。</p>
-<p>rss · arXiv — cs.CL · 11月11日 05:00 · 网页正文提取</p>
-<p><strong>「为什么值得读」</strong> 值得读的是把可解释性写进架构：注意力重叠对应玻恩概率，类别概率成为词振幅多项式，积分梯度可由有限求积精确算出；若推导成立，词级证据可精确相加，而非事后近似。摘要还给出 e-SNLI 准确率、删除首位证据词后 44%的答案改变率，以及光学模拟和 IBM 硬件上仅两条最短测试对的初步验证。仅见摘要，推导与完整实验仍待核查。</p>
-<p><strong>「什么时候再读」</strong> 当你需要设计可核查的词级解释，或判断可解释注意力与光/量子实现能否统一时，可再读这篇 2026 年 11 月 v3 预印本；注意仅有摘要与模拟、极小规模硬件结果。</p>
-<p><strong>标签</strong>: <code>#quantum machine learning</code>, <code>#interpretability</code>, <code>#Born rule</code>, <code>#natural language inference</code>, <code>#optoelectronic computing</code></p>
+<h3><a href="https://anotherdayu.com/1384/">空白处有我</a> ⭐️ 7.6/10</h3>
+<p>作者由读书会朋友记录喜好谈起，回顾自己从顺从他人选择到留意情绪与偏好；再写向 AI 叙述时的不坦诚、请 AI 质疑数据分析及为 Dots 分享信息，最终认为认识自己是持续重述，而非固定答案。</p>
+<p>rss · Another Dayu · 11月11日 22:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 文章最有用的不是结论，而是把“了解自己”拆成可操作的动作：记下喜欢什么及原因，写博客确认感受，向 AI 讲清不利信息，并让 AI 扮演审稿人质疑分析。作者也承认 AI 会犯错、分享隐私有风险。多年后仍可借这套方法检查自己是否只选择了有利叙述，以及能否先倾听自己又不被自己的声音蒙蔽。</p>
+<p><strong>「什么时候再读」</strong> 当你准备让 AI 评价自己的判断，或又想用“总能解释得通”来维护原有结论时，可重读此文。它谈的是个人经验，Dots 等工具会变化，隐私风险也需自行权衡。</p>
+<p><strong>标签</strong>: <code>#自我认识</code>, <code>#个人随笔</code>, <code>#AI 反思</code>, <code>#写作</code>, <code>#坦诚</code></p>
 <hr /></article></main><footer>这是候选阅读清单，模型推荐仅供参考。收录由我自己决定。<br>由 <a href="https://github.com/Thysrael/Horizon">Horizon</a> 整理 · <a href="https://github.com/fullstackjam/horizon">源码与订阅配置</a></footer></div></body></html>
