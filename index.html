@@ -3,41 +3,41 @@
 <title>给自己留一点阅读时间 · Jam's Reading List</title><meta name="description" content="一些值得认真读，也值得以后重读的文章。">
 <link rel="stylesheet" href="/style.css"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='.9em' font-size='56'%3E📖%3C/text%3E%3C/svg%3E"></head>
 <body><div class="wrap"><header class="brand"><a class="wordmark" href="/">Jam's Reading List</a><a class="small" href="/archive/">往期清单 ↗</a></header>
-<main><p class="eyebrow">本期候选 · 2026-11-12</p><h1>给自己留一点阅读时间</h1>
+<main><p class="eyebrow">本期候选 · 2026-11-13</p><h1>给自己留一点阅读时间</h1>
 <p class="intro">一些值得认真读，也值得以后重读的文章。先看看推荐理由，再决定打开原文、读一读，或者收进自己的阅读清单。</p>
 <article><blockquote>
-<p>从 28 篇候选中选出 3 篇值得读的文章。</p>
+<p>从 30 篇候选中选出 3 篇值得读的文章。</p>
 </blockquote>
 <hr />
 <p><strong>本期值得读</strong></p>
 <ol>
-<li><a href="#item-reading-1">选择 QuePaxa：一种不寻常的共识算法</a> ⭐️ 8.5/10</li>
-<li><a href="#item-reading-2">为什么旧权限比岗位活得久？</a> ⭐️ 7.7/10</li>
-<li><a href="#item-reading-3">空白处有我</a> ⭐️ 7.6/10</li>
+<li><a href="#item-reading-1">数据中心在世界上许多地方成了贬义词和政治议题——瑞典造出了一个人人都会喜欢的数据中心吗？</a> ⭐️ 8.2/10</li>
+<li><a href="#item-reading-2">开发者的笔记本电脑刚成为生产环境，接下来怎么办？</a> ⭐️ 7.7/10</li>
+<li><a href="#item-reading-3">大却步：论《Big Walk》、独立游戏节与当下的不快</a> ⭐️ 7.5/10</li>
 </ol>
 <hr />
 <h2>本期值得读</h2>
 <p><a id="item-reading-1"></a></p>
-<h3><a href="https://blog.cloudflare.com/choosing-quepaxa/">选择 QuePaxa：一种不寻常的共识算法</a> ⭐️ 8.5/10</h3>
-<p>Cloudflare 的全球控制面服务 Meerkat 选用 QuePaxa。它论证：广域网中的领导者选举会造成破坏性干扰和亚稳态失败；QuePaxa 用可选领导者和提议者协作，在网络波动下继续推进。</p>
-<p>rss · Cloudflare Blog · 11月11日 14:24 · 网页正文提取</p>
-<p><strong>「为什么值得读」</strong> 文章用 2020 年交换机局部故障导致仪表盘慢 80 倍、持续六小时的生产事故，说明领导者型协议在网络退化时为何失效；再逐阶段解释 QuePaxa 如何用随机优先级、提议采纳、可选领导者和对冲超时避免停机。其对破坏性干扰、亚稳态失败和超时取舍的拆解，多年后仍适合作为设计广域共识系统的分析框架。</p>
-<p><strong>「什么时候再读」</strong> 当你为跨洲服务设计共识层，或在领导者超时检测与无领导者随机协议之间权衡时，可重读。注意 QuePaxa 生产验证仍少于 Raft/Paxos，文中的形式化验证尚在进行。</p>
-<p><strong>标签</strong>: <code>#distributed systems</code>, <code>#consensus algorithms</code>, <code>#QuePaxa</code>, <code>#fault tolerance</code>, <code>#wide-area networks</code></p>
+<h3><a href="https://www.theguardian.com/environment/2026/nov/12/datacentres-unpopular-sweden-ecodatacenter-falun">数据中心在世界上许多地方成了贬义词和政治议题——瑞典造出了一个人人都会喜欢的数据中心吗？</a> ⭐️ 8.2/10</h3>
+<p>文章走访瑞典法伦的 EcoDataCenter、博伦厄旧造纸厂和斯德哥尔摩区域供热项目，说明可再生电力、余热回收与地方规划如何让数据中心较少攫取性，并指出超大规模需求和监管差异限制了模式复制。</p>
+<p>rss · Tildes · 11月12日 12:22 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 值得读的是它把数据中心放回能源与城市系统来看：法伦用木结构、可再生电力和余热烘干木屑并接入区域供热，博伦厄把旧造纸厂改造成园区，斯德哥尔摩则把机房余热送入庞大热网。这些具体案例比口号更能说明“整合式选址”为何重要；公司自报的 CUE、PUE 等指标需保留怀疑，且作者明确承认北欧条件与监管难以照搬。</p>
+<p><strong>「什么时候再读」</strong> 当你所在城市讨论数据中心选址、用电用水或余热利用时，可回来对照瑞典案例；但需记住其低价绿电、既有区域供热和严格规划是特定条件，不能直接套用。</p>
+<p><strong>标签</strong>: <code>#data centres</code>, <code>#Sweden</code>, <code>#sustainability</code>, <code>#energy policy</code>, <code>#infrastructure</code></p>
 <hr />
 <p><a id="item-reading-2"></a></p>
-<h3><a href="https://www.csoonline.com/article/4246971/why-does-old-access-outlive-the-job.html">为什么旧权限比岗位活得久？</a> ⭐️ 7.7/10</h3>
-<p>新权限一天内就能批下来，旧权限却常年不退。作者把原因归于激励结构：授权有明确的责任人和期限，回收却两者皆无；误删权限会当天招来投诉，而权限留着没人追责。他据此提出三项流程改造：把每次转岗当作一次回收事件、为权限设定具名负责人和到期日、在评审界面展示最后使用时间并允许评审人直接处置。</p>
-<p>rss · CSO Online · 11月11日 09:00 · 网页正文提取</p>
-<p><strong>「为什么值得读」</strong> 最有用的是那句诊断：没人因团队权限变少而受奖励，误删却当天招来投诉，于是“保留”成了唯一安全选项。作者给出可照做的细节：给离任和接任经理十分钟回答“他不再需要什么”，按最久未用排序、默认到期而非默认续期。他也坦白证据薄弱——DBIR 数据与过期权限无关、离职密码调查只是网络民调、转岗研究稀缺，并点出季末结账和 break-glass 账号等例外。</p>
-<p><strong>「什么时候再读」</strong> 当你准备设计转岗或离职的权限回收流程，或要开一次访问评审会时，可先读这篇。需注意其做法仍属常规最小权限实践，成本论证依赖间接证据。</p>
-<p><strong>标签</strong>: <code>#identity and access management</code>, <code>#least privilege</code>, <code>#access reviews</code>, <code>#security process design</code>, <code>#organizational incentives</code></p>
+<h3><a href="https://www.csoonline.com/article/4247458/the-developer-laptop-just-became-production-now-what.html">开发者的笔记本电脑刚成为生产环境，接下来怎么办？</a> ⭐️ 7.7/10</h3>
+<p>本文论证自主编码代理把开发者笔记本电脑变成生产端点：代理会使用手边凭据追求任务目标，缺少人类对“可做”与“该做”的判断。作者主张以任务级授权、独立代理身份和可信中介补充沙箱隔离。</p>
+<p>rss · CSO Online · 11月12日 09:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 文章把“沙箱隔离”与“权限范围”区分开：代理无需越狱，也能用开发者已有的生产凭据查库甚至改数据，因为它在追求目标时不会区分技术可行与策略允许。这个故障排查例子揭示了环境隔离无法约束环境授权，也解释了为何要独立代理身份和任务级、可撤销的授权。可信中介尚无定论，但这一威胁模型和授权思路不易过时。</p>
+<p><strong>「什么时候再读」</strong> 当你正准备给编码代理开放仓库、云凭据或 MCP 工具，或设计代理身份与可信中介时，可回来重读。文章停留在概念框架，缺少具体实现与成本讨论，需结合现行 IAM 和沙箱方案判断。</p>
+<p><strong>标签</strong>: <code>#agentic security</code>, <code>#AI coding agents</code>, <code>#least privilege</code>, <code>#developer security</code>, <code>#MCP</code></p>
 <hr />
 <p><a id="item-reading-3"></a></p>
-<h3><a href="https://anotherdayu.com/1384/">空白处有我</a> ⭐️ 7.6/10</h3>
-<p>作者由读书会朋友记录喜好谈起，回顾自己从顺从他人选择到留意情绪与偏好；再写向 AI 叙述时的不坦诚、请 AI 质疑数据分析及为 Dots 分享信息，最终认为认识自己是持续重述，而非固定答案。</p>
-<p>rss · Another Dayu · 11月11日 22:00 · 网页正文提取</p>
-<p><strong>「为什么值得读」</strong> 文章最有用的不是结论，而是把“了解自己”拆成可操作的动作：记下喜欢什么及原因，写博客确认感受，向 AI 讲清不利信息，并让 AI 扮演审稿人质疑分析。作者也承认 AI 会犯错、分享隐私有风险。多年后仍可借这套方法检查自己是否只选择了有利叙述，以及能否先倾听自己又不被自己的声音蒙蔽。</p>
-<p><strong>「什么时候再读」</strong> 当你准备让 AI 评价自己的判断，或又想用“总能解释得通”来维护原有结论时，可重读此文。它谈的是个人经验，Dots 等工具会变化，隐私风险也需自行权衡。</p>
-<p><strong>标签</strong>: <code>#自我认识</code>, <code>#个人随笔</code>, <code>#AI 反思</code>, <code>#写作</code>, <code>#坦诚</code></p>
+<h3><a href="https://azhdarchid.com/big-balk/">大却步：论《Big Walk》、独立游戏节与当下的不快</a> ⭐️ 7.5/10</h3>
+<p>作为 IGF 评委，作者回顾《Big Walk》少量使用大语言模型引发的争议，主张即便用量很小也越过伦理边界，应取消其评奖资格；并反驳“担心打击披露意愿”的说法，认为这误解了伦理规则如何约束人。</p>
+<p>rss · Tildes · 11月12日 21:30 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 以评委第一人称把争论拉回规则本身：伦理边界不能按使用规模打折，评奖应让获奖作品体现行业想鼓励的实践。文中对“披露会变少”的反驳尤其有用——若规则真诚，披露不舒适正是约束的一部分；作者还借《Big Walk》的个案说明 LLM 是便利选择而非唯一解，并讨论不可执行的规则仍有表达价值。局限是论证带强烈论战色彩，部分事实依赖作者判断。</p>
+<p><strong>「什么时候再读」</strong> 当你为社群或比赛制定 AI 规范，或再遇到“少量使用是否应披露、处罚”的争论时，可回来读它对披露激励与不可执行规则的拆解；它紧扣 IGF 与《Big Walk》的语境。</p>
+<p><strong>标签</strong>: <code>#AI ethics</code>, <code>#game industry</code>, <code>#IGF</code>, <code>#disclosure</code>, <code>#institutional standards</code></p>
 <hr /></article></main><footer>这是候选阅读清单，模型推荐仅供参考。收录由我自己决定。<br>由 <a href="https://github.com/Thysrael/Horizon">Horizon</a> 整理 · <a href="https://github.com/fullstackjam/horizon">源码与订阅配置</a></footer></div></body></html>
