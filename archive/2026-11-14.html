@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>给自己留一点阅读时间 · Jam's Reading List</title><meta name="description" content="一些值得认真读，也值得以后重读的文章。">
+<link rel="stylesheet" href="/style.css"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='.9em' font-size='56'%3E📖%3C/text%3E%3C/svg%3E"></head>
+<body><div class="wrap"><header class="brand"><a class="wordmark" href="/">Jam's Reading List</a><a class="small" href="/archive/">往期清单 ↗</a></header>
+<main><p class="eyebrow">本期候选 · 2026-11-14</p><h1>给自己留一点阅读时间</h1>
+<p class="intro">一些值得认真读，也值得以后重读的文章。先看看推荐理由，再决定打开原文、读一读，或者收进自己的阅读清单。</p>
+<article><blockquote>
+<p>从 29 篇候选中选出 3 篇值得读的文章。</p>
+</blockquote>
+<hr />
+<p><strong>本期值得读</strong></p>
+<ol>
+<li><a href="#item-reading-1">“……而证明已在 Lean 中检查”</a> ⭐️ 8.2/10</li>
+<li><a href="#item-reading-2">AI 急停开关还不够，要建立回退方案</a> ⭐️ 8.0/10</li>
+<li><a href="#item-reading-3">AI 如何改变网络攻击的性质</a> ⭐️ 7.5/10</li>
+</ol>
+<hr />
+<h2>本期值得读</h2>
+<p><a id="item-reading-1"></a></p>
+<h3><a href="https://xenaproject.wordpress.com/2026/11/12/and-the-proof-is-checked-in-lean/">“……而证明已在 Lean 中检查”</a> ⭐️ 8.2/10</h3>
+<p>文章解释“定理已在 Lean 中检查”能说明什么：需核对形式陈述与原定理是否一致、代码能否编译、证明是否确证该命题，以及是否利用内核漏洞；并以费马大定理误写、OpenAI 定理转储等说明，这句话可成立，但须先检查。</p>
+<p>rss · Tildes · 11月13日 22:24 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 文章最有用的地方，是把“检查过”拆成可操作的信任流程：它用 ℕ 中费马大定理的假陈述、Hodge 猜想陈述依赖上万行代码、OpenAI 代码未必陈述主定理等例子，说明陈述与证明必须分开审查，并提醒部分检查尚未系统完成。lake comparator 与多内核检验的思路，也能迁移到其他 AI 生成代码的验证；局限是它记录的是仍在演进的 Lean 工具链，作者也自认并非内核专家。</p>
+<p><strong>「什么时候再读」</strong> 当你看到某篇论文或 AI 系统声称“已在 Lean 中检查”，尤其要判断形式陈述是否对应原定理时，可回来按四问核查。注意文中工具链与案例会过时，作者也明言自己并非内核专家。</p>
+<p><strong>标签</strong>: <code>#formal verification</code>, <code>#Lean</code>, <code>#AI-generated proofs</code>, <code>#mathematics</code>, <code>#trust and verification</code></p>
+<hr />
+<p><a id="item-reading-2"></a></p>
+<h3><a href="https://www.csoonline.com/article/4247929/an-ai-kill-switch-isnt-enough-build-a-fallback-plan.html">AI 急停开关还不够，要建立回退方案</a> ⭐️ 8.0/10</h3>
+<p>文章讨论企业部署 AI 代理时，为什么仅设置急停开关仍不够：如果停用成本过高，业务会在事故中犹豫。作者主张先设计非 AI 回退路径与可承受的关闭状态，并用两次相反故障和上线前清单说明具体做法。</p>
+<p>rss · CSO Online · 11月13日 09:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 文章把“能否负担停用”作为核心问题，用季末发票审批的桌面推演说明：开关存在却没人敢拉，等于没有。Hugging Face 事件中代理可自我重生，反向证明只杀进程不够，应按身份撤销令牌与权限。作者披露其 PayPal 回退 AI 专利背景，但未写成产品推销；他提出回退系统需持续学习主系统、共享接口、降级时收紧权限、上线前验证，并给出关闭状态、检查点与演练清单。这些原则主要针对流程设计，多年后仍有参考价值；部分内容接近传统灾备经验，论述也略有重复。</p>
+<p><strong>「什么时候再读」</strong> 当你准备把代理接入付款、审批或运维等关键流程，或团队争论是否要立刻停掉它时，可回来对照关闭状态、身份撤销和演练指标。文章写于 2026 年，具体工具与案例需按现状核对。</p>
+<p><strong>标签</strong>: <code>#AI agents</code>, <code>#resilience engineering</code>, <code>#incident response</code>, <code>#business continuity</code>, <code>#fallback systems</code></p>
+<hr />
+<p><a id="item-reading-3"></a></p>
+<h3><a href="https://www.csoonline.com/article/4248553/how-ai-is-changing-the-nature-of-cyberattacks.html">AI 如何改变网络攻击的性质</a> ⭐️ 7.5/10</h3>
+<p>2026 年 11 月的 CSO Online 文章指出，AI 正让网络攻击更快、更便宜、更易规模化，但攻击链的核心目标和手法仍是钓鱼、恶意软件与漏洞利用；代理式工具正在压缩驻留时间，并改变攻击成本结构。</p>
+<p>rss · CSO Online · 11月13日 19:02 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 文章用 GTG-1002 与 JadePuffer 说明：AI 主要放大侦察、漏洞发现、横向移动和数据外传的速度，并把攻击边际成本压向推理预算；也引述专家指出模型归因常是薄证据推测，JadePuffer 在勒索信、加密与钱包等环节仍有缺陷。其价值在于把“速度与规模变化”和“核心手法未变”并置，提醒读者从攻击经济性判断风险，多年后仍可借它识别哪些变化来自自动化经济性；局限是论据多依赖厂商评论，技术证据有限。</p>
+<p><strong>「什么时候再读」</strong> 当你为漏洞管理、检测响应或代理式 AI 安全预算做判断时，可重读此文，检验“攻击变快但目标未变”是否仍成立；注意 2025—2026 年的具体事件和厂商评论会较快过时。</p>
+<p><strong>标签</strong>: <code>#cybersecurity</code>, <code>#AI</code>, <code>#agentic AI</code>, <code>#threat modeling</code>, <code>#vulnerability management</code></p>
+<hr /></article></main><footer>这是候选阅读清单，模型推荐仅供参考。收录由我自己决定。<br>由 <a href="https://github.com/Thysrael/Horizon">Horizon</a> 整理 · <a href="https://github.com/fullstackjam/horizon">源码与订阅配置</a></footer></div></body></html>
