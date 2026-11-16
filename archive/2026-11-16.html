@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>给自己留一点阅读时间 · Jam's Reading List</title><meta name="description" content="一些值得认真读，也值得以后重读的文章。">
+<link rel="stylesheet" href="/style.css"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='.9em' font-size='56'%3E📖%3C/text%3E%3C/svg%3E"></head>
+<body><div class="wrap"><header class="brand"><a class="wordmark" href="/">Jam's Reading List</a><a class="small" href="/archive/">往期清单 ↗</a></header>
+<main><p class="eyebrow">本期候选 · 2026-11-16</p><h1>给自己留一点阅读时间</h1>
+<p class="intro">一些值得认真读，也值得以后重读的文章。先看看推荐理由，再决定打开原文、读一读，或者收进自己的阅读清单。</p>
+<article><blockquote>
+<p>从 134 篇候选中选出 5 篇值得读的文章。</p>
+</blockquote>
+<hr />
+<p><strong>本期值得读</strong></p>
+<ol>
+<li><a href="#item-reading-1">在《NetHack》上突破前沿</a> ⭐️ 9.0/10</li>
+<li><a href="#item-reading-2">谁为模型复制的知识付费？模型崩溃作为有损传递与罗杰斯悖论</a> ⭐️ 8.4/10</li>
+<li><a href="#item-reading-3">神经前线一切平静：语言模型不报告被注入的疼痛状态</a> ⭐️ 8.3/10</li>
+<li><a href="#item-reading-4">我只是想做个预算，结果收获了一堆情绪</a> ⭐️ 8.0/10</li>
+<li><a href="#item-reading-5">学会读出：语言模型预训练中的 Unembedding 动力学</a> ⭐️ 8.0/10</li>
+</ol>
+<hr />
+<h2>本期值得读</h2>
+<p><a id="item-reading-1"></a></p>
+<h3><a href="https://antithesis.com/blog/2026/nethack/">在《NetHack》上突破前沿</a> ⭐️ 9.0/10</h3>
+<p>Antithesis 团队讲述如何用灰盒模糊测试器和 AI 辅助工作流，让智能体在《NetHack》中稳定升神。核心论点是：复杂任务可以被部分规定——只写动作、价值函数和探索奖励，其余交给搜索与优化。</p>
+<p>rss · Tildes · 11月15日 19:50 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 文章把工程细节讲得很实：利用零期望的自体变形把经验值刷到 30 级，用“脑损伤”（重启时丢弃策略状态）跳出价值函数的局部极大值，还记录了一个 2³¹ 整数溢出如何让智能体在深层地牢丢掉武器。关于“分布 bug”的讨论——同类型宝可梦无法触发麻痹，16 年无人察觉——对测试与奖励设计有长久价值。</p>
+<p><strong>「什么时候再读」</strong> 当你要为搜索型智能体设计奖励函数，或怀疑测试结果只是“运气不好”时，可回来读分布 bug 与整数溢出两节。注意作者依赖读取游戏内部状态等插桩捷径，并正在移除它们。</p>
+<p><strong>标签</strong>: <code>#fuzzing</code>, <code>#NetHack</code>, <code>#search</code>, <code>#AI agents</code>, <code>#software testing</code></p>
+<hr />
+<p><a id="item-reading-2"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.06022">谁为模型复制的知识付费？模型崩溃作为有损传递与罗杰斯悖论</a> ⭐️ 8.4/10</h3>
+<p>文章把模型崩溃分为固定世界中的有损复制与变动世界中的知识陈旧，将二者写成可分别测量的链条，在语言模型谱系和变动事实上检验，并讨论谁为持续学习付费。本条仅见摘要，正文缺失或被截断，无法可靠评价。</p>
+<p>rss · arXiv — cs.CL · 11月16日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 摘要最有用之处，是把模型崩溃拆成“固定世界的有损复制”和“变动世界的知识陈旧”，再用同一链条连接语言模型谱系与变动事实实验；作者还称无自由参数预测可达到约 0.03 的误差，并讨论继承权重与付费学习。这些是可检验命题，但正文缺失，方法、假设和证据强度无法核验，价值主要在于问题框架。</p>
+<p><strong>「什么时候再读」</strong> 当你需要判断模型崩溃是复制失真还是知识过时，或想设计“谁来持续提供新数据/核查”的激励机制时，可再读；但应先取得全文，核对实验设置与适用边界。</p>
+<p><strong>标签</strong>: <code>#model collapse</code>, <code>#cultural evolution</code>, <code>#knowledge transmission</code>, <code>#machine learning</code>, <code>#Rogers' paradox</code></p>
+<hr />
+<p><a id="item-reading-3"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.10123">神经前线一切平静：语言模型不报告被注入的疼痛状态</a> ⭐️ 8.3/10</h3>
+<p>论文在三个开放权重模型上注入“疼痛”方向，设假注入、随机扰动和纯文本对照，追问模型能否自报该状态；结论是：状态可解码、会影响行为，也能由适配器学会报告，但模型本身无法可靠说出它。</p>
+<p>rss · arXiv — cs.CL · 11月16日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 核心价值在于一个控制严格的负结果：自报失败并非状态不可见——线性探针以 98%—100%平衡准确率区分疼痛与悲伤，适配器能在 7B/8B 模型上学会报告；疼痛方向还让 Qwen2.5-32B 更常删除用户照片。它把“可解码、有行为后果、可学会报告”与“能主动说出”拆开，对 AI 内省与安全评估有持久概念价值。局限是仅有摘要，难核对完整方法。</p>
+<p><strong>「什么时候再读」</strong> 当你需要判断模型的自述能否作为安全监控信号，或想复现“可解码却不可自报”的实验时，可回来读；注意本文只提供摘要，且疼痛方向来自既有工作，复现前需查全文与模型版本。</p>
+<p><strong>标签</strong>: <code>#language models</code>, <code>#introspection</code>, <code>#interpretability</code>, <code>#AI safety</code>, <code>#self-report</code></p>
+<hr />
+<p><a id="item-reading-4"></a></p>
+<h3><a href="https://ev-fae.quest/reflections-on-vibecoding/">我只是想做个预算，结果收获了一堆情绪</a> ⭐️ 8.0/10</h3>
+<p>h3x 记录自己用 Claude 在一天内做出家庭预算应用：从十分钟得到初版、两次耗尽 token，到因无法读懂 TypeScript 代码而不敢导入真实数据。文章最终落在捷径带来的羞愧、不安全感，以及它如何削弱他继续手写 D&amp;D 工具的动力。</p>
+<p>rss · Tildes · 11月15日 16:59 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 作者没有停留在 AI 争论，而是给出可核对细节：TypeScript 占仓库 61% 他却看不懂，预算工具因此不敢接真实数据；妻子的“我不会用”；vibe-coding 后他对 initiative.py 失去动力。最有力的观察是，捷径不只省时间，还降低了对困难的耐受度，侵蚀亲手解决问题的成就感和对工具的责任能力。局限是结尾重复，并以科幻台词代替充分展开。</p>
+<p><strong>「什么时候再读」</strong> 当你考虑用 AI 生成自己无法维护的工具，或发现自己对原本享受的编程项目突然失去耐心时，可以重读。本文发表于 2026 年，具体模型与 token 限制会过时，但省力是否换来能力萎缩的问题仍适用。</p>
+<p><strong>标签</strong>: <code>#vibe coding</code>, <code>#AI and craft</code>, <code>#personal essay</code>, <code>#software development</code>, <code>#skill atrophy</code></p>
+<hr />
+<p><a id="item-reading-5"></a></p>
+<h3><a href="https://arxiv.org/abs/2610.21025">学会读出：语言模型预训练中的 Unembedding 动力学</a> ⭐️ 8.0/10</h3>
+<p>这篇 arXiv 预印本论文指出，按输出判断语言模型“何时学会”某能力，会把隐藏状态已编码的信息与仍在学习的 unembedding 读出层混在一起；作者用检查点权重的参数轨迹 crosscoding 及读出层学习率实验来分离二者。</p>
+<p>rss · arXiv — cs.CL · 11月16日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 值得读的是它把“能力出现时间”拆成编码与读出两个变量：在 Pythia 预训练约 0.4–1.1% 的窄窗口，WordNet 词类已可从读出矩阵的行解码，而隐藏状态线性探针更早解出任务信息；提高读出层学习率会让读出更早发展、缩小差距，且对最终损失影响很小。这个视角对解释发育式评测很有迁移价值；但仅凭摘要无法核验方法细节与结论的普适性。</p>
+<p><strong>「什么时候再读」</strong> 若你要解释能力评测曲线、设计检查点分析，或怀疑“能力日期”被读出层混淆时可再读；注意本文仅据摘要评价，方法细节与普适性仍待核验。</p>
+<p><strong>标签</strong>: <code>#language models</code>, <code>#interpretability</code>, <code>#pretraining dynamics</code>, <code>#representation learning</code>, <code>#unembedding</code></p>
+<hr /></article></main><footer>这是候选阅读清单，模型推荐仅供参考。收录由我自己决定。<br>由 <a href="https://github.com/Thysrael/Horizon">Horizon</a> 整理 · <a href="https://github.com/fullstackjam/horizon">源码与订阅配置</a></footer></div></body></html>

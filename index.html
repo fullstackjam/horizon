@@ -3,41 +3,59 @@
 <title>给自己留一点阅读时间 · Jam's Reading List</title><meta name="description" content="一些值得认真读，也值得以后重读的文章。">
 <link rel="stylesheet" href="/style.css"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='.9em' font-size='56'%3E📖%3C/text%3E%3C/svg%3E"></head>
 <body><div class="wrap"><header class="brand"><a class="wordmark" href="/">Jam's Reading List</a><a class="small" href="/archive/">往期清单 ↗</a></header>
-<main><p class="eyebrow">本期候选 · 2026-11-14</p><h1>给自己留一点阅读时间</h1>
+<main><p class="eyebrow">本期候选 · 2026-11-16</p><h1>给自己留一点阅读时间</h1>
 <p class="intro">一些值得认真读，也值得以后重读的文章。先看看推荐理由，再决定打开原文、读一读，或者收进自己的阅读清单。</p>
 <article><blockquote>
-<p>从 29 篇候选中选出 3 篇值得读的文章。</p>
+<p>从 134 篇候选中选出 5 篇值得读的文章。</p>
 </blockquote>
 <hr />
 <p><strong>本期值得读</strong></p>
 <ol>
-<li><a href="#item-reading-1">“……而证明已在 Lean 中检查”</a> ⭐️ 8.2/10</li>
-<li><a href="#item-reading-2">AI 急停开关还不够，要建立回退方案</a> ⭐️ 8.0/10</li>
-<li><a href="#item-reading-3">AI 如何改变网络攻击的性质</a> ⭐️ 7.5/10</li>
+<li><a href="#item-reading-1">在《NetHack》上突破前沿</a> ⭐️ 9.0/10</li>
+<li><a href="#item-reading-2">谁为模型复制的知识付费？模型崩溃作为有损传递与罗杰斯悖论</a> ⭐️ 8.4/10</li>
+<li><a href="#item-reading-3">神经前线一切平静：语言模型不报告被注入的疼痛状态</a> ⭐️ 8.3/10</li>
+<li><a href="#item-reading-4">我只是想做个预算，结果收获了一堆情绪</a> ⭐️ 8.0/10</li>
+<li><a href="#item-reading-5">学会读出：语言模型预训练中的 Unembedding 动力学</a> ⭐️ 8.0/10</li>
 </ol>
 <hr />
 <h2>本期值得读</h2>
 <p><a id="item-reading-1"></a></p>
-<h3><a href="https://xenaproject.wordpress.com/2026/11/12/and-the-proof-is-checked-in-lean/">“……而证明已在 Lean 中检查”</a> ⭐️ 8.2/10</h3>
-<p>文章解释“定理已在 Lean 中检查”能说明什么：需核对形式陈述与原定理是否一致、代码能否编译、证明是否确证该命题，以及是否利用内核漏洞；并以费马大定理误写、OpenAI 定理转储等说明，这句话可成立，但须先检查。</p>
-<p>rss · Tildes · 11月13日 22:24 · 网页正文提取</p>
-<p><strong>「为什么值得读」</strong> 文章最有用的地方，是把“检查过”拆成可操作的信任流程：它用 ℕ 中费马大定理的假陈述、Hodge 猜想陈述依赖上万行代码、OpenAI 代码未必陈述主定理等例子，说明陈述与证明必须分开审查，并提醒部分检查尚未系统完成。lake comparator 与多内核检验的思路，也能迁移到其他 AI 生成代码的验证；局限是它记录的是仍在演进的 Lean 工具链，作者也自认并非内核专家。</p>
-<p><strong>「什么时候再读」</strong> 当你看到某篇论文或 AI 系统声称“已在 Lean 中检查”，尤其要判断形式陈述是否对应原定理时，可回来按四问核查。注意文中工具链与案例会过时，作者也明言自己并非内核专家。</p>
-<p><strong>标签</strong>: <code>#formal verification</code>, <code>#Lean</code>, <code>#AI-generated proofs</code>, <code>#mathematics</code>, <code>#trust and verification</code></p>
+<h3><a href="https://antithesis.com/blog/2026/nethack/">在《NetHack》上突破前沿</a> ⭐️ 9.0/10</h3>
+<p>Antithesis 团队讲述如何用灰盒模糊测试器和 AI 辅助工作流，让智能体在《NetHack》中稳定升神。核心论点是：复杂任务可以被部分规定——只写动作、价值函数和探索奖励，其余交给搜索与优化。</p>
+<p>rss · Tildes · 11月15日 19:50 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 文章把工程细节讲得很实：利用零期望的自体变形把经验值刷到 30 级，用“脑损伤”（重启时丢弃策略状态）跳出价值函数的局部极大值，还记录了一个 2³¹ 整数溢出如何让智能体在深层地牢丢掉武器。关于“分布 bug”的讨论——同类型宝可梦无法触发麻痹，16 年无人察觉——对测试与奖励设计有长久价值。</p>
+<p><strong>「什么时候再读」</strong> 当你要为搜索型智能体设计奖励函数，或怀疑测试结果只是“运气不好”时，可回来读分布 bug 与整数溢出两节。注意作者依赖读取游戏内部状态等插桩捷径，并正在移除它们。</p>
+<p><strong>标签</strong>: <code>#fuzzing</code>, <code>#NetHack</code>, <code>#search</code>, <code>#AI agents</code>, <code>#software testing</code></p>
 <hr />
 <p><a id="item-reading-2"></a></p>
-<h3><a href="https://www.csoonline.com/article/4247929/an-ai-kill-switch-isnt-enough-build-a-fallback-plan.html">AI 急停开关还不够，要建立回退方案</a> ⭐️ 8.0/10</h3>
-<p>文章讨论企业部署 AI 代理时，为什么仅设置急停开关仍不够：如果停用成本过高，业务会在事故中犹豫。作者主张先设计非 AI 回退路径与可承受的关闭状态，并用两次相反故障和上线前清单说明具体做法。</p>
-<p>rss · CSO Online · 11月13日 09:00 · 网页正文提取</p>
-<p><strong>「为什么值得读」</strong> 文章把“能否负担停用”作为核心问题，用季末发票审批的桌面推演说明：开关存在却没人敢拉，等于没有。Hugging Face 事件中代理可自我重生，反向证明只杀进程不够，应按身份撤销令牌与权限。作者披露其 PayPal 回退 AI 专利背景，但未写成产品推销；他提出回退系统需持续学习主系统、共享接口、降级时收紧权限、上线前验证，并给出关闭状态、检查点与演练清单。这些原则主要针对流程设计，多年后仍有参考价值；部分内容接近传统灾备经验，论述也略有重复。</p>
-<p><strong>「什么时候再读」</strong> 当你准备把代理接入付款、审批或运维等关键流程，或团队争论是否要立刻停掉它时，可回来对照关闭状态、身份撤销和演练指标。文章写于 2026 年，具体工具与案例需按现状核对。</p>
-<p><strong>标签</strong>: <code>#AI agents</code>, <code>#resilience engineering</code>, <code>#incident response</code>, <code>#business continuity</code>, <code>#fallback systems</code></p>
+<h3><a href="https://arxiv.org/abs/2611.06022">谁为模型复制的知识付费？模型崩溃作为有损传递与罗杰斯悖论</a> ⭐️ 8.4/10</h3>
+<p>文章把模型崩溃分为固定世界中的有损复制与变动世界中的知识陈旧，将二者写成可分别测量的链条，在语言模型谱系和变动事实上检验，并讨论谁为持续学习付费。本条仅见摘要，正文缺失或被截断，无法可靠评价。</p>
+<p>rss · arXiv — cs.CL · 11月16日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 摘要最有用之处，是把模型崩溃拆成“固定世界的有损复制”和“变动世界的知识陈旧”，再用同一链条连接语言模型谱系与变动事实实验；作者还称无自由参数预测可达到约 0.03 的误差，并讨论继承权重与付费学习。这些是可检验命题，但正文缺失，方法、假设和证据强度无法核验，价值主要在于问题框架。</p>
+<p><strong>「什么时候再读」</strong> 当你需要判断模型崩溃是复制失真还是知识过时，或想设计“谁来持续提供新数据/核查”的激励机制时，可再读；但应先取得全文，核对实验设置与适用边界。</p>
+<p><strong>标签</strong>: <code>#model collapse</code>, <code>#cultural evolution</code>, <code>#knowledge transmission</code>, <code>#machine learning</code>, <code>#Rogers' paradox</code></p>
 <hr />
 <p><a id="item-reading-3"></a></p>
-<h3><a href="https://www.csoonline.com/article/4248553/how-ai-is-changing-the-nature-of-cyberattacks.html">AI 如何改变网络攻击的性质</a> ⭐️ 7.5/10</h3>
-<p>2026 年 11 月的 CSO Online 文章指出，AI 正让网络攻击更快、更便宜、更易规模化，但攻击链的核心目标和手法仍是钓鱼、恶意软件与漏洞利用；代理式工具正在压缩驻留时间，并改变攻击成本结构。</p>
-<p>rss · CSO Online · 11月13日 19:02 · 网页正文提取</p>
-<p><strong>「为什么值得读」</strong> 文章用 GTG-1002 与 JadePuffer 说明：AI 主要放大侦察、漏洞发现、横向移动和数据外传的速度，并把攻击边际成本压向推理预算；也引述专家指出模型归因常是薄证据推测，JadePuffer 在勒索信、加密与钱包等环节仍有缺陷。其价值在于把“速度与规模变化”和“核心手法未变”并置，提醒读者从攻击经济性判断风险，多年后仍可借它识别哪些变化来自自动化经济性；局限是论据多依赖厂商评论，技术证据有限。</p>
-<p><strong>「什么时候再读」</strong> 当你为漏洞管理、检测响应或代理式 AI 安全预算做判断时，可重读此文，检验“攻击变快但目标未变”是否仍成立；注意 2025—2026 年的具体事件和厂商评论会较快过时。</p>
-<p><strong>标签</strong>: <code>#cybersecurity</code>, <code>#AI</code>, <code>#agentic AI</code>, <code>#threat modeling</code>, <code>#vulnerability management</code></p>
+<h3><a href="https://arxiv.org/abs/2611.10123">神经前线一切平静：语言模型不报告被注入的疼痛状态</a> ⭐️ 8.3/10</h3>
+<p>论文在三个开放权重模型上注入“疼痛”方向，设假注入、随机扰动和纯文本对照，追问模型能否自报该状态；结论是：状态可解码、会影响行为，也能由适配器学会报告，但模型本身无法可靠说出它。</p>
+<p>rss · arXiv — cs.CL · 11月16日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 核心价值在于一个控制严格的负结果：自报失败并非状态不可见——线性探针以 98%—100%平衡准确率区分疼痛与悲伤，适配器能在 7B/8B 模型上学会报告；疼痛方向还让 Qwen2.5-32B 更常删除用户照片。它把“可解码、有行为后果、可学会报告”与“能主动说出”拆开，对 AI 内省与安全评估有持久概念价值。局限是仅有摘要，难核对完整方法。</p>
+<p><strong>「什么时候再读」</strong> 当你需要判断模型的自述能否作为安全监控信号，或想复现“可解码却不可自报”的实验时，可回来读；注意本文只提供摘要，且疼痛方向来自既有工作，复现前需查全文与模型版本。</p>
+<p><strong>标签</strong>: <code>#language models</code>, <code>#introspection</code>, <code>#interpretability</code>, <code>#AI safety</code>, <code>#self-report</code></p>
+<hr />
+<p><a id="item-reading-4"></a></p>
+<h3><a href="https://ev-fae.quest/reflections-on-vibecoding/">我只是想做个预算，结果收获了一堆情绪</a> ⭐️ 8.0/10</h3>
+<p>h3x 记录自己用 Claude 在一天内做出家庭预算应用：从十分钟得到初版、两次耗尽 token，到因无法读懂 TypeScript 代码而不敢导入真实数据。文章最终落在捷径带来的羞愧、不安全感，以及它如何削弱他继续手写 D&amp;D 工具的动力。</p>
+<p>rss · Tildes · 11月15日 16:59 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 作者没有停留在 AI 争论，而是给出可核对细节：TypeScript 占仓库 61% 他却看不懂，预算工具因此不敢接真实数据；妻子的“我不会用”；vibe-coding 后他对 initiative.py 失去动力。最有力的观察是，捷径不只省时间，还降低了对困难的耐受度，侵蚀亲手解决问题的成就感和对工具的责任能力。局限是结尾重复，并以科幻台词代替充分展开。</p>
+<p><strong>「什么时候再读」</strong> 当你考虑用 AI 生成自己无法维护的工具，或发现自己对原本享受的编程项目突然失去耐心时，可以重读。本文发表于 2026 年，具体模型与 token 限制会过时，但省力是否换来能力萎缩的问题仍适用。</p>
+<p><strong>标签</strong>: <code>#vibe coding</code>, <code>#AI and craft</code>, <code>#personal essay</code>, <code>#software development</code>, <code>#skill atrophy</code></p>
+<hr />
+<p><a id="item-reading-5"></a></p>
+<h3><a href="https://arxiv.org/abs/2610.21025">学会读出：语言模型预训练中的 Unembedding 动力学</a> ⭐️ 8.0/10</h3>
+<p>这篇 arXiv 预印本论文指出，按输出判断语言模型“何时学会”某能力，会把隐藏状态已编码的信息与仍在学习的 unembedding 读出层混在一起；作者用检查点权重的参数轨迹 crosscoding 及读出层学习率实验来分离二者。</p>
+<p>rss · arXiv — cs.CL · 11月16日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 值得读的是它把“能力出现时间”拆成编码与读出两个变量：在 Pythia 预训练约 0.4–1.1% 的窄窗口，WordNet 词类已可从读出矩阵的行解码，而隐藏状态线性探针更早解出任务信息；提高读出层学习率会让读出更早发展、缩小差距，且对最终损失影响很小。这个视角对解释发育式评测很有迁移价值；但仅凭摘要无法核验方法细节与结论的普适性。</p>
+<p><strong>「什么时候再读」</strong> 若你要解释能力评测曲线、设计检查点分析，或怀疑“能力日期”被读出层混淆时可再读；注意本文仅据摘要评价，方法细节与普适性仍待核验。</p>
+<p><strong>标签</strong>: <code>#language models</code>, <code>#interpretability</code>, <code>#pretraining dynamics</code>, <code>#representation learning</code>, <code>#unembedding</code></p>
 <hr /></article></main><footer>这是候选阅读清单，模型推荐仅供参考。收录由我自己决定。<br>由 <a href="https://github.com/Thysrael/Horizon">Horizon</a> 整理 · <a href="https://github.com/fullstackjam/horizon">源码与订阅配置</a></footer></div></body></html>
