@@ -61,6 +61,92 @@ Uses the [trafilatura](https://trafilatura.readthedocs.io/) library to extract m
 
 **Timeout and retry**: the extractor reuses the shared `httpx.AsyncClient` and inherits whatever timeout and connection settings are configured on it.
 
+### `firecrawl`
+
+**File**: `src/extractors/firecrawl.py`
+
+Uses the [Firecrawl](https://www.firecrawl.dev) scrape API (`POST https://api.firecrawl.dev/v2/scrape`) to fetch the page and return its main content as Markdown. Firecrawl renders JavaScript and handles pages that block plain HTTP clients, so it helps on sources where `trafilatura` gets an empty or blocked page. It needs a Firecrawl API key in the environment variable named by `api_key_env` (default `FIRECRAWL_API_KEY`); without one the extractor logs a warning and the feed content is used.
+
+```json
+{
+  "extractors": {
+    "firecrawl": {
+      "type": "firecrawl",
+      "api_key_env": "FIRECRAWL_API_KEY"
+    }
+  }
+}
+```
+
+**Config fields**:
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `type` | string | `"firecrawl"` | Extractor type identifier |
+| `api_key_env` | string | `"FIRECRAWL_API_KEY"` | Environment variable holding the Firecrawl API key |
+| `only_main_content` | bool | `true` | Strip navigation, headers and footers, keeping the article body |
+
+Each extracted entry is one scrape request and uses Firecrawl credits. Requests carry `"integration": "_horizon"` so Firecrawl can attribute them to Horizon.
+
+**Timeout and retry**: the extractor reuses the shared `httpx.AsyncClient`, explicitly requests a 60-second Firecrawl scrape timeout, and sets a 65-second HTTP timeout for that request to allow time for the response. Other requests keep the shared client's timeout settings. No automatic retries are added. Any HTTP error, timeout, unsuccessful response, or missing, non-string, or blank Markdown falls back to the feed content.
+
+### `outcrawl`
+
+**File**: `src/extractors/outcrawl.py`
+
+Uses the [Outcrawl](https://outcrawl.ai) scrape API (`POST https://api.outcrawl.ai/v1/scrape`) to load the page in a real browser and return its main content as Markdown. Like `firecrawl`, it helps on JavaScript-rendered pages where `trafilatura` gets an empty page. It needs an Outcrawl API key in the environment variable named by `api_key_env` (default `OUTCRAWL_API_KEY`); without one the extractor logs a warning and the feed content is used.
+
+```json
+{
+  "extractors": {
+    "outcrawl": {
+      "type": "outcrawl",
+      "api_key_env": "OUTCRAWL_API_KEY"
+    }
+  }
+}
+```
+
+**Config fields**:
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `type` | string | `"outcrawl"` | Extractor type identifier |
+| `api_key_env` | string | `"OUTCRAWL_API_KEY"` | Environment variable holding the Outcrawl API key |
+| `only_main_content` | bool | `true` | Strip navigation, headers and footers, keeping the article body |
+
+Each extracted entry is one scrape request and uses Outcrawl credits.
+
+**Timeout and retry**: the extractor reuses the shared `httpx.AsyncClient` and sets a 65-second HTTP timeout for the scrape request, since rendering a page can take longer than a plain fetch. Other requests keep the shared client's timeout settings. No automatic retries are added. Any HTTP error, timeout, unexpected response, or missing, non-string, or blank Markdown falls back to the feed content.
+
+### `specstream`
+
+**File**: `src/extractors/specstream.py`
+
+Uses the [SpecStream](https://specstream.ai) Extract API (`POST https://api.specstream.ai/v1/extract`) to read the page and return its main text as Markdown, without menus, footers and ads. A page that refuses a plain read is tried again in a browser. It needs a SpecStream API key in the environment variable named by `api_key_env` (default `SPECSTREAM_API_KEY`); without one the extractor logs a warning and the feed content is used.
+
+```json
+{
+  "extractors": {
+    "specstream": {
+      "type": "specstream",
+      "api_key_env": "SPECSTREAM_API_KEY"
+    }
+  }
+}
+```
+
+**Config fields**:
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `type` | string | `"specstream"` | Extractor type identifier |
+| `api_key_env` | string | `"SPECSTREAM_API_KEY"` | Environment variable holding the SpecStream API key |
+
+Each extracted entry is one Extract API page read. A page that gives no text is not charged.
+
+**Timeout and retry**: the extractor reuses the shared `httpx.AsyncClient` and sets a 35-second HTTP timeout for the extract request, since the Extract API gives each URL up to 30 seconds. Other requests keep the shared client's timeout settings. No automatic retries are added. Any HTTP error, timeout, page status other than `ok`, unexpected response, or missing, non-string, or blank text falls back to the feed content.
+
 ## Adding a new extractor type
 
 1. Add an entry to `ExtractorType` in `src/models.py`.

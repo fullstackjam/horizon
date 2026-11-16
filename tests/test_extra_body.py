@@ -90,7 +90,9 @@ def test_anthropic_client_sends_extra_body(monkeypatch) -> None:
 
     asyncio.run(client.complete(system="s", user="u"))
 
-    assert create.call_args.kwargs["extra_body"] == {"metadata": {"user_id": "horizon"}}
+    assert create.call_args.kwargs["extra_body"] == {
+        "temperature": 0.3, "metadata": {"user_id": "horizon"},
+    }
 
 
 def test_anthropic_client_skips_thinking_blocks(monkeypatch) -> None:

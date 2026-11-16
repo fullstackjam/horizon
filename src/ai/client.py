@@ -4,8 +4,18 @@ import os
 import re
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
-from openai import AsyncAzureOpenAI, AsyncOpenAI
-from anthropic import AsyncAnthropic
+import httpx
+from openai import (
+    APIConnectionError as OpenAIConnectionError,
+    APIStatusError as OpenAIStatusError,
+    AsyncAzureOpenAI,
+    AsyncOpenAI,
+)
+from anthropic import (
+    APIConnectionError as AnthropicConnectionError,
+    AsyncAnthropic,
+    BadRequestError as AnthropicBadRequestError,
+)
 from google import genai
 from google.genai import types
 
@@ -90,6 +100,41 @@ def _normalize_ollama_base_url(base_url: str) -> str:
     return f"{normalized}/v1"
 
 
+def _is_temperature_unsupported(message: str) -> bool:
+    lowered = message.lower()
+    return "temperature" in lowered and (
+        "deprecated" in lowered
+        or "not support" in lowered
+        or "unsupported" in lowered
+        or "only the default" in lowered
+        or "may only be set to 1" in lowered
+        or "only 1 is allowed" in lowered
+        # Anthropic: "temperature: Extra inputs are not permitted"
+        or "extra inputs are not permitted" in lowered
+    )
+
+
+def _is_token_limit_unsupported(message: str, use_max_completion_tokens: bool) -> bool:
+    """Only switch token-limit parameters when the sent parameter is rejected."""
+    lowered = message.lower()
+    token_param = "max_completion_tokens" if use_max_completion_tokens else "max_tokens"
+    return token_param in lowered and any(
+        marker in lowered for marker in ("unsupported", "not support", "unknown parameter")
+    )
+
+
+def _chat_extra_body(extra_body: dict, include_temperature: bool, use_max_completion_tokens: bool) -> dict:
+    """Preserve overrides without reintroducing rejected request parameters."""
+    body = dict(extra_body)
+    if not include_temperature:
+        body.pop("temperature", None)
+    token_param = "max_completion_tokens" if use_max_completion_tokens else "max_tokens"
+    other_token_param = "max_tokens" if use_max_completion_tokens else "max_completion_tokens"
+    if other_token_param in body:
+        body.setdefault(token_param, body.pop(other_token_param))
+    return body
+
+
 class AIClient(ABC):
     """Abstract base class for AI clients."""
 
@@ -136,6 +181,7 @@ class AnthropicClient(AIClient):
         self.model = config.model
         self.temperature = config.temperature
         self.max_tokens = config.max_tokens
+        self._supports_temperature = True
 
     async def complete(
         self,
@@ -158,17 +204,26 @@ class AnthropicClient(AIClient):
         temperature = self.temperature if temperature is None else temperature
         max_tokens = self.max_tokens if max_tokens is None else max_tokens
 
-        request_kwargs = {}
-        if self.config.extra_body:
-            request_kwargs["extra_body"] = self.config.extra_body
-        message = await self.client.messages.create(
-            model=self.model,
-            max_tokens=max_tokens,
-            temperature=temperature,
-            system=system,
-            messages=[{"role": "user", "content": user}],
-            **request_kwargs,
-        )
+        # SDK 1.x removed the temperature keyword; extra_body also works with
+        # older SDKs and Anthropic-compatible endpoints that still support it.
+        extra_body = {"temperature": temperature, **(self.config.extra_body or {})}
+        if not self._supports_temperature:
+            extra_body.pop("temperature", None)
+        request_kwargs = {
+            "model": self.model,
+            "max_tokens": max_tokens,
+            "system": system,
+            "messages": [{"role": "user", "content": user}],
+            "extra_body": extra_body,
+        }
+        try:
+            message = await self.client.messages.create(**request_kwargs)
+        except AnthropicBadRequestError as exc:
+            if "temperature" not in extra_body or not _is_temperature_unsupported(str(exc)):
+                raise
+            self._supports_temperature = False
+            extra_body.pop("temperature")
+            message = await self.client.messages.create(**request_kwargs)
         usage = getattr(message, "usage", None)
         if usage is not None:
             record_usage(
@@ -270,38 +325,31 @@ class OpenAIClient(AIClient):
         if self.provider in self._TEMP_CLAMP and temperature <= 0:
             temperature = 0.01
 
-        try:
-            response = await self._do_request(
-                system=system,
-                user=user,
-                temperature=temperature,
-                max_tokens=max_tokens,
-                include_temperature=self._supports_temperature,
-                use_max_completion_tokens=self._use_max_completion_tokens,
-            )
-        except Exception as exc:
-            if self._supports_temperature and self._is_temperature_unsupported(str(exc)):
-                self._supports_temperature = False
+        # Deployment aliases can hide both requirements; learn each at most once.
+        retried_tokens = False
+        while True:
+            include_temperature = self._supports_temperature
+            use_max_completion_tokens = self._use_max_completion_tokens
+            try:
                 response = await self._do_request(
                     system=system,
                     user=user,
                     temperature=temperature,
                     max_tokens=max_tokens,
-                    include_temperature=False,
-                    use_max_completion_tokens=self._use_max_completion_tokens,
+                    include_temperature=include_temperature,
+                    use_max_completion_tokens=use_max_completion_tokens,
                 )
-            elif not self._use_max_completion_tokens and self._is_max_tokens_unsupported(str(exc)):
-                self._use_max_completion_tokens = True
-                response = await self._do_request(
-                    system=system,
-                    user=user,
-                    temperature=temperature,
-                    max_tokens=max_tokens,
-                    include_temperature=self._supports_temperature,
-                    use_max_completion_tokens=True,
-                )
-            else:
-                raise
+                break
+            except OpenAIStatusError as exc:
+                if exc.status_code not in (400, 422):
+                    raise
+                if include_temperature and _is_temperature_unsupported(str(exc)):
+                    self._supports_temperature = False
+                    continue
+                if retried_tokens or not _is_token_limit_unsupported(str(exc), use_max_completion_tokens):
+                    raise
+                self._use_max_completion_tokens = not use_max_completion_tokens
+                retried_tokens = True
         usage = getattr(response, "usage", None)
         if usage is not None:
             record_usage(
@@ -335,22 +383,10 @@ class OpenAIClient(AIClient):
         if self.provider not in self._NO_RESPONSE_FORMAT:
             request_kwargs["response_format"] = {"type": "json_object"}
         if self.config.extra_body:
-            request_kwargs["extra_body"] = self.config.extra_body
+            request_kwargs["extra_body"] = _chat_extra_body(
+                self.config.extra_body, include_temperature, use_max_completion_tokens,
+            )
         return await self.client.chat.completions.create(**request_kwargs)
-
-    @staticmethod
-    def _is_temperature_unsupported(message: str) -> bool:
-        lowered = message.lower()
-        return "temperature" in lowered and (
-            "deprecated" in lowered
-            or "not support" in lowered
-            or "unsupported" in lowered
-        )
-
-    @staticmethod
-    def _is_max_tokens_unsupported(message: str) -> bool:
-        lowered = message.lower()
-        return "max_tokens" in lowered and "max_completion_tokens" in lowered
 
 
 class AzureOpenAIClient(AIClient):
@@ -391,6 +427,7 @@ class AzureOpenAIClient(AIClient):
         self.model = config.model
         self.temperature = config.temperature
         self.max_tokens = config.max_tokens
+        self._supports_temperature = True
         self._use_max_completion_tokens = any(
             config.model.startswith(prefix)
             for prefix in self._MODELS_REQUIRING_MAX_COMPLETION_TOKENS
@@ -417,27 +454,31 @@ class AzureOpenAIClient(AIClient):
         temperature = self.temperature if temperature is None else temperature
         max_tokens = self.max_tokens if max_tokens is None else max_tokens
 
-        try:
-            response = await self._create_completion(
-                system=system,
-                user=user,
-                temperature=temperature,
-                max_tokens=max_tokens,
-                use_max_completion_tokens=self._use_max_completion_tokens,
-            )
-        except Exception as exc:
-            fallback = self._token_fallback_mode(str(exc))
-            if fallback is None:
-                raise
-
-            self._use_max_completion_tokens = fallback
-            response = await self._create_completion(
-                system=system,
-                user=user,
-                temperature=temperature,
-                max_tokens=max_tokens,
-                use_max_completion_tokens=fallback,
-            )
+        # Each parameter can adapt once: at most three requests, in either order.
+        retried_tokens = False
+        while True:
+            include_temperature = self._supports_temperature
+            use_max_completion_tokens = self._use_max_completion_tokens
+            try:
+                response = await self._create_completion(
+                    system=system,
+                    user=user,
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                    include_temperature=include_temperature,
+                    use_max_completion_tokens=use_max_completion_tokens,
+                )
+                break
+            except OpenAIStatusError as exc:
+                if exc.status_code not in (400, 422):
+                    raise
+                if include_temperature and _is_temperature_unsupported(str(exc)):
+                    self._supports_temperature = False
+                    continue
+                if retried_tokens or not _is_token_limit_unsupported(str(exc), use_max_completion_tokens):
+                    raise
+                self._use_max_completion_tokens = not use_max_completion_tokens
+                retried_tokens = True
 
         usage = getattr(response, "usage", None)
         if usage is not None:
@@ -455,6 +496,7 @@ class AzureOpenAIClient(AIClient):
         user: str,
         temperature: float,
         max_tokens: int,
+        include_temperature: bool,
         use_max_completion_tokens: bool,
     ):
         tokens_kwarg = (
@@ -462,29 +504,23 @@ class AzureOpenAIClient(AIClient):
             if use_max_completion_tokens
             else {"max_tokens": max_tokens}
         )
-        extra_kwargs = (
-            {"extra_body": self.config.extra_body} if self.config.extra_body else {}
-        )
+        extra_kwargs = {}
+        if include_temperature:
+            extra_kwargs["temperature"] = temperature
+        if self.config.extra_body:
+            extra_kwargs["extra_body"] = _chat_extra_body(
+                self.config.extra_body, include_temperature, use_max_completion_tokens,
+            )
         return await self.client.chat.completions.create(
             model=self.model,
             messages=[
                 {"role": "system", "content": system},
                 {"role": "user", "content": user},
             ],
-            temperature=temperature,
             response_format={"type": "json_object"},
             **tokens_kwarg,
             **extra_kwargs,
         )
-
-    @staticmethod
-    def _token_fallback_mode(message: str) -> Optional[bool]:
-        lowered = message.lower()
-        if "max_completion_tokens" in lowered and "max_tokens" in lowered:
-            return True
-        if "max_tokens" in lowered and "max_completion_tokens" not in lowered:
-            return False
-        return None
 
 
 class GeminiClient(AIClient):
@@ -641,6 +677,11 @@ class ChainedAIClient(AIClient):
         """Determine if an error warrants fallback to the next provider."""
         if isinstance(exc, AIProviderUnavailableError):
             return False
+        if isinstance(
+            exc,
+            (OpenAIConnectionError, AnthropicConnectionError, httpx.RequestError),
+        ):
+            return True
         msg = str(exc).lower()
         if "429" in msg or "rate limit" in msg:
             return True

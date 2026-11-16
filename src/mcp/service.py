@@ -17,6 +17,7 @@ from rich.console import Console
 
 from ..ai.summarizer import DailySummarizer
 from ..ai.errors import AIProviderUnavailableError
+from ..collection_window import collection_hours
 from ..extractors import ExtractorRegistry
 from ..extractors.trafilatura import TrafilaturaExtractor
 from ..models import AIProvider, Config, ContentItem, ExtractorType, SourceType
@@ -385,8 +386,10 @@ class HorizonPipelineService:
         config_path: str | None = None,
         sources: list[str] | None = None,
     ) -> dict[str, Any]:
-        if hours <= 0:
-            raise HorizonMcpError(code="HZ_INVALID_INPUT", message="hours must be greater than 0.")
+        try:
+            hours = collection_hours(hours)
+        except ValueError as exc:
+            raise HorizonMcpError(code="HZ_INVALID_INPUT", message=f"{exc}.") from exc
 
         ctx, selected_sources, unknown_sources = self._build_context(
             horizon_path=horizon_path,
@@ -396,7 +399,19 @@ class HorizonPipelineService:
 
         orchestrator = self._orchestrator(ctx)
 
-        run_id = self.run_store.create_run(run_id)
+        try:
+            run_id = self.run_store.create_run(run_id)
+        except FileExistsError as exc:
+            raise HorizonMcpError(
+                code="HZ_RUN_ID_EXISTS",
+                message=(
+                    "The requested run_id already exists; provide a new run_id "
+                    "to start a fetch."
+                ),
+                details=(
+                    {"run_id": run_id} if run_id is not None else None
+                ),
+            ) from exc
         since = datetime.now(timezone.utc) - timedelta(hours=hours)
 
         raw_items = await orchestrator.fetch_all_sources(since)

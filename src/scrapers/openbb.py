@@ -31,6 +31,7 @@ from datetime import datetime, timezone
 from typing import Any, Iterable, List, Optional
 
 import httpx
+from pydantic import ValidationError
 
 from .base import BaseScraper, FetchResult
 from ..models import ContentItem, OpenBBConfig, OpenBBWatchlist, SourceType
@@ -92,14 +93,19 @@ class OpenBBScraper(BaseScraper):
             return result
 
         since_utc = self._ensure_utc(since)
-        seen_urls: set[str] = set()
+        seen_urls: set[tuple[str, object]] = set()
         for watchlist in self.openbb_config.watchlists:
             if not watchlist.enabled or not watchlist.symbols:
                 continue
             await result.collect(watchlist.name, self._fetch_watchlist(watchlist, since_utc))
         unique = []
         for item in result.items:
-            url_key = str(item.url)
+            # Match cross-source deduplication: distinct editorial routes must survive.
+            if isinstance(item.profile, list):
+                route: object = tuple(profile.strip() for profile in item.profile)
+            else:
+                route = (item.profile or "auto").strip() or "auto"
+            url_key = (str(item.url), route)
             if url_key not in seen_urls:
                 seen_urls.add(url_key)
                 unique.append(item)
@@ -147,9 +153,10 @@ class OpenBBScraper(BaseScraper):
         if published is None or published <= since_utc:
             return None
 
-        title = (getattr(raw, "title", None) or "").strip()
-        if not title:
+        title = getattr(raw, "title", None)
+        if not isinstance(title, str) or not title.strip():
             return None
+        title = title.strip()
 
         body = getattr(raw, "body", None) or getattr(raw, "excerpt", None)
         author = getattr(raw, "author", None)
@@ -164,17 +171,21 @@ class OpenBBScraper(BaseScraper):
             "category": watchlist.category,
         }
 
-        return ContentItem(
-            id=self._generate_id("openbb", "news", native_id),
-            source_type=self.SOURCE_TYPE,
-            title=title,
-            url=url,
-            content=body,
-            author=author or (symbols[0] if symbols else None),
-            published_at=published,
-            profile=watchlist.profile,
-            metadata={k: v for k, v in meta.items() if v is not None},
-        )
+        try:
+            return ContentItem(
+                id=self._generate_id("openbb", "news", native_id),
+                source_type=self.SOURCE_TYPE,
+                title=title,
+                url=url,
+                content=body,
+                author=author or (symbols[0] if symbols else None),
+                published_at=published,
+                profile=watchlist.profile,
+                metadata={k: v for k, v in meta.items() if v is not None},
+            )
+        except ValidationError as exc:
+            logger.warning("Skipping invalid OpenBB article %s: %s", url, exc)
+            return None
 
     @staticmethod
     def _ensure_utc(moment: datetime) -> datetime:

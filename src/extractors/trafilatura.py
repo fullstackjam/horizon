@@ -1,5 +1,6 @@
 """Trafilatura-based article extractor."""
 
+import asyncio
 import logging
 from dataclasses import dataclass
 from typing import Optional
@@ -65,7 +66,8 @@ class TrafilaturaExtractor(BaseExtractor):
             return ExtractedArticle(error=f"{type(e).__name__}: {e}")
 
         try:
-            content = trafilatura.extract(
+            content = await asyncio.to_thread(
+                trafilatura.extract,
                 response.text,
                 favor_precision=self._config.favor_precision,
                 favor_recall=self._config.favor_recall,

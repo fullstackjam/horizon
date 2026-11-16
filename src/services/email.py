@@ -5,10 +5,12 @@ import html
 import imaplib
 import logging
 import os
+import re
 import smtplib
 import ssl
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email.policy import default
 from email.utils import parseaddr
 from typing import List
 
@@ -23,6 +25,58 @@ from ..ai.markdown_utils import clean_app_summary_markdown
 from ..models import EmailConfig
 
 logger = logging.getLogger(__name__)
+
+# The summarizer HTML-escapes untrusted text and then Markdown-escapes it,
+# which turns "&#x27;" into "&\#x27;". These helpers undo that once for email.
+_ESCAPED_ENTITY_RE = re.compile(r"&\\#(x?[0-9A-Fa-f]+);")
+_MARKDOWN_BACKSLASH_RE = re.compile(r"\\([\\`*_{}\[\]()<>#!|+.-])")
+_LIST_ITEM = r"[ \t]*(?:\d+[.)]|[-*+])[ \t]"
+_LIST_AFTER_TEXT_RE = re.compile(rf"(?m)^((?!{_LIST_ITEM}).*\S.*)\n(?={_LIST_ITEM})")
+
+
+def _escape_email_text(value: str) -> str:
+    """Block raw HTML without escaping the summarizer's entities a second time.
+
+    Escaping < is enough to stop raw HTML. Existing entities such as &#x27;
+    are left for Markdown to pass through, and bare & is escaped by Markdown.
+    > is left alone so the app's own blockquotes still work; untrusted text
+    reaches here as &gt;, so it can't start one. Python-Markdown doesn't treat
+    \\| as an escape, so it is unescaped to avoid a stray backslash.
+    """
+    return value.replace("<", "&lt;").replace("\\|", "|")
+
+
+def _prepare_email_markdown(value: str) -> str:
+    """Make summary Markdown render cleanly, and safely, as email HTML.
+
+    Summary text is already HTML-escaped by the summarizer, so escaping it
+    again here showed entities such as &#x27; and &quot; in the email.
+    """
+    value = _ESCAPED_ENTITY_RE.sub(r"&#\1;", value)
+    # Python-Markdown needs a blank line before a list that follows text.
+    return _LIST_AFTER_TEXT_RE.sub(r"\1\n\n", _escape_email_text(value))
+
+
+if markdown is not None:
+    class _EmailCodeInlineProcessor(markdown.inlinepatterns.BacktickInlineProcessor):
+        """Decode summary text only after Markdown identifies a real code span."""
+
+        def handleMatch(self, match, data):
+            element, start, end = super().handleMatch(match, data)
+            if match.group(3):
+                code = html.unescape(
+                    _MARKDOWN_BACKSLASH_RE.sub(r"\1", match.group(3).strip())
+                )
+                element.text = markdown.util.AtomicString(markdown.util.code_escape(code))
+            return element, start, end
+
+
+def _render_email_markdown(value: str) -> str:
+    parser = markdown.Markdown()
+    parser.inlinePatterns.register(
+        _EmailCodeInlineProcessor(markdown.inlinepatterns.BACKTICK_RE), "backtick", 190
+    )
+    return parser.convert(value)
 
 
 class EmailManager:
@@ -46,15 +100,23 @@ class EmailManager:
         if not self.config.enabled or not self.config.imap_enabled:
             return
 
+        mail = None
+        mailbox_selected = False
         try:
             mail = imaplib.IMAP4_SSL(self.config.imap_server, self.config.imap_port)
             mail.login(self.config.email_address, self.pwd)
-            mail.select("INBOX")
+            status, _ = mail.select("INBOX")
+            mailbox_selected = status == "OK"
 
             keyword = self.config.subscribe_keyword
             search_crit = f'(UNSEEN SUBJECT "{keyword}")'
 
             status, messages = mail.search(None, search_crit)
+
+            # Find both request types before RFC822 fetches mark overlapping matches as seen.
+            unsub_keyword = self.config.unsubscribe_keyword
+            search_crit_unsub = f'(UNSEEN SUBJECT "{unsub_keyword}")'
+            unsub_status, unsub_messages = mail.search(None, search_crit_unsub)
 
             if status == "OK" and messages[0]:
                 email_ids = messages[0].split()
@@ -64,7 +126,7 @@ class EmailManager:
                     _, msg_data = mail.fetch(e_id, "(RFC822)")
                     for response_part in msg_data:
                         if isinstance(response_part, tuple):
-                            msg = email.message_from_bytes(response_part[1])
+                            msg = email.message_from_bytes(response_part[1], policy=default)
 
                             subject = str(msg.get("Subject") or "").strip()
                             if subject.upper() != keyword.upper():
@@ -93,20 +155,15 @@ class EmailManager:
                                     else:
                                         logger.info(f"Already subscribed: {email_addr}")
 
-            unsub_keyword = self.config.unsubscribe_keyword
-            search_crit_unsub = f'(UNSEEN SUBJECT "{unsub_keyword}")'
-
-            status, messages = mail.search(None, search_crit_unsub)
-
-            if status == "OK" and messages[0]:
-                email_ids = messages[0].split()
+            if unsub_status == "OK" and unsub_messages[0]:
+                email_ids = unsub_messages[0].split()
                 subscribers = storage_manager.load_subscribers()
 
                 for e_id in email_ids:
                     _, msg_data = mail.fetch(e_id, "(RFC822)")
                     for response_part in msg_data:
                         if isinstance(response_part, tuple):
-                            msg = email.message_from_bytes(response_part[1])
+                            msg = email.message_from_bytes(response_part[1], policy=default)
 
                             subject = str(msg.get("Subject") or "").strip()
                             if subject.upper() != unsub_keyword.upper():
@@ -135,11 +192,23 @@ class EmailManager:
                                     else:
                                         logger.info(f"Not subscribed: {email_addr}")
 
-            mail.close()
-            mail.logout()
-
         except Exception as e:
             logger.error(f"Error checking subscriptions: {e}")
+        finally:
+            if mail is not None:
+                if mailbox_selected:
+                    try:
+                        mail.close()
+                    except Exception as e:
+                        logger.debug(
+                            "Could not close IMAP mailbox (%s)", type(e).__name__
+                        )
+                try:
+                    mail.logout()
+                except Exception as e:
+                    logger.debug(
+                        "Could not log out of IMAP connection (%s)", type(e).__name__
+                    )
 
     def _open_smtp(self) -> smtplib.SMTP:
         """Open an implicit TLS or STARTTLS SMTP connection."""
@@ -165,9 +234,9 @@ class EmailManager:
             return
 
         cleaned_summary = clean_app_summary_markdown(summary_md)
-        safe_summary = html.escape(cleaned_summary)
+        safe_summary = _prepare_email_markdown(cleaned_summary)
         html_content = (
-            markdown.markdown(safe_summary)
+            _render_email_markdown(safe_summary)
             if markdown
             else f"<pre>{safe_summary}</pre>"
         )

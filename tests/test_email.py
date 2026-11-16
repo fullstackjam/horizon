@@ -1,9 +1,13 @@
+import base64
+import imaplib
 from email.mime.multipart import MIMEMultipart
+from unittest.mock import Mock
 
 import pytest
 
 from src.models import EmailConfig
 from src.services.email import EmailManager
+from src.storage.manager import StorageManager
 
 
 class FakeSMTP:
@@ -140,6 +144,66 @@ def test_send_daily_summary_escapes_raw_html(monkeypatch):
     assert "&lt;img src=x" in html_body
 
 
+@pytest.mark.parametrize("payload", [
+    "Literal `x <img src=x onerror=alert(1)>` text",
+    "Literal ``x <script>alert(1)</script>`` text",
+    "`unmatched <img src=x onerror=alert(1)>",
+])
+@pytest.mark.parametrize("as_code", [False, True])
+def test_send_daily_summary_keeps_backticks_and_html_literal(monkeypatch, payload, as_code):
+    from bs4 import BeautifulSoup
+    from src.ai.summarizer import _escape_markdown
+
+    monkeypatch.setenv("EMAIL_PASSWORD", "secret")
+    monkeypatch.setattr("src.services.email.smtplib.SMTP_SSL", FakeSMTP)
+    FakeSMTP.instances = []
+    summary = _escape_markdown(payload)
+    if as_code:
+        summary = f"``` {summary} ```"
+
+    EmailManager(_email_config()).send_daily_summary(summary, "Daily", ["user@example.com"])
+
+    message = FakeSMTP.instances[0].messages[0]
+    html_body = message.get_payload()[1].get_payload(decode=True).decode()
+    soup = BeautifulSoup(html_body, "html.parser")
+    assert soup.find(["img", "script"]) is None
+    assert payload in soup.get_text()
+    if as_code:
+        assert soup.code.get_text() == payload
+    else:
+        assert soup.code is None
+
+
+def test_send_daily_summary_does_not_double_escape_summary_text(monkeypatch):
+    from src.ai.summarizer import _escape_markdown
+
+    monkeypatch.setenv("EMAIL_PASSWORD", "secret")
+    monkeypatch.setattr("src.services.email.smtplib.SMTP_SSL", FakeSMTP)
+    FakeSMTP.instances = []
+
+    title = _escape_markdown("Anthropic's \"memory\" post: R&D <script>x</script>")
+    tag = _escape_markdown("AI R&D")
+    summary = (
+        f"> From 9 items\n\n**AI News**\n1. [{title}](#item-1)\n\n"
+        f"{_escape_markdown('> not a quote')}\n\n**Tags**: `#{tag}`"
+    )
+
+    manager = EmailManager(_email_config())
+    manager.send_daily_summary(summary, "Daily", ["user@example.com"])
+
+    html_part = FakeSMTP.instances[0].messages[0].get_payload()[1]
+    html_body = html_part.get_payload(decode=True).decode()
+    assert "&amp;#x27;" not in html_body
+    assert "&amp;quot;" not in html_body
+    assert "&amp;amp;" not in html_body
+    assert "Anthropic&#x27;s &quot;memory&quot; post: R&amp;D" in html_body
+    assert "<script>" not in html_body
+    assert "<blockquote>\n<p>From 9 items</p>\n</blockquote>" in html_body
+    assert "&gt; not a quote" in html_body
+    assert "<ol>" in html_body
+    assert "<code>#AI R&amp;D</code>" in html_body
+
+
 def test_send_daily_summary_cleans_app_generated_markdown_html(monkeypatch):
     monkeypatch.setenv("EMAIL_PASSWORD", "secret")
     monkeypatch.setattr("src.services.email.smtplib.SMTP_SSL", FakeSMTP)
@@ -217,3 +281,137 @@ def test_check_subscriptions_skips_imap_when_disabled(monkeypatch):
     manager.check_subscriptions(storage_manager=object())
 
     assert FakeIMAP.instances == []
+
+
+@pytest.mark.parametrize("include_subscription", [False, True])
+def test_check_subscriptions_handles_unsubscribe_before_fetch_marks_seen(
+    monkeypatch: pytest.MonkeyPatch, include_subscription: bool
+) -> None:
+    monkeypatch.setenv("EMAIL_PASSWORD", "secret")
+    subjects = {b"1": ("UNSUBSCRIBE", "leaving@example.com")}
+    if include_subscription:
+        subjects[b"2"] = ("SUBSCRIBE", "joining@example.com")
+    seen: set[bytes] = set()
+
+    def search(charset: None, criteria: str) -> tuple[str, list[bytes]]:
+        keyword = criteria.split('"')[1]
+        ids = [
+            message_id
+            for message_id, (subject, _) in subjects.items()
+            if message_id not in seen and keyword in subject
+        ]
+        return "OK", [b" ".join(ids)]
+
+    def fetch(message_id: bytes, query: str) -> tuple[str, list[tuple[bytes, bytes]]]:
+        if query == "(RFC822)":
+            seen.add(message_id)
+        subject, sender = subjects[message_id]
+        message = f"From: {sender}\r\nSubject: {subject}\r\n\r\n".encode()
+        return "OK", [(message_id, message)]
+
+    mail = Mock(spec=imaplib.IMAP4_SSL)
+    mail.select.return_value = ("OK", [b"1"])
+    mail.search.side_effect = search
+    mail.fetch.side_effect = fetch
+    monkeypatch.setattr("src.services.email.imaplib.IMAP4_SSL", Mock(return_value=mail))
+    storage = Mock(spec=StorageManager)
+    storage.load_subscribers.return_value = ["leaving@example.com"]
+    manager = EmailManager(_email_config())
+    reply = Mock()
+    monkeypatch.setattr(manager, "_send_reply", reply)
+
+    manager.check_subscriptions(storage)
+    manager.check_subscriptions(storage)
+
+    storage.remove_subscriber.assert_called_once_with("leaving@example.com")
+    if include_subscription:
+        storage.add_subscriber.assert_called_once_with("joining@example.com")
+    else:
+        storage.add_subscriber.assert_not_called()
+    assert reply.call_count == 1 + int(include_subscription)
+
+
+@pytest.mark.parametrize("keyword", ["SUBSCRIBE", "UNSUBSCRIBE"])
+@pytest.mark.parametrize(
+    ("subject", "matches"),
+    [
+        ("{keyword}", True),
+        ("=?utf-8?q?{keyword}?=", True),
+        ("=?utf-8?b?{encoded_keyword}?=", True),
+        ("=?utf-8?q?{first_half}?=\r\n =?utf-8?q?{second_half}?=", True),
+        ("Re: {keyword}", False),
+        ("=?utf-8?q?Re=3A_{keyword}?=", False),
+    ],
+)
+def test_check_subscriptions_matches_decoded_subject(
+    monkeypatch: pytest.MonkeyPatch, keyword: str, subject: str, matches: bool
+) -> None:
+    monkeypatch.setenv("EMAIL_PASSWORD", "secret")
+    encoded_keyword = base64.b64encode(keyword.encode()).decode()
+    midpoint = len(keyword) // 2
+    subject = subject.format(
+        keyword=keyword,
+        encoded_keyword=encoded_keyword,
+        first_half=keyword[:midpoint],
+        second_half=keyword[midpoint:],
+    )
+    raw_message = f"From: user@example.com\r\nSubject: {subject}\r\n\r\n".encode()
+    mail = Mock(spec=imaplib.IMAP4_SSL)
+    mail.select.return_value = ("OK", [b"1"])
+    mail.search.side_effect = [
+        ("OK", [b"1" if keyword == "SUBSCRIBE" else b""]),
+        ("OK", [b"1" if keyword == "UNSUBSCRIBE" else b""]),
+    ]
+    mail.fetch.return_value = ("OK", [(b"1 (RFC822)", raw_message)])
+    monkeypatch.setattr("src.services.email.imaplib.IMAP4_SSL", Mock(return_value=mail))
+    storage = Mock(spec=StorageManager)
+    storage.load_subscribers.return_value = (
+        [] if keyword == "SUBSCRIBE" else ["user@example.com"]
+    )
+    manager = EmailManager(_email_config())
+    monkeypatch.setattr(manager, "_send_reply", Mock())
+
+    manager.check_subscriptions(storage)
+
+    operation = (
+        storage.add_subscriber if keyword == "SUBSCRIBE" else storage.remove_subscriber
+    )
+    if matches:
+        operation.assert_called_once_with("user@example.com")
+    else:
+        operation.assert_not_called()
+
+
+def test_check_subscriptions_logs_out_when_search_fails(monkeypatch):
+    class FailingSearchIMAP:
+        instances = []
+
+        def __init__(self, server, port):
+            self.closed = False
+            self.logged_out = False
+            self.__class__.instances.append(self)
+
+        def login(self, username, password):
+            pass
+
+        def select(self, mailbox):
+            return "OK", [b"1"]
+
+        def search(self, charset, criteria):
+            raise RuntimeError("search failed")
+
+        def close(self):
+            self.closed = True
+
+        def logout(self):
+            self.logged_out = True
+
+    monkeypatch.setattr("src.services.email.imaplib.IMAP4_SSL", FailingSearchIMAP)
+    monkeypatch.setenv("EMAIL_PASSWORD", "secret")
+
+    manager = EmailManager(_email_config(imap_enabled=True))
+    manager.check_subscriptions(storage_manager=object())
+
+    # The search exception must not leave the authenticated connection open.
+    assert FailingSearchIMAP.instances[0].closed is True
+    assert FailingSearchIMAP.instances[0].logged_out is True

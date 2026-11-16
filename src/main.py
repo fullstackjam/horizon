@@ -17,6 +17,7 @@ from .mcp.errors import HorizonMcpError
 from .mcp.service import HorizonPipelineService
 from .storage.manager import ConfigError, StorageManager
 from .orchestrator import HorizonOrchestrator
+from .collection_window import collection_hours
 from .models import AIProvider
 
 
@@ -105,6 +106,14 @@ def _print_json(payload: dict) -> None:
     sys.stdout.write(json.dumps(payload, ensure_ascii=False, indent=2) + "\n")
 
 
+def _hours_argument(value: str) -> int:
+    """Parse the CLI override. Positivity is checked later, once, with the config value."""
+    try:
+        return int(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(f"invalid int value: {value!r}") from exc
+
+
 def main():
     """Main CLI entry point."""
     if len(sys.argv) > 1 and sys.argv[1] == "score":
@@ -119,7 +128,7 @@ def main():
         description="Horizon - AI-Driven Information Aggregation System",
         epilog="Score article URLs without publishing a digest: horizon score --help",
     )
-    parser.add_argument("--hours", type=int, help="Force fetch from last N hours")
+    parser.add_argument("--hours", type=_hours_argument, help="Force fetch from last N hours")
     add_data_dir_arguments(parser)
     add_log_level_argument(parser)
     args = parser.parse_args()
@@ -180,9 +189,15 @@ def main():
             from .ai.chatgpt_auth import MANAGE_USAGE_URL
             console.print(f"Using ChatGPT plan. Manage usage: {MANAGE_USAGE_URL}")
 
-        # Create and run orchestrator
+        # Config value and CLI override meet here. The orchestrator receives the int.
+        try:
+            window = collection_hours(config.collection.time_window_hours, args.hours)
+        except ValueError as exc:
+            console.print(f"[bold red]{icons['error']} {exc}[/bold red]")
+            sys.exit(2)
+
         orchestrator = HorizonOrchestrator(config, storage, console=console)
-        asyncio.run(orchestrator.run(force_hours=args.hours))
+        asyncio.run(orchestrator.run(force_hours=window))
 
     except KeyboardInterrupt:
         console.print(f"\n[yellow]{icons['warning']} Interrupted by user[/yellow]")
