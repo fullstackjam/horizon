@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>给自己留一点阅读时间 · Jam's Reading List</title><meta name="description" content="一些值得认真读，也值得以后重读的文章。">
+<link rel="stylesheet" href="/style.css"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='.9em' font-size='56'%3E📖%3C/text%3E%3C/svg%3E"></head>
+<body><div class="wrap"><header class="brand"><a class="wordmark" href="/">Jam's Reading List</a><a class="small" href="/archive/">往期清单 ↗</a></header>
+<main><p class="eyebrow">本期候选 · 2026-11-19</p><h1>给自己留一点阅读时间</h1>
+<p class="intro">一些值得认真读，也值得以后重读的文章。先看看推荐理由，再决定打开原文、读一读，或者收进自己的阅读清单。</p>
+<article><blockquote>
+<p>从 249 篇候选中选出 12 篇值得读的文章。</p>
+</blockquote>
+<hr />
+<p><strong>本期值得读</strong></p>
+<ol>
+<li><a href="#item-reading-1">SOTA 还是运气？LLM 排行榜中的赢家诅咒</a> ⭐️ 8.2/10</li>
+<li><a href="#item-reading-2">NGINX 未认证远程代码执行漏洞</a> ⭐️ 8.0/10</li>
+<li><a href="#item-reading-3">辨析语言模型中的道德回路与道德特征：14 个模型的证据</a> ⭐️ 8.0/10</li>
+<li><a href="#item-reading-4">偏见头测量了什么？头级偏见归因中的不可识别性</a> ⭐️ 7.9/10</li>
+<li><a href="#item-reading-5">AI Discover 的工程实现：Netflix 智能层设计</a> ⭐️ 7.8/10</li>
+<li><a href="#item-reading-6">AI 编写的补丁正成为黑客的攻击地图</a> ⭐️ 7.8/10</li>
+<li><a href="#item-reading-7">《MediEvil》死而复生登陆 PC，开发者拒让 AI 参与</a> ⭐️ 7.8/10</li>
+<li><a href="#item-reading-8">你不必再自建 OIDC 服务器</a> ⭐️ 7.8/10</li>
+<li><a href="#item-reading-9">呈现分歧胜过消解分歧：多智能体辩论中溯源加权记忆的门控消融研究</a> ⭐️ 7.7/10</li>
+<li><a href="#item-reading-10">声音重要吗？评估已部署临床语音代理通话中的挫败检测</a> ⭐️ 7.6/10</li>
+<li><a href="#item-reading-11">思考不是告知：用户服务型 LLM 智能体中的信息披露</a> ⭐️ 7.5/10</li>
+<li><a href="#item-reading-12">多估计抽取并不能一致消除语言模型判断的偏差</a> ⭐️ 7.5/10</li>
+</ol>
+<hr />
+<h2>本期值得读</h2>
+<p><a id="item-reading-1"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.22227">SOTA 还是运气？LLM 排行榜中的赢家诅咒</a> ⭐️ 8.2/10</h3>
+<p>论文讨论公开大模型排行榜为何会高估榜首：排名对含噪基准分数进行筛选，把采样运气混入真实能力，并将选择偏差扩散到整个名次。作者提出重采样校正方法，同时量化各模型名次的合理区间与分层。</p>
+<p>rss · arXiv — cs.CL · 11月18日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 值得读的是它把“榜首”视为统计选择问题：在含噪基准上排名会奖励采样运气，偏差也不只落在第一名。摘要报告 14 个基准、5 个基准家族的 rank-1 调整范围约 0.09–3.86 个百分点，并以 SWE-bench Verified 为例：并列领先者获得 0.90 个百分点调整，173 个模型中仅 13 个进入领先层。其 RULER 式“分数校正＋名次区间＋分层”报告可迁移到其他噪声排行榜。仅见摘要，无法核对证明与完整实验。</p>
+<p><strong>「什么时候再读」</strong> 当你要依据排行榜选模型、设计基准，或判断“领先是否稳固”时，可回来重读。它提醒你把名次差异与真实能力差异分开。注意本文仅依据 2026 年 11 月的 arXiv 摘要，完整证明与实验仍需查原文。</p>
+<p><strong>标签</strong>: <code>#benchmarking</code>, <code>#selection bias</code>, <code>#statistics</code>, <code>#LLM evaluation</code>, <code>#winner's curse</code></p>
+<hr />
+<p><a id="item-reading-2"></a></p>
+<h3><a href="https://www.wiz.io/blog/nginx-http2-rce-vulnerabilities">NGINX 未认证远程代码执行漏洞</a> ⭐️ 8.0/10</h3>
+<p>Wiz 披露 NGINX 两个 HTTP/2 内存安全漏洞：连接释放后使用与 send_window 整数下溢，均可导致未认证远程代码执行。文章论证漏洞在 NGINX 本身，启用 HTTP/2 即可暴露，并给出根因、影响范围、披露时间线与缓解建议。</p>
+<p>rss · Tildes · 11月18日 16:36 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 值得读的是两处根因的逐步拆解：可复用连接在请求开始后未移出链表，以及窗口退款绕过上限检查后触发无符号下溢，最终经 off_t 转换形成越界拷贝。文章还交代受影响版本、利用前提与关闭 HTTP/2 等缓解步骤，这些排障思路比补丁本身更耐久。AI 辅助发现漏洞的叙事较像厂商宣传，论证不如漏洞分析扎实。</p>
+<p><strong>「什么时候再读」</strong> 当你维护启用 HTTP/2 的 NGINX，或需要复核连接复用、流控与内存安全类漏洞时，可重读技术拆解；具体版本和补丁信息会过时，应查最新公告。</p>
+<p><strong>标签</strong>: <code>#NGINX</code>, <code>#HTTP/2</code>, <code>#memory safety</code>, <code>#vulnerability research</code>, <code>#security disclosure</code></p>
+<hr />
+<p><a id="item-reading-3"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.21705">辨析语言模型中的道德回路与道德特征：14 个模型的证据</a> ⭐️ 8.0/10</h3>
+<p>研究以 227 组经标注的极简短语测试 14 个开源模型，区分所谓“道德”注意力头与 SAE 特征究竟响应道德内容、一般规范判断，还是“morally”一词；摘要结论是前者更像通用评价回路，后者多追踪提示词。</p>
+<p>rss · arXiv — cs.CL · 11月18日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 值得读的是把“道德”成分拆成道德内容、一般规范判断和提示词三条竞争解释，并用 227 组最小对、含与不含“morally”的条件及 14 个模型交叉检验。摘要报告：改变道德答案的注意力头对道德与其他规范共享同等效应，且在 ETHICS 上去除后损失 37–39%，远高于随机头；SAE 特征却主要追踪“morally”。这提醒解释性标签需先排除措辞捷径。仅凭摘要尚不能核验方法细节与作者对适用范围的限定。</p>
+<p><strong>「什么时候再读」</strong> 当你准备给注意力头或 SAE 特征贴“道德”标签，或设计提示词控制实验时，可回看它如何区分措辞捷径与通用评价回路；复现前仍需核对全文方法与发布材料。</p>
+<p><strong>标签</strong>: <code>#mechanistic interpretability</code>, <code>#moral reasoning</code>, <code>#language models</code>, <code>#SAE features</code>, <code>#empirical study</code></p>
+<hr />
+<p><a id="item-reading-4"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.23218">偏见头测量了什么？头级偏见归因中的不可识别性</a> ⭐️ 7.9/10</h3>
+<p>这篇论文在 Qwen-2.5-7B-Instruct 与 Llama-3.1-8B-Instruct 上审计注意力头级的偏见归因方法，指出选头统计量受提示身份与共线表层特征影响而不可识别，并检验常见消融主张是否成立。</p>
+<p>rss · arXiv — cs.CL · 11月18日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 摘要给出的关键论证值得保留：头级归因图与不看标签的响应长度图相关系数为-0.950/-0.768；固定提示后长度仅解释 1%方差，提示身份解释 64%，同一提示内标签、长度与受保护群体词元高度共线，观察性归因因此不可识别。所测头集消融均未降低不公平率。论文把“能消融出效果”与“统计量真的测到偏见”分开，并用补集结果说明流程在相同尺度上能检测到效应；这一区分日后审阅同类实验时仍有用。局限是仅见摘要，实验细节无法核验。</p>
+<p><strong>「什么时候再读」</strong> 当你设计或审阅注意力头归因、偏见消融实验，想判断指标是否被提示身份与长度混淆时，可回来核对这套不可识别性论证；但需结合全文核实实验设定与适用边界。</p>
+<p><strong>标签</strong>: <code>#interpretability</code>, <code>#bias attribution</code>, <code>#LLM evaluation</code>, <code>#research methodology</code>, <code>#attention heads</code></p>
+<hr />
+<p><a id="item-reading-5"></a></p>
+<h3><a href="https://netflixtechblog.com/engineering-ai-discover-e244944cdc38?source=rss----2615bd06b42e---4">AI Discover 的工程实现：Netflix 智能层设计</a> ⭐️ 7.8/10</h3>
+<p>Netflix 工程博客复盘 AI Discover 的智能层：它用可校验的“计划—执行”代理编排 LLM 与既有推荐系统，异步提供生成结果，并把内容安全、权限与目录可用性规则写进代码，而非依赖提示词。</p>
+<p>rss · Netflix TechBlog - Medium · 11月17日 17:01 · RSS 内容（网页获取失败）</p>
+<p><strong>「为什么值得读」</strong> 文章最有用的是把生产级 LLM 代理拆成控制面与执行面：能力声明输入输出，计划先校验再运行，失败可回退到已验证计划；参数用占位符、执行前再按类型填充，从而降低提示注入与越权风险。异步服务把多步生成的尾延迟隔离在请求路径之外。这些架构取舍比具体模型更耐久，适合做系统设计参考。但全文偏高层，缺少指标、具体故障案例和实现细节，产品叙述也较多，不能当作落地手册。</p>
+<p><strong>「什么时候再读」</strong> 当你设计需要目录约束、可回退和审计的 LLM 代理时，可重读其计划校验与异步服务部分；若要评估实际吞吐、成本或故障率，需另找数据，因为本文未提供。</p>
+<p><strong>标签</strong>: <code>#LLM systems</code>, <code>#agent orchestration</code>, <code>#recommendation systems</code>, <code>#system design</code>, <code>#AI safety</code></p>
+<hr />
+<p><a id="item-reading-6"></a></p>
+<h3><a href="https://www.csoonline.com/article/4248687/ai-written-patches-are-becoming-attack-maps-for-hackers.html">AI 编写的补丁正成为黑客的攻击地图</a> ⭐️ 7.8/10</h3>
+<p>文章指出，AI 辅助补丁常只封堵已报告输入，却留下同类变体和新攻击路径，等于暴露漏洞位置与防守思路。作者用 vm2、1Password 等案例说明，应以变体排查和对抗性补丁审查应对，而非减少披露。</p>
+<p>rss · CSO Online · 11月16日 08:25 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 文章把“补丁即攻击地图”串成链条：vm2 的 AI 修复被智能体绕过，OpenAI 展示的补丁移除栈保护或只过滤双引号，1Password 的六千余个候选补丁约半数仍留攻击路径。它解释攻防不对称：发现变快、修复验证更慢；可迁移的是根因分析、全代码库变体搜索、让智能体从攻击者视角审查补丁。局限是多为厂商说法汇总，具体数字宜复核，但审查原则比数字更耐久。</p>
+<p><strong>「什么时候再读」</strong> 当你负责审查 AI 生成补丁，或判断漏洞披露节奏时，可回来重读；文中 2026 年的 CVE 数量、项目进展和价格数据会过时，变体排查与对抗性审查的思路仍可参考。</p>
+<p><strong>标签</strong>: <code>#AI security</code>, <code>#vulnerability patching</code>, <code>#software security</code>, <code>#exploit development</code>, <code>#patch diffing</code></p>
+<hr />
+<p><a id="item-reading-7"></a></p>
+<h3><a href="https://gardinerbryant.com/medievil-is-back-from-the-dead-on-pc/">《MediEvil》死而复生登陆 PC，开发者拒让 AI 参与</a> ⭐️ 7.8/10</h3>
+<p>文章报道 BlackLabelHQ 以静态重编译将 1998 年 PS1《MediEvil》移植到 PC，介绍画质、操作与模组改进，并解释团队为何拒绝 AI 生成代码；核心是保存不等于冻结原样。</p>
+<p>rss · Tildes · 11月17日 22:25 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 文章把静态重编译与模拟器的差别讲清楚：RecompOne 将原 PlayStation 的 MIPS 指令提前翻译成 C#，由运行时处理 GPU、内存和 CD-ROM，而非逐条解释执行。它还借力独立反编译成果，说明不同逆向工程可以互补；宽屏、右摇杆视角与模组中心则展示保存如何兼顾原貌和现代可用性。多年后仍值得参考的是这套技术路径与协作方式，而非某次版本更新。</p>
+<p><strong>「什么时候再读」</strong> 当你想区分静态重编译与模拟器，或评估旧游戏如何兼顾原貌和现代操作时，可再读。需注意项目目前主要面向北美版，且仍需自备合法游戏文件。</p>
+<p><strong>标签</strong>: <code>#game preservation</code>, <code>#static recompilation</code>, <code>#MediEvil</code>, <code>#AI policy</code>, <code>#retro gaming</code></p>
+<hr />
+<p><a id="item-reading-8"></a></p>
+<h3><a href="https://www.tigrisdata.com/blog/you-dont-need-make-oidc-server/">你不必再自建 OIDC 服务器</a> ⭐️ 7.8/10</h3>
+<p>Tigris 复盘为托管 MCP 服务器做 OIDC 认证：动态客户端注册让 Auth0 租户堆满第三方应用，团队曾自建中间层 OIDC 提供商，最终放弃，转而推荐 CIMD 或轻量中继给现有身份提供商。</p>
+<p>rss · Tigris Object Storage Blog · 11月17日 00:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 这篇完整但简短的复盘把自建 OIDC 服务器拆成安全状态问题：中间层要持有可冒充任何人的签名密钥，还得保存上游刷新令牌；薄中继则让 Auth0 继续签发令牌，自己只存注册记录并按公钥验签。CIMD 部分也具体：client_id 是元数据 URL，需精确匹配、校验重定向 URI，并以 PKCE 替代客户端密钥，还提醒抓取元数据有 SSRF 风险。这些权衡有长期参考价值。</p>
+<p><strong>「什么时候再读」</strong> 当你准备给 MCP 或类似多客户端服务接 OIDC、考虑自建中间层时，可回来对照本文的 CIMD 与中继方案；文中规范版本和客户端支持情况有时效性，采用前需核实。</p>
+<p><strong>标签</strong>: <code>#authentication</code>, <code>#OAuth and OIDC</code>, <code>#MCP</code>, <code>#software architecture</code>, <code>#security</code></p>
+<hr />
+<p><a id="item-reading-9"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.22461">呈现分歧胜过消解分歧：多智能体辩论中溯源加权记忆的门控消融研究</a> ⭐️ 7.7/10</h3>
+<p>仅见摘要，正文缺失或被截断，无法可靠评价。摘要研究多智能体辩论共享记忆：通常把冲突归并为单一“获胜事实”，作者却主张保留并呈现排序后的矛盾集合；其 DebateGraph 门控消融称，仅此机制在 39 次运行后成立。</p>
+<p>rss · arXiv — cs.CL · 11月18日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 价值在反直觉结论与失败分析：保留冲突集使 F1 提高 0.340（95% CI [0.267, 0.414]），并把 122 个投毒项的攻击成功数从 22 降到 7；写入门控和路由溯源特征反而各损失 0.075、0.096 F1。作者给出结构性解释：投毒对象总是图中已有实体，而金标仅 53% 如此，groundedness 会把谎言排在真实首次提及之前。仅见摘要，完整方法与复现细节仍待原文；但“保留分歧供后续判断”的原则可长期参考。</p>
+<p><strong>「什么时候再读」</strong> 当你设计多智能体共享记忆、准备把冲突归并为单一事实时，可回来核对这篇的门控消融与攻击实验；若需复现或评估完整方法，则要先找到全文，因为目前只有摘要。</p>
+<p><strong>标签</strong>: <code>#multi-agent systems</code>, <code>#memory</code>, <code>#disagreement</code>, <code>#ablation study</code>, <code>#trust and security</code></p>
+<hr />
+<p><a id="item-reading-10"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.21001">声音重要吗？评估已部署临床语音代理通话中的挫败检测</a> ⭐️ 7.6/10</h3>
+<p>论文研究已部署的临床语音代理通话：仅读转写文本能否识别患者每轮的不满。真实患者发言极短，约 59%只有一两个词；单词轮次上文本检测不能排除随机，音频是否帮忙则随模型和提示而变。</p>
+<p>rss · arXiv — cs.CL · 11月18日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 最有用的是把“音频是否提升”落到轮次长度：作者用长度匹配的行为语料作对照，指出真实临床通话约 59%的患者轮次只有一两个词；在 39 个带挫败感的单词轮次中，纯文本只命中 3 或 4 个，而单词数分类器已达 57.3%。音频并非稳定增益：两个 Gemini 2.5 模型在特定提示下仅提高 3.0 个百分点，另有模型反降 3.5 至 10.6 个百分点；WavLM 探针总体追平最佳提示模型，却漏掉新增 24 个通话中所有带挫败感的单词轮次。分长度、分模型与提示报告的思路仍可复用。</p>
+<p><strong>「什么时候再读」</strong> 当你需要评估语音代理的挫败检测，或考虑给转写流程加音频时，可重读此文，重点看短轮次如何分层。它只基于摘要、临床场景窄，且音频收益随模型和提示变化。</p>
+<p><strong>标签</strong>: <code>#voice agents</code>, <code>#frustration detection</code>, <code>#clinical NLP</code>, <code>#multimodal evaluation</code></p>
+<hr />
+<p><a id="item-reading-11"></a></p>
+<h3><a href="https://arxiv.org/abs/2602.07796">思考不是告知：用户服务型 LLM 智能体中的信息披露</a> ⭐️ 7.5/10</h3>
+<p>论文研究服务型 LLM 智能体的沟通失效：智能体掌握任务策略、工具结果与环境状态，却未必及时告知用户。作者把状态纠正、方案、约束、后果归为信息披露，主张关键不是让模型多想，而是把推理外化为及时披露。</p>
+<p>rss · arXiv — cs.CL · 11月18日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 摘要给出的可迁移洞见很具体：智能体内部推理不会自动变成用户可用信息；失败轨迹常缺少状态纠正与约束，注入关键决策信息又能改变后续动作，而轻量披露感知提示可缓解退化。这些概念可用于设计沟通评测，但全文未提供，方法、统计强度与局限无法核验，结论应保留不确定性。</p>
+<p><strong>「什么时候再读」</strong> 当你设计或评测服务型智能体的用户沟通、需要判断“多思考”是否真能改善信息披露时，可回来看。注意目前仅见摘要，方法细节与结论强度需待全文核验。</p>
+<p><strong>标签</strong>: <code>#LLM agents</code>, <code>#human-AI communication</code>, <code>#information disclosure</code>, <code>#reasoning</code>, <code>#empirical study</code></p>
+<hr />
+<p><a id="item-reading-12"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.00597">多估计抽取并不能一致消除语言模型判断的偏差</a> ⭐️ 7.5/10</h3>
+<p>这篇预注册研究检验多候选言语化（MCV）：修复格式未必提高后验准确率，要求权重也不等于对已生成候选重新加权；去偏效果因任务、模型和操作而异。目前仅见摘要，正文缺失或被截断，无法可靠评价。</p>
+<p>rss · arXiv — cs.CL · 11月18日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 摘要的关键价值在于把“格式是否可解析”“数值是否更准”“判断是否更易受诱导”拆开检验，并用预注册设计呈现异质效果：要求模型给出权重反而使三类错误上升 2.75、2.05、3.88 个百分点，而在生成中加权仅变化约 -0.05 个百分点。它提醒读者不要用单一去偏指标评价多估计协议；但仅见摘要，实验细节、模型范围和适用边界仍需读全文核验。</p>
+<p><strong>「什么时候再读」</strong> 当你准备把“多给几个估计”当作去偏手段，或设计权重抽取与候选重加权实验时，可回来核对它的协议拆分与效应量；这是 2026 年预印本，且目前仅见摘要，细节需读全文。</p>
+<p><strong>标签</strong>: <code>#LLM evaluation</code>, <code>#calibration and bias</code>, <code>#preregistered experiments</code>, <code>#multi-estimate elicitation</code>, <code>#NLP research</code></p>
+<hr /></article></main><footer>这是候选阅读清单，模型推荐仅供参考。收录由我自己决定。<br>由 <a href="https://github.com/Thysrael/Horizon">Horizon</a> 整理 · <a href="https://github.com/fullstackjam/horizon">源码与订阅配置</a></footer></div></body></html>
