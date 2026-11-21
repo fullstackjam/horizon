@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>给自己留一点阅读时间 · Jam's Reading List</title><meta name="description" content="一些值得认真读，也值得以后重读的文章。">
+<link rel="stylesheet" href="/style.css"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='.9em' font-size='56'%3E📖%3C/text%3E%3C/svg%3E"></head>
+<body><div class="wrap"><header class="brand"><a class="wordmark" href="/">Jam's Reading List</a><a class="small" href="/archive/">往期清单 ↗</a></header>
+<main><p class="eyebrow">本期候选 · 2026-11-21</p><h1>给自己留一点阅读时间</h1>
+<p class="intro">一些值得认真读，也值得以后重读的文章。先看看推荐理由，再决定打开原文、读一读，或者收进自己的阅读清单。</p>
+<article><blockquote>
+<p>从 201 篇候选中选出 6 篇值得读的文章。</p>
+</blockquote>
+<hr />
+<p><strong>本期值得读</strong></p>
+<ol>
+<li><a href="#item-reading-1">nginx2root：五个新的 nginx 漏洞，以及 Cloudflare 如何保护源站</a> ⭐️ 8.1/10</li>
+<li><a href="#item-reading-2">Wieszcz-XIX：1918 年前波兰语的 31 亿词语料与时间受限语言模型</a> ⭐️ 8.0/10</li>
+<li><a href="#item-reading-3">一个拉取请求，本可能把微软软件供应链的钥匙交给攻击者</a> ⭐️ 7.8/10</li>
+<li><a href="#item-reading-4">被表征却被误读：后训练改变语言模型如何读出所表征的内容</a> ⭐️ 7.8/10</li>
+<li><a href="#item-reading-5">FinVeriQA：金融问答智能体的分工与独立验证</a> ⭐️ 7.5/10</li>
+<li><a href="#item-reading-6">Merge 是否构成 Hopf 代数？余积、迹与代数极简主义的前景</a> ⭐️ 7.5/10</li>
+</ol>
+<hr />
+<h2>本期值得读</h2>
+<p><a id="item-reading-1"></a></p>
+<h3><a href="https://blog.cloudflare.com/nginx2root/">nginx2root：五个新的 nginx 漏洞，以及 Cloudflare 如何保护源站</a> ⭐️ 8.1/10</h3>
+<p>Cloudflare 围绕 nginx2root 的五个 nginx 内存破坏漏洞，说明 HTTP/2、HTTP/3、解析器与邮件代理的触发路径，并论证代理终止连接能挡住多数攻击，但边界明确，源站仍须打补丁。</p>
+<p>rss · Cloudflare Blog · 11月20日 01:58 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 文章的可贵处在代码级拆解：HTTP/2 窗口退款如何把 send_window 推过上限，连接槽回收如何误关仍有请求的连接，解析器与邮件代理如何因对象生命周期错位而释放仍在使用的内存；修复仅数行，却恢复了其他代码依赖的不变量。作者还说明四个漏洞在 AddressSanitizer 下复现、HTTP/3 未复现，并逐项标出代理不覆盖的配置，边界交代得清楚。</p>
+<p><strong>「什么时候再读」</strong> 当你要判断 nginx 是否暴露于 HTTP/2、HTTP/3 或邮件代理路径，或向团队解释代理为何不能替代补丁时，再读它；提供的表格有空白单元格，具体配置须对照公告。</p>
+<p><strong>标签</strong>: <code>#nginx</code>, <code>#security vulnerabilities</code>, <code>#HTTP/2</code>, <code>#memory safety</code>, <code>#reverse proxies</code></p>
+<hr />
+<p><a id="item-reading-2"></a></p>
+<h3><a href="https://arxiv.org/abs/2610.10592">Wieszcz-XIX：1918 年前波兰语的 31 亿词语料与时间受限语言模型</a> ⭐️ 8.0/10</h3>
+<p>论文发布 Wieszcz-XIX：1800–1918 年波兰语语料，294,369 份文档、约 31 亿词（67.5 亿 token），多为期刊，来自 Wolne Lektury 与 Internet Archive，经去重、后 1918 年泄漏审计并按文档切分；并在其上从头训练 4700 万至 3.49 亿参数模型以测量时间边界性，作者提示模型会复现时代偏见。</p>
+<p>rss · arXiv — cs.CL · 11月20日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 价值在可核验的量化：可辨文本字符错误率 0.68%，45% 的抽样段落无法校正；后 1918 年泄漏压到字节的 0.04–0.38%，并说明残留出自转录源。模型对比给出少见的具体结论：后 1918 年词汇比时代词汇多花约 3.1 比特/字节，对照模型无此差距；增加参数带来的收益约为把数据再跑一遍的两倍。这些做法多年后仍可作历史语料构建与时间边界评测的参照。但目前只读到摘要，实验细节仍需看原文。</p>
+<p><strong>「什么时候再读」</strong> 要构建、审计历史语料，或想衡量模型的时代词汇偏差时值得回看；注意此处仅有摘要，OCR 错误率与比特数结论需核对全文与数据。</p>
+<p><strong>标签</strong>: <code>#historical corpora</code>, <code>#language modeling</code>, <code>#OCR noise</code>, <code>#Polish NLP</code>, <code>#data leakage</code></p>
+<hr />
+<p><a id="item-reading-3"></a></p>
+<h3><a href="https://www.csoonline.com/article/4251117/a-single-pull-request-could-have-handed-attackers-the-keys-to-microsofts-software-supply-chain.html">一个拉取请求，本可能把微软软件供应链的钥匙交给攻击者</a> ⭐️ 7.8/10</h3>
+<p>WinGet 审核工具中一个已修复漏洞：单个拉取请求即可诱使脚本，把微软审核员的 GitHub 令牌发给自己的服务器。这起零点击未遂事件表明，权限过宽的自动化正成为供应链入口；尚无证据显示漏洞被利用。</p>
+<p>rss · CSO Online · 11月20日 03:10 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 它把一次未遂攻击拆成可复用的检查表：令牌为何被无条件附加、攻击者如何借安装包 URL 和验证错误触发脚本，以及为何“最小权限”应绑定目的地而非功能。对负责内部机器人、CI/发布脚本的人，这些细节比结论更有用。局限是它主要依据 Cycode 研究者的叙述，属单起已修复事件，未见独立验证或野外利用证据。</p>
+<p><strong>「什么时候再读」</strong> 当你清点内部机器人、CI 或发布脚本持有的令牌时，可回来重读；若你依赖经典 PAT 或公开包仓库，尤其适用。它不是野外攻击的取证报告，而是已修复漏洞的事后复盘。</p>
+<p><strong>标签</strong>: <code>#software supply chain</code>, <code>#security</code>, <code>#credentials</code>, <code>#automation</code>, <code>#WinGet</code></p>
+<hr />
+<p><a id="item-reading-4"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.26584">被表征却被误读：后训练改变语言模型如何读出所表征的内容</a> ⭐️ 7.8/10</h3>
+<p>论文比较线性探针与模型自身回答，用信号检测论分析六个开放权重基础模型及其后训练版本，主张后训练改变的是判断从内部表征中被读出的方式，而不一定是表征内容本身。</p>
+<p>rss · arXiv — cs.CL · 11月20日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 值得读的是它把“模型知道什么”与“模型如何作答”拆开：探针能区分人类/AI 文本，回答却常反向排序；后训练平均降低回答敏感度，并改变对给定基率的反应。作者还用分阶段检查点、模型拼接和公共数据复现定位变化，其中否定陈述案例出现相反方向，说明结论并非单向。仅见摘要，完整证据与可复现细节仍需查原文。</p>
+<p><strong>「什么时候再读」</strong> 当你需要判断模型“知道却答错”是表征问题还是读出问题时，可重读；也可在评估后训练对基率与否定句的影响时回看。注意证据来自摘要所述实验，语料不可共享。</p>
+<p><strong>标签</strong>: <code>#AI interpretability</code>, <code>#language models</code>, <code>#post-training</code>, <code>#linear probes</code>, <code>#signal detection theory</code></p>
+<hr />
+<p><a id="item-reading-5"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.25071">FinVeriQA：金融问答智能体的分工与独立验证</a> ⭐️ 7.5/10</h3>
+<p>FinVeriQA 是面向 SEC 文件与实时行情的开源多智能体金融问答原型。作者主张把路由、计算、检索、写作和验证分工，并称实验显示：验证须独立于写作者所见证据，否则难以纠错。</p>
+<p>rss · arXiv — cs.CL · 11月20日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 核心洞见是“验证必须独立于写作者所见证据”。摘要中的对照很具体：Laya 路由 0.85，Mistral-7B 0.52；Python 计算 100% 正确，后者仅 29%；AMD 样本被冠以 NVIDIA、Alphabet 之名仍通过同一证据校验。受控实验里共享证据校验只捕获 35% 错误，对照原文则达 77%。这些例子使原则可操作；但只见摘要，方法细节与适用边界仍需查全文。</p>
+<p><strong>「什么时候再读」</strong> 当你要设计金融或多智能体问答的校验环节，或怀疑“同一证据自检”会漏错时，可回来对照其路由、计算与原文核验实验。注意这是 2026 年预印本摘要，具体基准与实现需查全文。</p>
+<p><strong>标签</strong>: <code>#financial QA</code>, <code>#multi-agent systems</code>, <code>#LLM verification</code>, <code>#retrieval-augmented generation</code>, <code>#evaluation</code></p>
+<hr />
+<p><a id="item-reading-6"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.11502">Merge 是否构成 Hopf 代数？余积、迹与代数极简主义的前景</a> ⭐️ 7.5/10</h3>
+<p>这篇 arXiv 预印本检验 Marcolli、Chomsky 与 Berwick（2025）的前提：Minimalism 的 Merge 能否在工作空间上写成 Hopf 代数。作者逐一比较五种余积的余结合性与连通分级，并以移位留下的表征是否满足“保留”与“可识别”来区分它们，论证无一同时满足这两条，最后重估 Birkhoff 分解。</p>
+<p>rss · arXiv — cs.CL · 11月20日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 摘要给出的技术线索很具体：Δ_d 不满足余结合性；Δ_c 缺少带迹叶的标签规则，按字面扩展会失效，补上规则与分级后才成为分次连通 Hopf 代数；Xiao 及 Marcolli–Skigin 的余积在扩展后余结合。更关键的是，作者指出余结合性无法区分这些方案，差别在移位留下的表征，并用“保留”与“可识别”检验：仅 Δ_c 以标签形式满足保留，无一满足可识别。这为判断代数极简主义是否只在形式上套用 Hopf 结构提供了判据。局限是当前仅见摘要，无法核对全文证明与例子。</p>
+<p><strong>「什么时候再读」</strong> 当你需要判断某个 Merge 的 Hopf 代数模型能否支撑语义解释，或想复核 2025 年 MCB 方案时，可回到本文；注意目前可见内容只到摘要层面，且部分结论依赖作者补充的标签规则与分级。</p>
+<p><strong>标签</strong>: <code>#Hopf algebras</code>, <code>#Minimalist syntax</code>, <code>#formal semantics</code>, <code>#coproducts</code>, <code>#linguistics</code></p>
+<hr /></article></main><footer>这是候选阅读清单，模型推荐仅供参考。收录由我自己决定。<br>由 <a href="https://github.com/Thysrael/Horizon">Horizon</a> 整理 · <a href="https://github.com/fullstackjam/horizon">源码与订阅配置</a></footer></div></body></html>
