@@ -2,8 +2,9 @@
 
 import asyncio
 import logging
+import threading
 from dataclasses import dataclass
-from typing import Optional
+from typing import Any, Optional
 
 import httpx
 
@@ -12,6 +13,13 @@ from ..models import TrafilaturaExtractorConfig
 from ..url_security import UnsafeURLError, safe_request
 
 logger = logging.getLogger(__name__)
+
+# trafilatura 2.1.x–2.3.1 share one module-level lxml HTMLParser across
+# threads. Concurrent extract() calls can abort the process (SIGSEGV /
+# SIGABRT). Serialize extraction; HTTP stays concurrent. This is a temporary
+# mitigation, not a guarantee against all native crashes. See
+# https://github.com/adbar/trafilatura/issues/925
+_EXTRACT_LOCK = threading.Lock()
 
 ARTICLE_HEADERS = {
     "User-Agent": (
@@ -31,6 +39,24 @@ class ExtractedArticle:
     content: Optional[str] = None
     title: Optional[str] = None
     error: Optional[str] = None
+
+
+def _extract_text(
+    trafilatura_module: Any,
+    html: str,
+    favor_precision: bool,
+    favor_recall: bool,
+    include_title: bool = False,
+) -> tuple[Optional[str], Optional[str]]:
+    """Run trafilatura.extract (and optional metadata) under a process-wide lock."""
+    with _EXTRACT_LOCK:
+        content = trafilatura_module.extract(
+            html,
+            favor_precision=favor_precision,
+            favor_recall=favor_recall,
+        ) or None
+        title = _title_from_html(trafilatura_module, html) if include_title else None
+        return content, title
 
 
 class TrafilaturaExtractor(BaseExtractor):
@@ -66,17 +92,18 @@ class TrafilaturaExtractor(BaseExtractor):
             return ExtractedArticle(error=f"{type(e).__name__}: {e}")
 
         try:
-            content = await asyncio.to_thread(
-                trafilatura.extract,
+            content, title = await asyncio.to_thread(
+                _extract_text,
+                trafilatura,
                 response.text,
-                favor_precision=self._config.favor_precision,
-                favor_recall=self._config.favor_recall,
-            ) or None
+                self._config.favor_precision,
+                self._config.favor_recall,
+                include_title,
+            )
         except Exception as e:
             logger.warning("trafilatura extraction failed for %s: %s", url, e)
             return ExtractedArticle(error=f"{type(e).__name__}: {e}")
 
-        title = _title_from_html(trafilatura, response.text) if include_title else None
         if not content:
             return ExtractedArticle(
                 title=title,
