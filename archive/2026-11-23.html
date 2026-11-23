@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>给自己留一点阅读时间 · Jam's Reading List</title><meta name="description" content="一些值得认真读，也值得以后重读的文章。">
+<link rel="stylesheet" href="/style.css"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='.9em' font-size='56'%3E📖%3C/text%3E%3C/svg%3E"></head>
+<body><div class="wrap"><header class="brand"><a class="wordmark" href="/">Jam's Reading List</a><a class="small" href="/archive/">往期清单 ↗</a></header>
+<main><p class="eyebrow">本期候选 · 2026-11-23</p><h1>给自己留一点阅读时间</h1>
+<p class="intro">一些值得认真读，也值得以后重读的文章。先看看推荐理由，再决定打开原文、读一读，或者收进自己的阅读清单。</p>
+<article><blockquote>
+<p>从 22 篇候选中选出 2 篇值得读的文章。</p>
+</blockquote>
+<hr />
+<p><strong>本期值得读</strong></p>
+<ol>
+<li><a href="#item-reading-1">车站漫游 篇一：探索大阪梅田的城市迷宫</a> ⭐️ 7.8/10</li>
+<li><a href="#item-reading-2">Linux 笔记本无法休眠？先查 systemd 抑制锁</a> ⭐️ 7.7/10</li>
+</ol>
+<hr />
+<h2>本期值得读</h2>
+<p><a id="item-reading-1"></a></p>
+<h3><a href="https://hamhire.tech/posts/projects/umeda-wander.html">车站漫游 篇一：探索大阪梅田的城市迷宫</a> ⭐️ 7.8/10</h3>
+<p>作者从在大阪梅田漫步、被多层车站与地下街绕晕的经历出发，介绍梅田地下、地面和二层通道如何叠成城市迷宫，并复盘用公开资料、OpenStreetMap 与 AI 制作可交互 3D 导览地图的过程。</p>
+<p>rss · Hamhire Tech Tips · 11月22日 12:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 文章最具体的地方，是把“梅田为什么像迷宫”落到建模难题上：先统一各站坐标，再用楼梯口、电梯口作锚点校正地下通道，并用 OSM 地面数据与公开构内图互相对照。作者也记录 AI 在上下文变复杂后误判细节、需重开会话或补充证据修正的经验。这些关于公开资料整合和空间校准的思路，比成品本身更可能长期可复用；但项目仍不完整，方法细节多为概述。</p>
+<p><strong>「什么时候再读」</strong> 当你准备去梅田换乘、想弄清地下街与二层连廊如何衔接，或要做基于公开地图数据的站区导览时，可回来读；但模型尚不完整，细节需以现场指引为准。</p>
+<p><strong>标签</strong>: <code>#城市空间</code>, <code>#车站导览</code>, <code>#3D地图</code>, <code>#公开数据</code>, <code>#项目复盘</code></p>
+<hr />
+<p><a id="item-reading-2"></a></p>
+<h3><a href="https://feed.itsfoss.com/link/24361/17537621/linux-laptop-suspend-inhibitor-lock">Linux 笔记本无法休眠？先查 systemd 抑制锁</a> ⭐️ 7.7/10</h3>
+<p>文章讲使用 systemd 的 Linux 笔记本为何不休眠：程序可申请抑制锁，阻止或延迟睡眠。问题常出在过时或过强的锁上。作者主张先列出锁，分辨阻断与延迟模式，定位进程，再验证锁是否真是原因。</p>
+<p>rss · It's FOSS · 11月22日 13:44 · RSS 内容（网页获取失败）</p>
+<p><strong>「为什么值得读」</strong> 它把“休眠失败”缩小到可验证的 systemd 抑制锁：说明 block 会持续阻止睡眠，而 delay 通常只短暂延迟，并演示用 `--mode=block` 过滤、按 PID 查进程后关闭程序或服务。作者在 Ubuntu 26.04/GNOME、systemd 259 上运行这些命令，指出 `--list` 的 `--what` 过滤不可靠，以及可用 `--check-inhibitors=no` 反证锁是否为因；这些边界与排查顺序比命令本身更耐久。</p>
+<p><strong>「什么时候再读」</strong> 当你合上盖子后笔记本仍运行，或空闲计时没有触发休眠时，可回来按步骤排查；若禁用抑制锁检查后仍不休眠，就该转看内核日志，而不是继续追锁。</p>
+<p><strong>标签</strong>: <code>#Linux</code>, <code>#systemd</code>, <code>#troubleshooting</code>, <code>#power management</code>, <code>#laptops</code></p>
+<hr /></article></main><footer>这是候选阅读清单，模型推荐仅供参考。收录由我自己决定。<br>由 <a href="https://github.com/Thysrael/Horizon">Horizon</a> 整理 · <a href="https://github.com/fullstackjam/horizon">源码与订阅配置</a></footer></div></body></html>
