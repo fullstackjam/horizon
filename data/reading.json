@@ -389,6 +389,34 @@
         "category": "engineering",
         "profile": "reading",
         "content_extractor": "trafilatura"
+      },
+      {
+        "name": "Shopify Engineering",
+        "url": "https://shopify.engineering/blog.atom",
+        "category": "engineering",
+        "profile": "reading",
+        "content_extractor": "trafilatura"
+      },
+      {
+        "name": "Airbnb Engineering & Data Science",
+        "url": "https://airbnb.tech/feed/",
+        "category": "engineering",
+        "profile": "reading",
+        "content_extractor": "trafilatura"
+      },
+      {
+        "name": "Engineering at Meta",
+        "url": "https://engineering.fb.com/feed/",
+        "category": "engineering",
+        "profile": "reading",
+        "content_extractor": "trafilatura"
+      },
+      {
+        "name": "claude.dev Blog",
+        "url": "https://claude.dev/rss.xml",
+        "category": "engineering",
+        "profile": "reading",
+        "content_extractor": "trafilatura"
       }
     ]
   },
