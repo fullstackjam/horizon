@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>给自己留一点阅读时间 · Jam's Reading List</title><meta name="description" content="一些值得认真读，也值得以后重读的文章。">
+<link rel="stylesheet" href="/style.css"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='.9em' font-size='56'%3E📖%3C/text%3E%3C/svg%3E"></head>
+<body><div class="wrap"><header class="brand"><a class="wordmark" href="/">Jam's Reading List</a><a class="small" href="/archive/">往期清单 ↗</a></header>
+<main><p class="eyebrow">本期候选 · 2026-11-24</p><h1>给自己留一点阅读时间</h1>
+<p class="intro">一些值得认真读，也值得以后重读的文章。先看看推荐理由，再决定打开原文、读一读，或者收进自己的阅读清单。</p>
+<article><blockquote>
+<p>从 161 篇候选中选出 11 篇值得读的文章。</p>
+</blockquote>
+<hr />
+<p><strong>本期值得读</strong></p>
+<ol>
+<li><a href="#item-reading-1">脆弱窗口：量化奖励模型中的决策不稳定性</a> ⭐️ 8.2/10</li>
+<li><a href="#item-reading-2">在 Cloudflare 探测 DNS</a> ⭐️ 8.0/10</li>
+<li><a href="#item-reading-3">两项新研究揭示 AI 碳排放激增，硅谷却在削弱社区抗议并加剧健康代价</a> ⭐️ 8.0/10</li>
+<li><a href="#item-reading-4">跨平台生产签名：国家关联信息行动的可迁移痕迹</a> ⭐️ 8.0/10</li>
+<li><a href="#item-reading-5">冻结场景，漂移的赢家：文本到 3D 评测的配置脆弱性</a> ⭐️ 8.0/10</li>
+<li><a href="#item-reading-6">你的裁判继承了你的提示：LLM 裁判中的上下文标签偏置是单向而非对称的</a> ⭐️ 7.8/10</li>
+<li><a href="#item-reading-7">LLM 先验何时有用？小样本贝叶斯回归的受控审计</a> ⭐️ 7.8/10</li>
+<li><a href="#item-reading-8">被观察、被整理、被复用：临床 AI 评估中的观察偏差</a> ⭐️ 7.8/10</li>
+<li><a href="#item-reading-9">混合线性注意力大语言模型中的巨量激活：注意力前尖峰与尖峰间平台</a> ⭐️ 7.6/10</li>
+<li><a href="#item-reading-10">无损重分词会把 RLVR 更新推动多远？</a> ⭐️ 7.5/10</li>
+<li><a href="#item-reading-11">已表征但被误读：后训练改变语言模型如何读出其所表征的内容</a> ⭐️ 7.5/10</li>
+</ol>
+<hr />
+<h2>本期值得读</h2>
+<p><a id="item-reading-1"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.27155">脆弱窗口：量化奖励模型中的决策不稳定性</a> ⭐️ 8.2/10</h3>
+<p>本文考察 4 比特量化奖励模型与 LLM 评审：基准准确率几乎不变，但 1.1%—12.3%的两两偏好判断被改写，小间隔样本更易翻转。作者提出“脆弱窗口”，以间隔审计诊断不稳定。正文缺失或被截断，无法可靠评价；仅见摘要，全文细节未核。</p>
+<p>rss · arXiv — cs.CL · 11月23日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 值得读的是“准确率不变就安全”这一检查被具体反例击穿：论文报告 4 比特量化可改写 1.1%—12.3%的两两偏好判断，而聚合准确率变动小至 0.03 分；更关键的是，14.6%—65.7%的 best-of-64 选择发生变化，最终答案只变 2.6%—9.6%。作者把审计重心从总分移到全精度间隔，指出翻转集中在间隔接近量化噪声处，且基准 churn 与下游选择变化的排序相关性达 0.89。这些证据对评估量化奖励模型和 LLM 评审有长期参考价值，但全文未提供，实验细节与适用边界仍需核对。</p>
+<p><strong>「什么时候再读」</strong> 当你准备把奖励模型或 LLM 评审量化到 4 比特、只用基准准确率验收时，可重读本文，先检查小间隔样本。若需复现实验或判断跨模型泛化，则须等全文；当前仅据 2026 年 11 月摘要，结论边界未明。</p>
+<p><strong>标签</strong>: <code>#machine learning</code>, <code>#quantization</code>, <code>#reward models</code>, <code>#evaluation metrics</code>, <code>#robustness</code></p>
+<hr />
+<p><a id="item-reading-2"></a></p>
+<h3><a href="https://blog.cloudflare.com/probing-dns-at-cloudflare/">在 Cloudflare 探测 DNS</a> ⭐️ 8.0/10</h3>
+<p>Cloudflare DNS 团队讲述如何把现有端到端测试框架 Flamingo 扩展为 DNS 探针：持续从各数据中心查询权威服务器与 1.1.1.1，测量记录传播延迟，并把结果接入 SLO 与发布决策。核心论点是复用测试基础设施，而非另建探针服务。</p>
+<p>rss · Cloudflare Blog · 11月23日 14:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 文章以一次发布中的调度缺陷开场：服务自身健康，但部分记录数小时未发布，暴露传统监控的盲区。随后给出可复用的工程路径：把 Flamingo 的 setup-request-response 扩展为 setup-action-response，用 Rust 枚举与动态分派接入 DNS 查询；再以 TXT 时间戳、90 秒/600 秒阈值测量传播，并用 SLO 误差预算决定推进或回滚。具体实现强依赖 Cloudflare 内部工具，但“复用测试框架、按真实解析路径度量”的判断仍有长期参考价值。</p>
+<p><strong>「什么时候再读」</strong> 当你需要设计 DNS 变更监控、设定传播延迟 SLO，或判断该复用现有合成测试框架还是新建探针时，可回来重读。文章写于 2026 年，方案绑定 Cloudflare 的 Flamingo 与内部发布系统，迁移到其他环境前需重新评估。</p>
+<p><strong>标签</strong>: <code>#DNS</code>, <code>#reliability engineering</code>, <code>#synthetic monitoring</code>, <code>#testing infrastructure</code>, <code>#SLOs</code></p>
+<hr />
+<p><a id="item-reading-3"></a></p>
+<h3><a href="https://www.bloodinthemachine.com/p/ai-is-becoming-a-disaster-for-the">两项新研究揭示 AI 碳排放激增，硅谷却在削弱社区抗议并加剧健康代价</a> ⭐️ 8.0/10</h3>
+<p>文章以两篇新研究和地方案例为线索，论证 AI 数据中心正成为气候与公共健康问题：化石燃料供电推高排放，行业游说又推动 BAAJA 削弱环境审查与社区抗议渠道。</p>
+<p>rss · Tildes · 11月23日 14:37 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 文章把排放估算、企业行为和政策机制串起来：哈佛对 403 个数据中心的同行评审估算被作者视为下限；Joshi 报告追踪 Anthropic 的天然气采购；BAAJA 则把削弱环评与地方反对渠道写进制度。蒙大拿肺科医生 Merchant 的案例让健康外部性具体化，数年后仍可作为“能源需求—监管俘获—健康成本”的分析框架。</p>
+<p><strong>「什么时候再读」</strong> 当你看到新的数据中心、燃气电厂或许可改革争议时，可回来对照这套“排放—游说—健康”框架；注意文中 Anthropic IPO、BAAJA 表决等细节会迅速过时，适合作为 2026 年前后的切片。</p>
+<p><strong>标签</strong>: <code>#AI data centers</code>, <code>#climate emissions</code>, <code>#environmental policy</code>, <code>#public health</code>, <code>#energy lobbying</code></p>
+<hr />
+<p><a id="item-reading-4"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.27137">跨平台生产签名：国家关联信息行动的可迁移痕迹</a> ⭐️ 8.0/10</h3>
+<p>摘要提出以发帖时间与粗粒度动作类型刻画国家关联信息行动的“生产签名”，并检验其跨平台迁移；所给内容仅为摘要，正文缺失或被截断，无法可靠评价全文。</p>
+<p>rss · arXiv — cs.CL · 11月23日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 摘要给出的关键发现是：只用时间戳与粗粒度动作类型，在无 Reddit 标签时迁移识别 IRA 账号可达 AUC 0.90–0.94；内容检测器从同平台 0.98 降至 0.81，且每日节律解释大部分迁移。其长期价值在于把“何时、如何操作”与“说什么”分开，提示发帖量方向会反转、动作组合随平台角色变化；但仅有摘要，完整数据与论证尚不能核对。</p>
+<p><strong>「什么时候再读」</strong> 若你要设计跨平台信息行动检测、比较时间/动作信号与内容信号，或评估迁移学习在平台治理中的边界，可回读；但这里只依据 2026 年摘要，需核对全文与复现。</p>
+<p><strong>标签</strong>: <code>#information operations</code>, <code>#cross-platform analysis</code>, <code>#computational social science</code>, <code>#platform governance</code>, <code>#behavioral patterns</code></p>
+<hr />
+<p><a id="item-reading-5"></a></p>
+<h3><a href="https://arxiv.org/abs/2610.00447">冻结场景，漂移的赢家：文本到 3D 评测的配置脆弱性</a> ⭐️ 8.0/10</h3>
+<p>论文审计文本到 3D 渲染图像评测：在 300 个固定场景上改变相机与描述配置，考察 19 个对齐评测器及 1 个感知质量对照的分数和排名稳定性。核心论点是评测结论依赖测量协议，配置方差可超过生成器间方差。</p>
+<p>rss · arXiv — cs.CL · 11月23日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 摘要给出的提醒很具体：同一批冻结场景下，峰值配置方差在 19/19 个对齐评测器上超过生成器间方差；排名虽更稳，仍有 18/19 个评测器在某些配置下改变点估计赢家。作者把分数稳定性、决策不确定性与敏感度分开，并强调赢家变化只是描述性的，未经同时推断确认。这种协议感知的报告框架对日后设计或阅读 3D 生成基准仍有方法价值；但全文论证尚未核验。</p>
+<p><strong>「什么时候再读」</strong> 当你设计文本到 3D 基准、复核排行榜，或比较不同渲染与描述协议下的评测器时，可再读。注意其结论仅据摘要，且赢家变化未被同时推断确认。</p>
+<p><strong>标签</strong>: <code>#text-to-3D</code>, <code>#benchmark evaluation</code>, <code>#reproducibility</code>, <code>#statistical uncertainty</code>, <code>#metric sensitivity</code></p>
+<hr />
+<p><a id="item-reading-6"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.26881">你的裁判继承了你的提示：LLM 裁判中的上下文标签偏置是单向而非对称的</a> ⭐️ 7.8/10</h3>
+<p>论文考察多模态视频问答评测中充当裁判的冻结大模型：固定生成的答案，只改少样本示例的 Yes/No 比例，看裁判接受率如何变化。作者主张这种标签偏置是单向的——只在示例偏向“接受”时抬分，而非对称偏移。</p>
+<p>rss · arXiv — cs.CL · 11月23日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 价值在于实验设计：生成器与裁判全部冻结，只改示例标签比例，并用每数据集 200 例的两人人工共识校验判决。结果是示例偏向“接受”时，接受率分别抬高约 30 点（NExT-QA）和 20 点（MSVD-QA），反向倾斜却无对应下降；五次抽样检查还显示，单次示例抽取的差异可达 18 点，大于提示条件之间的差距。对做 LLM 评测的人来说，这提醒偏置只会制造虚假涨分，不会制造虚假跌分。</p>
+<p><strong>「什么时候再读」</strong> 当你为 LLM 裁判挑选少样本示例，或准备汇报一次基准涨分时，可回来核对是否该平衡示例并多次抽样平均。结论仅在论文测试的标签比例范围内成立，细节需查原文。</p>
+<p><strong>标签</strong>: <code>#LLM-as-judge</code>, <code>#in-context label bias</code>, <code>#evaluation methodology</code>, <code>#multimodal QA</code>, <code>#benchmark reliability</code></p>
+<hr />
+<p><a id="item-reading-7"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.27075">LLM 先验何时有用？小样本贝叶斯回归的受控审计</a> ⭐️ 7.8/10</h3>
+<p>作者审计 LLM 为小样本贝叶斯回归设定系数中心先验：隐藏特征名、用截止后住房数据，并预先指定错误描述测试。摘要称模型误差高度相关、不确定性不可靠，帮助因基准而异，数据驱动先验尺度与证据加权混合可减害。</p>
+<p>rss · arXiv — cs.CL · 11月23日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 核心洞见：LLM 先验的错误在不同抽样、厂商和改写间高度相关（0.92–0.99），把 20 次抽样当独立证据只会制造过度自信；误差常来自逐个报告特征效应，未控制其他变量。外部 18 题测试仅“部分”通过，硬信任门槛会放行有害先验，证据加权混合更稳；数据设定先验尺度可把错误中心的危害降到四分之一。这些对把 LLM 输出当先验的流程有长期警示价值；完整方法需查原文。</p>
+<p><strong>「什么时候再读」</strong> 当你准备把 LLM 给出的系数中心或先验尺度接入小样本回归时，再读一遍，重点检查误差相关性与外部验证；本文只提供摘要，方法细节需查全文。</p>
+<p><strong>标签</strong>: <code>#LLM priors</code>, <code>#Bayesian regression</code>, <code>#uncertainty quantification</code>, <code>#meta-science</code>, <code>#reproducibility</code></p>
+<hr />
+<p><a id="item-reading-8"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.27301">被观察、被整理、被复用：临床 AI 评估中的观察偏差</a> ⭐️ 7.8/10</h3>
+<p>论文指出临床 AI 评估存在观察偏差：病历只保留医生注意、检查并记录的信息，这些证据进入论文和参考知识图谱后，可能同时污染基准查询与答案库，形成病例自指泄漏。作者主张按患者、来源证据和时间拆分评估。</p>
+<p>rss · arXiv — cs.CL · 11月23日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 最值得读的是把“来源摄入”做成可观测事件：追踪 6,503 个病例在六个 HPO 版本中的引用，Resnik 排序器的 MRR 从入库前 0.26 升至 0.84，移除来源关联断言后降至 0.05，另两个排序器复现类似轨迹。它说明高分可能来自知识库含有测试病例的原始论文，而非泛化。分离患者、来源证据与决策时点的原则长期有用；但仅凭摘要无法核实全文方法与控制实验细节。</p>
+<p><strong>「什么时候再读」</strong> 当你设计或审阅临床 AI 基准、需要判断高分是否来自知识库泄漏时，可重读本文核对评估时点与来源证据的拆分；若要做复现，则需查阅全文核实方法，因为这里只依据摘要。</p>
+<p><strong>标签</strong>: <code>#clinical AI</code>, <code>#benchmark contamination</code>, <code>#evaluation methodology</code>, <code>#knowledge graphs</code>, <code>#medical documentation</code></p>
+<hr />
+<p><a id="item-reading-9"></a></p>
+<h3><a href="https://arxiv.org/abs/2608.12149">混合线性注意力大语言模型中的巨量激活：注意力前尖峰与尖峰间平台</a> ⭐️ 7.6/10</h3>
+<p>这篇预印本系统考察层间交错混合线性注意力大模型中的巨量激活，提出两类与架构位置对应的形态——全注意力前的尖峰和线性注意力层间持续的平台，并用干预检验其功能重要性。</p>
+<p>rss · arXiv — cs.CL · 11月23日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 摘要显示，作者跨五种线性注意力架构、六种混合配置和五个输入域识别出上述形态，并用删除四个最大尖峰坐标等干预给出准确率与检索变化。其长期价值在于把巨量激活的位置、形成机制和功能影响串成可检验的分析框架；但摘要未展开方法、局限与稳健性，结论强度需读全文核验。</p>
+<p><strong>「什么时候再读」</strong> 当你研究混合线性注意力模型的可解释性、设计巨量激活干预方法，或复现其实验时，可回到本文。注意它是 arXiv 预印本，此处仅有摘要，方法细节与结论边界需查全文。</p>
+<p><strong>标签</strong>: <code>#massive activations</code>, <code>#linear attention</code>, <code>#LLM interpretability</code>, <code>#hybrid architectures</code>, <code>#mechanistic analysis</code></p>
+<hr />
+<p><a id="item-reading-10"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.27083">无损重分词会把 RLVR 更新推动多远？</a> ⭐️ 7.5/10</h3>
+<p>论文追问无损重分词会把同一批采样的 RLVR 更新推动多远、方向是否一致。作者在 Qwen2.5-0.5B 三位数加法上，将重分词位移与换 batch 对比：约每 25 个 token 拆 1 个即达 0.556，并证明表格模型中仅零梯度步对分词不变。摘要可见而正文缺失或被截断，无法可靠评价。</p>
+<p>rss · arXiv — cs.CL · 11月23日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 它把“分词只是编码细节”变成一个可量化的扰动问题：在固定 checkpoint 与采样上，将无损重分词的更新位移同换 batch 相比，报告约 1/25 token 被拆时达 0.556，并检验位移方向是否跨 batch 一致。表格模型中只有零梯度步对分词不变的证明，提供了长期可复用的形式化视角；14/18 的准确率优势又受区间含零限制，保留了不确定性。局限是仅见摘要，证明与预注册细节无法核验。</p>
+<p><strong>「什么时候再读」</strong> 当你需要判断训练管线中的重分词是否值得修正，或想复核“位移方向一致”与预注册排除规则时，可回到本文；但仅有摘要，理论证明和实验细节需等全文。</p>
+<p><strong>标签</strong>: <code>#tokenization</code>, <code>#reinforcement learning</code>, <code>#language models</code>, <code>#gradient updates</code>, <code>#pre-registered experiments</code></p>
+<hr />
+<p><a id="item-reading-11"></a></p>
+<h3><a href="https://arxiv.org/abs/2611.26584">已表征但被误读：后训练改变语言模型如何读出其所表征的内容</a> ⭐️ 7.5/10</h3>
+<p>这篇预印本追问：后训练改变的是内部表征，还是把表征读成答案的方式？作者比较六个开放权重基础模型与其后训练版本的线性探针和回答，以信号检测论分析人类/AI 文本判断，主张变化主要在“读出”环节。</p>
+<p>rss · arXiv — cs.CL · 11月23日 05:00 · 网页正文提取</p>
+<p><strong>「为什么值得读」</strong> 值得读的是“表征”与“读出”可分离的论证设计：探针能区分人类/AI 文本，答案却常失效甚至反向；后训练还改变对明示基率的利用，变化发生在监督微调阶段，模型缝合指向早期层；否定句用公开数据复现出相反方向的修复，加入 2,000 条新闻作者判断能改善报纸与教科书语料上的回答、却在聊天语料上反转。局限是此处仅见摘要，主要语料未公开，具体结论仍需读全文核验。</p>
+<p><strong>「什么时候再读」</strong> 当你需要判断某次后训练是在改表征还是改读出、或调试探针与模型答案不一致时，可回来读；但主要语料未公开，复现与迁移性需结合全文和后续工作判断。</p>
+<p><strong>标签</strong>: <code>#interpretability</code>, <code>#post-training</code>, <code>#language models</code>, <code>#signal detection theory</code>, <code>#model evaluation</code></p>
+<hr /></article></main><footer>这是候选阅读清单，模型推荐仅供参考。收录由我自己决定。<br>由 <a href="https://github.com/Thysrael/Horizon">Horizon</a> 整理 · <a href="https://github.com/fullstackjam/horizon">源码与订阅配置</a></footer></div></body></html>
